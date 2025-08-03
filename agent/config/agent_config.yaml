@@ -1,0 +1,15 @@
+watch_directories:
+  - /home
+  - /var/www
+
+blacklist_paths:
+  - /proc
+  - /sys
+  - /dev
+  - /tmp
+
+kafka:
+  broker: "host.docker.internal:9092"
+  topic: "agent-events"
+
+log_level: "INFO"

@@ -39,7 +39,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
             log.info("%s is on created" % event.src_path)
-            self._check(event.src_path, "created")
+            self._check_and_emit(event.src_path, "created")
 
 def start_monitoring(paths, blacklist, detection_callback):
     observer = Observer()

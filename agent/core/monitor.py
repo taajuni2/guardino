@@ -72,10 +72,16 @@ class FileMonitorHandler(FileSystemEventHandler):
         k = det["key"]
         if self._rate_limited(k, now):
             return
-
+        log.info("STEP IN ON CREATED IS REACHED")
         # (3) Event emittieren
-        self._check_and_emit(event.src_path, "created")
+        evt = {
+            "type": "entropy_spike",
+            "event_type": "mass_create",
+            "path": k,
+            "details": "KEINE",
+        }
 
+        self.detection_callback(evt)
 
 def start_monitoring(paths, blacklist, detection_callback, cooldown_seconds=5, mass_create_window_s=10, mass_create_threshold=50):
     observer = Observer()

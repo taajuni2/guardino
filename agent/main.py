@@ -1,8 +1,11 @@
 from core.blacklist import PathBlacklist
 from core import monitor
-from utils.utils import load_config
+import logging
+from utils.utils import load_config, setup_logging
 
-
+config = load_config("config/agent_config.yaml")
+log = setup_logging("INFO")
+log = logging.getLogger("agent.main")
 
 def dummy_detection(file_path):
     print(f"🔍 Verdächtige Änderung erkannt an: {file_path}")
@@ -23,6 +26,7 @@ def main():
         return
 
     print(" Starte Überwachung...")
+    log.info("monitoring started")
     monitor.start_monitoring(clean_watch_dirs, blacklist, dummy_detection)
 
 if __name__ == "__main__":

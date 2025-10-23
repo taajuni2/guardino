@@ -1,4 +1,7 @@
 import os
+import logging
+
+log = logging.getLogger("agent.blacklist")
 
 class PathBlacklist:
     def __init__(self, blacklist):

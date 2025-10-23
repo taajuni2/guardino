@@ -2,6 +2,10 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import time
 import os
+import logging
+
+
+log = logging.getLogger("agent.monitor")
 
 class FileMonitorHandler(FileSystemEventHandler):
     def __init__(self, blacklist, detection_callback):
@@ -10,6 +14,7 @@ class FileMonitorHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not event.is_directory and not self.blacklist.is_blacklisted(event.src_path):
+            log.info("%s is blacklisted" % event.src_path)
             self.detection_callback(event.src_path)
 
     def on_created(self, event):

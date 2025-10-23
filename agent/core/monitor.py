@@ -1,6 +1,6 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from detection import entropy_spike
+from .detection import entropy_spike
 import time
 import os
 import logging

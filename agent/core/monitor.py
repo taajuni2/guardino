@@ -63,12 +63,12 @@ class FileMonitorHandler(FileSystemEventHandler):
 
         now = time.time()
         # (1) Detector „füttern“
-        triggered = self.massCreate.push_event(path, now=now)
+        triggered = self.mass_create.push_event(path, now=now)
         if not triggered:
             return
 
         # (2) Details holen und ggf. gedrosselt melden
-        det = self.massCreate.details(path, now=now)
+        det = self.mass_create.details(path, now=now)
         k = det["key"]
         if self._rate_limited(k, now):
             return

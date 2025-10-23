@@ -1,5 +1,6 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from detection import entropy_spike
 import time
 import os
 import logging
@@ -11,6 +12,19 @@ class FileMonitorHandler(FileSystemEventHandler):
     def __init__(self, blacklist, detection_callback):
         self.blacklist = blacklist
         self.detection_callback = detection_callback
+
+    def _check(self, path: str, kind: str):
+        if self.blacklist and self.blacklist.is_blacklisted(path):
+            return
+        suspicious, details = entropy_spike(path)
+        if suspicious:
+            log.warning("Entropy spike: %s | %s", path, details)
+            self.detection_callback({
+                "type": "entropy_spike",
+                "path": path,
+                "event_type": kind,
+                "details": details
+            })
 
     def on_modified(self, event):
         if not event.is_directory and not self.blacklist.is_blacklisted(event.src_path):

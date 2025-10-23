@@ -11,6 +11,9 @@ def dummy_detection(file_path):
     print(f"🔍 Verdächtige Änderung erkannt an: {file_path}")
     # TODO: Hier später Entropieprüfung oder andere Erkennung aufrufen
 
+def emit_event(evt: dict):
+    print(f"[ALERT] {evt['type']} {evt['event_type']} -> {evt['path']} | {evt['details']}")
+
 def main():
     config = load_config("config/agent_config.yaml")
 
@@ -27,7 +30,7 @@ def main():
 
     print(" Starte Überwachung...")
     log.info("monitoring started")
-    monitor.start_monitoring(clean_watch_dirs, blacklist, dummy_detection)
+    monitor.start_monitoring(clean_watch_dirs, blacklist, emit_event)
 
 if __name__ == "__main__":
     main()

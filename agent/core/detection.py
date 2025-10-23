@@ -1,26 +1,48 @@
-import math
+# detection.py
+import os, math
 from collections import Counter
 
-def calculate_entropy(data: bytes) -> float:
+def _entropy(data: bytes) -> float:
     if not data:
         return 0.0
-    counter = Counter(data)
     total = len(data)
-    entropy = -sum((count / total) * math.log2(count / total) for count in counter.values())
-    return entropy
+    counts = Counter(data)
+    return -sum((c/total) * math.log2(c/total) for c in counts.values())
 
-def is_suspicious_file(path: str, entropy_threshold: float = 7.5, allowed_extensions=None) -> (bool, str):
-    if allowed_extensions and not any(path.endswith(ext) for ext in allowed_extensions):
-        return False, "Extension not monitored"
-
+def entropy_spike(path: str,
+                  abs_threshold: float = 7.6,
+                  min_size_bytes: int = 4096,
+                  sample_each: int = 8192) -> tuple[bool, dict]:
+    """
+    Minimal-PoC: Liest nur Head+Tail (je sample_each Bytes) und triggert,
+    wenn Entropie >= abs_threshold.
+    """
     try:
-        with open(path, "rb") as f:
-            data = f.read(2048)  # Nur ersten 2KB prüfen
-            entropy = calculate_entropy(data)
+        if not os.path.isfile(path):
+            return False, {"reason": "not a regular file"}
 
-            if entropy > entropy_threshold:
-                return True, f"High entropy detected ({entropy:.2f})"
+        size = os.path.getsize(path)
+        if size < min_size_bytes:
+            return False, {"reason": f"too small ({size}B)"}
+
+        with open(path, "rb") as f:
+            head = f.read(sample_each)
+            if size > sample_each:
+                f.seek(max(0, size - sample_each))
+                tail = f.read(sample_each)
             else:
-                return False, f"Entropy OK ({entropy:.2f})"
+                tail = b""
+
+        data = head + tail
+        H = _entropy(data)
+        is_spike = H >= abs_threshold
+        details = {
+            "entropy": round(H, 3),
+            "bytes_sampled": len(data),
+            "threshold": abs_threshold,
+            "reason": "abs_entropy hit" if is_spike else "below threshold",
+        }
+        return is_spike, details
+
     except Exception as e:
-        return False, f"Could not read file: {e}"
+        return False, {"reason": f"exception: {e}"}

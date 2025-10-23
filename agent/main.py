@@ -26,7 +26,6 @@ def main():
     blacklist_paths = config.get("blacklist_paths", [])
 
     blacklist = PathBlacklist(blacklist_paths)
-
     clean_watch_dirs = [d for d in watch_dirs if not blacklist.is_blacklisted(d)]
 
     if not clean_watch_dirs:

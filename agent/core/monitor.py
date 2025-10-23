@@ -30,7 +30,7 @@ class FileMonitorHandler(FileSystemEventHandler):
             if suspicious:
                 self._last_alert_ts[path] = now
                 evt = {
-                    "type": "entropy_spike",
+                    "type": "mass_create",
                     "event_type": kind,
                     "path": path,
                     "details": details,
@@ -43,7 +43,6 @@ class FileMonitorHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not event.is_directory:
-            log.info("Watchdog ON-MODIFIED method is executed")
             self._check_and_emit(event.src_path, "modified")
 
 

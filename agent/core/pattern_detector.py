@@ -1,40 +1,59 @@
-# monitor_churn.py (sehr klein)
+from __future__ import annotations
+
 import time
 from collections import deque, defaultdict
+import os
 
 class PatternDetector:
-    def __init__(self, window_s=10, threshold=50, per_dir=True):
-        self.window_s = window_s      # Zeitfenster in Sekunden
-        self.threshold = threshold    # Anzahl Events im Fenster
+    """
+    Erkennt Massen-Events in einem gleitenden Zeitfenster.
+    - per_dir=True: pro Basisverzeichnis bündeln (dirname(path))
+    - window_s: Fensterbreite in Sekunden
+    - threshold: ab wie vielen Events im Fenster ein Alarm ausgelöst wird
+    """
+    def __init__(self, window_s: int = 10, threshold: int = 50, per_dir: bool = True):
+        self.window_s = window_s
+        self.threshold = threshold
         self.per_dir = per_dir
-        # maps: key -> deque of timestamps
-        self.events = defaultdict(deque)
+        self.events = defaultdict(lambda: deque())     # key -> deque[timestamps]
 
-    def _key_for(self, path):
-        return path if not self.per_dir else __import__("os").path.dirname(path)
+    def _key_for(self, path: str) -> str:
+        return os.path.dirname(path) if self.per_dir else os.path.abspath(path)
 
-    def push_event(self, path):
+    def _prune(self, q: deque, now: float):
+        """Alte Timestamps aus dem Fenster entfernen."""
+        border = now - self.window_s
+        while q and q[0] < border:
+            q.popleft()
+
+    def push_event(self, path: str, now: float | None = None) -> bool:
+        """
+        Fügt ein Event hinzu und gibt True zurück, wenn threshold im Fenster erreicht/überschritten wurde.
+        """
+        now = now or time.time()
         k = self._key_for(path)
-        now = time.time()
-        dq = self.events[k]
-        dq.append(now)
-        # trim old
-        cutoff = now - self.window_s
-        while dq and dq[0] < cutoff:
-            dq.popleft()
-        return len(dq) >= self.threshold
+        q = self.events[k]
+        self._prune(q, now)
+        q.append(now)
+        return len(q) >= self.threshold
 
-    def details(self, path):
+    def count(self, path: str, now: float | None = None) -> int:
+        now = now or time.time()
         k = self._key_for(path)
-        return {"count_in_window": len(self.events[k]), "window_s": self.window_s}
+        q = self.events[k]
+        self._prune(q, now)
+        return len(q)
 
-
-# patternDetector = PatternDetector(window_s=10, threshold=50)  # Beispielwerte
-#
-# # in on_created/on_modified:
-# if churn.push_event(event.src_path):
-#     emit_event({
-#         "type": "mass_change",
-#         "path": event.src_path,
-#         "details": churn.details(event.src_path)
-#     })
+    def details(self, path: str, now: float | None = None) -> dict:
+        now = now or time.time()
+        k = self._key_for(path)
+        q = self.events[k]
+        self._prune(q, now)
+        return {
+            "key": k,
+            "count_in_window": len(q),
+            "window_s": self.window_s,
+            "threshold": self.threshold,
+            "first_ts": q[0] if q else None,
+            "last_ts": q[-1] if q else None,
+        }

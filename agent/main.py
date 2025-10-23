@@ -34,7 +34,7 @@ def main():
         return
 
     log.info(f"Monitoring of: {watch_dirs} started")
-    monitor.start_monitoring(clean_watch_dirs, blacklist, emit_event)
+    monitor.start_monitoring(clean_watch_dirs, blacklist, emit_event, cooldown_seconds=5, mass_create_window_s=10, mass_create_threshold=50)
 
 if __name__ == "__main__":
     main()

@@ -13,23 +13,28 @@ class FileMonitorHandler(FileSystemEventHandler):
         self.blacklist = blacklist
         self.detection_callback = detection_callback
 
-    def _check(self, path: str, kind: str):
-        if self.blacklist and self.blacklist.is_blacklisted(path):
-            return
-        suspicious, details = entropy_spike(path)
-        if suspicious:
-            log.warning("Entropy spike: %s | %s", path, details)
-            self.detection_callback({
-                "type": "entropy_spike",
-                "path": path,
-                "event_type": kind,
-                "details": details
-            })
+    def _check_and_emit(self, path: str, kind: str):
+        try:
+            if self.blacklist and self.blacklist.is_blacklisted(path):
+                return
+            suspicious, details = entropy_spike(path)
+            if suspicious:
+                evt = {
+                    "type": "entropy_spike",
+                    "event_type": kind,
+                    "path": path,
+                    "details": details,
+                }
+                # <<< HIER: Callback erhält ein Dict, nicht das Event-Objekt >>>
+                self.detection_callback(evt)
+        except Exception:
+            log.exception("entropy check failed for %s", path)
+
 
     def on_modified(self, event):
-        if not event.is_directory and not self.blacklist.is_blacklisted(event.src_path):
-            log.info("%s on modified" % event.src_path)
-            self.detection_callback(event)
+        if not event.is_directory:
+            log.info("%s on modified", event.src_path)
+            self._check_and_emit(event.src_path, "modified")
 
     def on_created(self, event):
         if not event.is_directory:

@@ -11,11 +11,12 @@ def dummy_detection(file_path):
     print(f"🔍 Verdächtige Änderung erkannt an: {file_path}")
     # TODO: Hier später Entropieprüfung oder andere Erkennung aufrufen
 
-def emit_event(evt: dict):
-    if isinstance(evt, str):
+def emit_event(evt):
+    if not isinstance(evt, dict):
         print(f"[ALERT] entropy_spike -> {evt}")
         return
     print(f"[ALERT] {evt['type']} {evt['event_type']} -> {evt['path']} | {evt['details']}")
+
 
 def main():
     config = load_config("config/agent_config.yaml")

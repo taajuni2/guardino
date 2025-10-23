@@ -74,17 +74,7 @@ class FileMonitorHandler(FileSystemEventHandler):
             return
 
         # (3) Event emittieren
-        self.detection_callback({
-            "type": "mass_create",
-            "base_dir": k,
-            "count_in_window": det["count_in_window"],
-            "window_s": det["window_s"],
-            "threshold": det["threshold"],
-            "first_ts": det["first_ts"],
-            "last_ts": det["last_ts"],
-            "sample_path": path,
-            "source": "watchdog.on_created+PatternDetector",
-        })
+        self._check_and_emit(event.src_path, "created")
 
 
 def start_monitoring(paths, blacklist, detection_callback, cooldown_seconds=5, mass_create_window_s=10, mass_create_threshold=50):

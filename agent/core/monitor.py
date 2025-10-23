@@ -29,7 +29,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if not event.is_directory and not self.blacklist.is_blacklisted(event.src_path):
             log.info("%s on modified" % event.src_path)
-            self.detection_callback(event.src_path)
+            self.detection_callback(event)
 
     def on_created(self, event):
         if not event.is_directory:

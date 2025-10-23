@@ -5,8 +5,12 @@ log = logging.getLogger("agent.blacklist")
 
 class PathBlacklist:
     def __init__(self, blacklist):
-        self.blacklist = set(os.path.abspath(p) for p in blacklist)
+        # Normalisiere und erweitere ~
+        self.blacklist = set(os.path.abspath(os.path.expanduser(p)) for p in blacklist)
 
-    def is_blacklisted(self, path):
-        abs_path = os.path.abspath(path)
-        return any(abs_path.startswith(b) for b in self.blacklist)
+    def is_blacklisted(self, path: str) -> bool:
+        try:
+            abs_path = os.path.abspath(os.path.expanduser(path))
+            return any(abs_path.startswith(b) for b in self.blacklist)
+        except Exception:
+            return False

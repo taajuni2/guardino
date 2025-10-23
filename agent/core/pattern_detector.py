@@ -1,8 +1,9 @@
+# core/pattern_detector.py
 from __future__ import annotations
-
 import time
 from collections import deque, defaultdict
 import os
+
 
 class PatternDetector:
     """
@@ -15,27 +16,26 @@ class PatternDetector:
         self.window_s = window_s
         self.threshold = threshold
         self.per_dir = per_dir
-        self.events = defaultdict(lambda: deque())     # key -> deque[timestamps]
+        self.events = defaultdict(deque) # key -> deque[timestamps]
+        self.paths = defaultdict(deque) # key -> deque[paths]
 
     def _key_for(self, path: str) -> str:
-        return os.path.dirname(path) if self.per_dir else os.path.abspath(path)
+        return os.path.dirname(path) if self.per_dir else "__all__"
 
     def _prune(self, q: deque, now: float):
-        """Alte Timestamps aus dem Fenster entfernen."""
-        border = now - self.window_s
-        while q and q[0] < border:
+        cutoff = now - self.window_s
+        while q and q[0] < cutoff:
             q.popleft()
 
-    def push_event(self, path: str, now: float | None = None) -> bool:
-        """
-        Fügt ein Event hinzu und gibt True zurück, wenn threshold im Fenster erreicht/überschritten wurde.
-        """
+    def add_event(self, path: str, now: float | None = None):
         now = now or time.time()
         k = self._key_for(path)
-        q = self.events[k]
-        self._prune(q, now)
-        q.append(now)
-        return len(q) >= self.threshold
+        self.events[k].append(now)
+        self.paths[k].append(path)
+        self._prune(self.events[k], now)
+        # paths deck gleich lang halten
+        while len(self.paths[k]) > len(self.events[k]):
+            self.paths[k].popleft()
 
     def count(self, path: str, now: float | None = None) -> int:
         now = now or time.time()
@@ -43,6 +43,14 @@ class PatternDetector:
         q = self.events[k]
         self._prune(q, now)
         return len(q)
+
+    def recent_paths(self, path: str, now: float | None = None, max_items: int = 100) -> list[str]:
+        now = now or time.time()
+        k = self._key_for(path)
+        q = self.events[k]
+        self._prune(q, now)
+        # n jüngste Pfade (bis Fensterlänge)
+        return list(self.paths[k])[-max_items:]
 
     def details(self, path: str, now: float | None = None) -> dict:
         now = now or time.time()
@@ -56,4 +64,4 @@ class PatternDetector:
             "threshold": self.threshold,
             "first_ts": q[0] if q else None,
             "last_ts": q[-1] if q else None,
-        }
+    }

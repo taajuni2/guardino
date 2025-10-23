@@ -1,12 +1,12 @@
 watch_directories:
-  - /home
-  - /var/www
+  - "/home/vmadmin/test"
+
 
 blacklist_paths:
-  - /proc
-  - /sys
-  - /dev
-  - /tmp
+  - "/proc"
+  - "/sys"
+  - "/dev"
+  - "/tmp"
 
 kafka:
   broker: "host.docker.internal:9092"
@@ -15,11 +15,3 @@ kafka:
 log_level: "INFO"
 
 
-excluded_extensions:
-  - tmp
-  - log
-
-included_extensions:
-  - exe
-  - docx
-  - pdf

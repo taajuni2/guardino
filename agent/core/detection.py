@@ -46,3 +46,4 @@ def entropy_spike(path: str,
 
     except Exception as e:
         return False, {"reason": f"exception: {e}"}
+

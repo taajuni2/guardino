@@ -9,16 +9,24 @@ import logging
 log = logging.getLogger("agent.monitor")
 
 class FileMonitorHandler(FileSystemEventHandler):
-    def __init__(self, blacklist, detection_callback):
+    def __init__(self, blacklist, detection_callback, cooldown_seconds: int = 5):
         self.blacklist = blacklist
         self.detection_callback = detection_callback
+        self.cooldown_seconds = cooldown_seconds
+        self._last_alert_ts = {}
 
     def _check_and_emit(self, path: str, kind: str):
         try:
             if self.blacklist and self.blacklist.is_blacklisted(path):
                 return
+
+            now = time.time()
+            last = self._last_alert_ts.get(path, 0)
+            if (now - last) < self.cooldown_seconds:
+                return
             suspicious, details = entropy_spike(path)
             if suspicious:
+                self._last_alert_ts[path] = now
                 evt = {
                     "type": "entropy_spike",
                     "event_type": kind,

@@ -1,9 +1,13 @@
 import yaml
 import logging
 
+log = logging.getLogger("agent.utils")
+
+
 def load_config(path: str) -> dict:
     """Lädt eine YAML-Konfigurationsdatei."""
     with open(path, 'r') as file:
+        log.info("Sucessfully loaded config file")
         return yaml.safe_load(file)
 
 

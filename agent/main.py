@@ -19,6 +19,7 @@ def emit_event(evt):
 
 
 def main():
+    print("...............Starting up Guardino-Agent...............")
     config = load_config("config/agent_config.yaml")
 
     watch_dirs = config.get("watch_directories", [])
@@ -32,8 +33,7 @@ def main():
         print("Keine gültigen Watch-Verzeichnisse. Agent beendet.")
         return
 
-    print(" Starte Überwachung...")
-    log.info("monitoring started")
+    log.info(f"Monitoring of: {watch_dirs} started")
     monitor.start_monitoring(clean_watch_dirs, blacklist, emit_event)
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ def _entropy(data: bytes) -> float:
     return -sum((c/total) * math.log2(c/total) for c in counts.values())
 
 def entropy_spike(path: str,
-                  abs_threshold: float = 7.6,
+                  abs_threshold: float = 7.5,
                   min_size_bytes: int = 4096,
                   sample_each: int = 8192) -> tuple[bool, dict]:
     """
@@ -40,7 +40,7 @@ def entropy_spike(path: str,
             "entropy": round(H, 3),
             "bytes_sampled": len(data),
             "threshold": abs_threshold,
-            "reason": "abs_entropy hit" if is_spike else "below threshold",
+            "reason": "entropy threshold reached!" if is_spike else "below entropy threshold",
         }
         return is_spike, details
 

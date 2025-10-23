@@ -41,12 +41,12 @@ class FileMonitorHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if not event.is_directory:
-            log.info("%s On-MODIFIED method is executed under" %  event.src_path)
+            log.info("Watchdog ON-MODIFIED method is executed")
             self._check_and_emit(event.src_path, "modified")
 
     def on_created(self, event):
         if not event.is_directory:
-            log.info("%s On-CREATED method is executed under" % event.src_path)
+            log.info("Watchdog ON-CREATED method is executed")
             self._check_and_emit(event.src_path, "created")
 
 def start_monitoring(paths, blacklist, detection_callback):

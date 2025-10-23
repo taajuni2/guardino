@@ -32,8 +32,8 @@ class FileMonitorHandler(FileSystemEventHandler):
             self.detection_callback(event.src_path)
 
     def on_created(self, event):
-        if not event.is_directory and not self.blacklist.is_blacklisted(event.src_path):
-            self.detection_callback(event.src_path)
+        if not event.is_directory:
+            self._check(event.src_path, "created")
 
 def start_monitoring(paths, blacklist, detection_callback):
     observer = Observer()

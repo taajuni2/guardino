@@ -194,10 +194,13 @@ def start_monitoring(
     )
 
     for path in paths:
-        if not blacklist.is_blacklisted(path) and os.path.exists(path):
-            observer.schedule(event_handler, path, recursive=True)
-    else:
-        log.warning("Skipping non-existing or blacklisted path: %s", path)
+        if not os.path.exists(path):
+            log.warning("Skipping non-existing path: %s", path)
+            continue
+        if blacklist.is_blacklisted(path):
+            log.warning("Skipping blacklisted path: %s", path)
+            continue
+        observer.schedule(event_handler, path, recursive=True)
 
     observer.start()
     log.info("File monitoring started on: %s", paths)

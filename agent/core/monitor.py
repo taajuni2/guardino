@@ -68,7 +68,7 @@ class FileMonitorHandler(FileSystemEventHandler):
         path = event.src_path
         if self._is_blacklisted(path):
             return
-
+        log.info("On_Created hook reached")
     # 1) Mass Creation Pfad füttern
         now = time.time()
         self.mass_detector.add_event(path, now=now)

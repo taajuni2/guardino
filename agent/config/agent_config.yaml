@@ -11,7 +11,7 @@ kafka:
 broker: "host.docker.internal:9092"
 topic: "agent-events"
 
-log_level: "INFO"
+log_level: "DEBUG"
 
 # Optional: Parameter für Detektoren / Monitor
 agent_id: "agent-01"

@@ -61,6 +61,10 @@ class FileMonitorHandler(FileSystemEventHandler):
 
 
 
+
+    # --------------------------
+    # Filesystem Hooks
+    # --------------------------
     def on_modified(self, event):
         if event.is_directory:
             return
@@ -68,9 +72,9 @@ class FileMonitorHandler(FileSystemEventHandler):
         if self._is_blacklisted(path):
             return
         self._check_entropy_and_emit(path)
-    # --------------------------
-    # Filesystem Hooks
-    # --------------------------
+
+
+
     def on_created(self, event):
         if event.is_directory:
             return

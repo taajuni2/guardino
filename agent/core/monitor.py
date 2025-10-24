@@ -62,6 +62,7 @@ class FileMonitorHandler(FileSystemEventHandler):
 
 
     def on_modified(self, event):
+        log.info("on_created fired: %s", event.src_path)
         if event.is_directory:
             return
         path = event.src_path

@@ -144,7 +144,7 @@ class FileMonitorHandler(FileSystemEventHandler):
             event["paths"] = [p for p in event.get("paths", []) if not self._is_blacklisted(p)]
             log.info(
             "Emitting event id=%s type=%s severity=%s paths=%d",
-            event["id"], event["type"], event["severity"], len(event["paths"]),
+            event["id"], event["type"], event["severity"], len(event["paths"][0]),
             )
             self.detection_callback(event)
         except Exception as e:

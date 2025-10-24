@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from watchdog.events import FileSystemEventHandler, DirModifiedEvent, FileModifiedEvent
 from .detection import entropy_spike
 from .pattern_detector import PatternDetector
 from .events import Event
@@ -59,6 +59,15 @@ class FileMonitorHandler(FileSystemEventHandler):
         self._last_alert_ts: Dict[str, float] = {}
 
 
+
+
+    def on_modified(self, event):
+        if event.is_directory:
+            return
+        path = event.src_path
+        if self._is_blacklisted(path):
+            return
+        self._check_entropy_and_emit(path)
     # --------------------------
     # Filesystem Hooks
     # --------------------------

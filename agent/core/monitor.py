@@ -68,12 +68,11 @@ class FileMonitorHandler(FileSystemEventHandler):
         path = event.src_path
         if self._is_blacklisted(path):
             return
-        log.info("On_Created hook reached")
+        self._check_entropy_and_emit(event.src_path)
     # 1) Mass Creation Pfad füttern
         now = time.time()
         self.mass_detector.add_event(path, now=now)
-        log.info("Right bevore check entropy! ")
-        self._check_entropy_and_emit(event)
+
 
     # Prüfen, ob Schwellwert erreicht
         count = self.mass_detector.count(path, now=now)

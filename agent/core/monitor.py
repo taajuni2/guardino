@@ -108,7 +108,6 @@ class FileMonitorHandler(FileSystemEventHandler):
                 self._emit(ev)
 
         # 2) Für on_created direkt auch Entropie prüfen (frühe Erkennung)
-        log.info("Else reached")
         self._check_entropy_and_emit(path)
 
     def _check_entropy_and_emit(self, path: str):
@@ -121,7 +120,6 @@ class FileMonitorHandler(FileSystemEventHandler):
         )
         if not ok:
             return
-        log.info("Entropy check_entropy_and_emit hitted")
         dir_key = os.path.dirname(path) or "/"
         key = f"entropy:{dir_key}"
         if self._rate_limited(key, now):
@@ -150,7 +148,6 @@ class FileMonitorHandler(FileSystemEventHandler):
         """
         try:
             event = event_obj.to_dict()
-            log.info("_emit was hitted")
         # Blacklist final auf paths anwenden (Defensivprogrammierung)
             event["paths"] = [p for p in event.get("paths", []) if not self._is_blacklisted(p)]
             log.info(

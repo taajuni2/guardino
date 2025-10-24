@@ -41,7 +41,6 @@ def main():
     log.info(f"Agent ID: {agent_id}")
     log.info(f"Mass entropy threshold: {entropy_thr}")
     log.info(f"Mass create threshold: {mass_threshold}")
-    log.info("Monitoring of: %s started", clean_watch_dirs)
     monitor.start_monitoring(
         clean_watch_dirs,
         blacklist,

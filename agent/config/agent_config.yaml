@@ -1,25 +1,24 @@
 watch_directories:
-  - /home
-  - /var/www
+  - "/home/vmadmin/test"
 
 blacklist_paths:
-  - /proc
-  - /sys
-  - /dev
-  - /tmp
+  - "/proc"
+  - "/sys"
+  - "/dev"
+  - "/tmp"
 
 kafka:
-  broker: "host.docker.internal:9092"
-  topic: "agent-events"
+broker: "host.docker.internal:9092"
+topic: "agent-events"
 
 log_level: "INFO"
 
+# Optional: Parameter für Detektoren / Monitor
+agent_id: "agent-01"
+mass_create_window_s: 5
+mass_create_threshold: 50
+cooldown_seconds: 2
+entropy_abs_threshold: 7.2
+entropy_min_size_bytes: 1024
+entropy_sample_each: 16384
 
-excluded_extensions:
-  - tmp
-  - log
-
-included_extensions:
-  - exe
-  - docx
-  - pdf

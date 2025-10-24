@@ -38,8 +38,8 @@ def main():
     entropy_thr = float(config.get("entropy_abs_threshold", 7.5))
     entropy_min_size = int(config.get("entropy_min_size_bytes", 4096))
     entropy_sample_each = int(config.get("entropy_sample_each", 8192))
-    log.debug(f"Agent ID: {agent_id}")
-    log.debug(f"Mass entropy threshold: {entropy_thr}")
+    log.info(f"Agent ID: {agent_id}")
+    log.info(f"Mass entropy threshold: {entropy_thr}")
     log.info("Monitoring of: %s started", clean_watch_dirs)
     monitor.start_monitoring(
         clean_watch_dirs,

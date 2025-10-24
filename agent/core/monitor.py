@@ -68,7 +68,6 @@ class FileMonitorHandler(FileSystemEventHandler):
         path = event.src_path
         if self._is_blacklisted(path):
             return
-        self._check_entropy_and_emit(event.src_path)
     # 1) Mass Creation Pfad füttern
         now = time.time()
         self.mass_detector.add_event(path, now=now)
@@ -100,6 +99,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                 self._emit(ev)
 
         # 2) Für on_created direkt auch Entropie prüfen (frühe Erkennung)
+        log.info("Else reached")
         self._check_entropy_and_emit(path)
 
     def _check_entropy_and_emit(self, path: str):

@@ -22,7 +22,7 @@ def entropy_spike(path: str,
     Liest Head+Tail (je sample_each Bytes) und berechnet Shannon-Entropie.
     """
     try:
-        log.debug("Entriopy_spike reached")
+        log.info("Entriopy_spike reached")
         st = os.stat(path)
         if not os.path.isfile(path) or st.st_size < min_size_bytes:
             return False, {"reason": "too small or not a regular file"}

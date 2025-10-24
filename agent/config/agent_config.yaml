@@ -1,5 +1,5 @@
 watch_directories:
-  - "/home/vmadmin/test"
+  - "/vmadmin/test"
 
 blacklist_paths:
   - "/proc"

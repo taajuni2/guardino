@@ -10,7 +10,6 @@ class PathBlacklist:
 
     def is_blacklisted(self, path: str) -> bool:
         try:
-            log.info(f"Checking if {path} is blacklisted")
             abs_path = os.path.abspath(os.path.expanduser(path))
             return any(abs_path.startswith(b) for b in self.blacklist)
         except Exception:

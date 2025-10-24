@@ -72,6 +72,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     # 1) Mass Creation Pfad füttern
         now = time.time()
         self.mass_detector.add_event(path, now=now)
+        self._check_entropy_and_emit(event)
 
     # Prüfen, ob Schwellwert erreicht
         count = self.mass_detector.count(path, now=now)
@@ -94,7 +95,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                         "first_ts": details["first_ts"],
                         "last_ts": details["last_ts"],
                     },
-                    raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=200)},
+                    raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=10)},
                 )
                 self._emit(ev)
 

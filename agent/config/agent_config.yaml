@@ -15,7 +15,7 @@ log_level: "INFO"
 
 # Optional: Parameter für Detektoren / Monitor
 agent_id: "agent-01"
-mass_create_window_s: 10
+mass_create_window_s: 5
 mass_create_threshold: 50
 cooldown_seconds: 2
 entropy_abs_threshold: 7.2

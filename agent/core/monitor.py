@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, DirModifiedEvent, FileModifiedEvent
+from watchdog.events import FileSystemEventHandler
 from .detection import entropy_spike
 from .pattern_detector import PatternDetector
 from .events import Event
@@ -62,7 +62,6 @@ class FileMonitorHandler(FileSystemEventHandler):
 
 
     def on_modified(self, event):
-        log.info("on_created fired: %s", event.src_path)
         if event.is_directory:
             return
         path = event.src_path

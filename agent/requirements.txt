@@ -1,3 +1,4 @@
 pyyaml
 watchdog
+kafka-python
 

@@ -17,7 +17,7 @@ class Event:
     id: str
     timestamp: str
     agent_id: str
-    type: str # "mass_creation" | "entropy_spike"
+    type: str # "alert" | "register" | "heartbeat"
     severity: str # "info" | "warning" | "critical"
     summary: str
     paths: List[str]

@@ -95,12 +95,13 @@ class FileMonitorHandler(FileSystemEventHandler):
                 sev = "warning" if count < (self.mass_detector.threshold * 2) else "critical"
                 ev = Event.build(
                     agent_id=self.agent_id,
-                    type_="mass_creation",
+                    type_="alert",
                     severity=sev,
                     summary=f"Mass file creation detected: {details['count_in_window']} files in {details['window_s']}s",
                     paths=self._limit_paths(self.mass_detector.recent_paths(path, now=now)),
                     metadata={
                         "key": details["key"],
+                        "category": "mass_creation",
                         "count_in_window": details["count_in_window"],
                         "window_s": details["window_s"],
                         "threshold": details["threshold"],
@@ -133,11 +134,12 @@ class FileMonitorHandler(FileSystemEventHandler):
         sev = "warning" if entropy_val < (self.entropy_abs_threshold + 0.8) else "critical"
         ev = Event.build(
             agent_id=self.agent_id,
-            type_="entropy_spike",
+            type_="alert",
             severity=sev,
             summary=f"Entropy spike detected (H={entropy_val}) at {path}",
             paths=[path],
             metadata={
+                "category": "entropy_spike",
                 "entropy": entropy_val,
                 "threshold": details.get("threshold", self.entropy_abs_threshold),
                 "bytes_sampled": details.get("bytes_sampled"),

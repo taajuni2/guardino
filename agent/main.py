@@ -18,6 +18,7 @@ def main():
 #Load config
     config_path = os.getenv("AGENT_CONFIG", "config/agent_config.yaml")
     config = load_config(config_path)
+    print(json.dumps(config, ensure_ascii=False))
 
 #Load Parameters
     mass_window = int(config.get("mass_create_window_s", 10))

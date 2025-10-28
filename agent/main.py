@@ -47,6 +47,7 @@ def main():
     agent_control = AgentControl(
         broker=broker,
         control_topic=control_topic,
+        config=config,
         agent_id=agent_id,
         heartbeat_interval=heartbeat_interval,
         stdout_fallback=bool(os.environ.get("STDOUT_ONLY", "0") == "1"),

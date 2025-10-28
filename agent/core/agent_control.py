@@ -28,14 +28,14 @@ class AgentControl:
         *,
             broker: str,
             control_topic: str,
-          #  config: Dict[str, Any],
+            config: Dict[str, Any],
             agent_id: str,
             heartbeat_interval: int = 20,
             stdout_fallback: bool = False,
     ) -> None:
         self.broker = broker
         self.control_topic = control_topic,
-        #self.config = config
+        self.config = config
         self.agent_id = agent_id,
         self.heartbeat_interval = heartbeat_interval,
         self._stop = threading.Event()

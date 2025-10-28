@@ -18,7 +18,13 @@ def main():
 #Load config
     config_path = os.getenv("AGENT_CONFIG", "config/agent_config.yaml")
     config = load_config(config_path)
-    print(json.dumps(config, ensure_ascii=False))
+
+#Logger setup
+    logger = setup_logging(config.get("log_level", "INFO"))
+    log = logging.getLogger("agent.main")
+
+
+
 
 #Load Parameters
     mass_window = int(config.get("mass_create_window_s", 10))
@@ -28,15 +34,13 @@ def main():
     entropy_min_size = int(config.get("entropy_min_size_bytes", 4096))
     entropy_sample_each = int(config.get("entropy_sample_each", 8192))
     topics = config.get("kafka", {}).get("topics", {})
+    print(json.dumps(topics, ensure_ascii=False))
     broker = config.get("kafka", {}).get("broker", {})
     control_topic = topics.get("control", "agent-control")
 
 
 
 
-#Logger setup
-    logger = setup_logging(config.get("log_level", "INFO"))
-    log = logging.getLogger("agent.main")
 
 # Heartbeat und Autoregistration vorbereiten
     agent_id = config.get("agent_id", "agent-default-01")

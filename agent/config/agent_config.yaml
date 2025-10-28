@@ -10,10 +10,10 @@ blacklist_paths:
   - "/tmp"
 
 kafka:
-broker: "host.docker.internal:9092"
-topics:
-  events: "agent-events"
-  control: "agent-control"
+  broker: "host.docker.internal:9092"
+  topics:
+    events: "agent-events"
+    control: "agent-control"
 
 
 heartbeat_interval_s: 20

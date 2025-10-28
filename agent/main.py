@@ -34,7 +34,6 @@ def main():
     entropy_min_size = int(config.get("entropy_min_size_bytes", 4096))
     entropy_sample_each = int(config.get("entropy_sample_each", 8192))
     topics = config.get("kafka", {}).get("topics", {})
-    print(json.dumps(topics, ensure_ascii=False))
     broker = config.get("kafka", {}).get("broker", {})
     control_topic = topics.get("control", "agent-control")
 
@@ -49,7 +48,7 @@ def main():
         broker=broker,
         control_topic=control_topic,
         agent_id=agent_id,
-        heatbeat_interval=heartbeat_interval,
+        heartbeat_interval=heartbeat_interval,
         stdout_fallback=bool(os.environ.get("STDOUT_ONLY", "0") == "1"),
     )
 

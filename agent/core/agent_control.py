@@ -108,7 +108,7 @@ class AgentControl:
             type_="register",
             severity="info",
             summary="Agent autoregistration",
-            metadata={systeminfo},
+            metadata=systeminfo,
             raw={"ts": now_iso()},
         ).to_dict()
 

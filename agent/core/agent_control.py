@@ -9,7 +9,6 @@ import uuid
 import logging
 from typing import Dict, Any, Optional
 
-from kafka.errors import KafkaError
 
 from .events import Event, now_iso
 try:
@@ -144,7 +143,7 @@ class AgentControl:
                 self._consumer.close()
             if self._producer:
                 self._producer.close()
-        except KafkaError:
+        except Exception:
             pass
 
 

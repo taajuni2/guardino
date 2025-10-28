@@ -128,6 +128,7 @@ class AgentControl:
                     agent_id=self.agent_id,
                     type_="heartbeat",
                     severity="info",
+                    paths=[],
                     summary="Agent heartbeat",
                     metadata={"health:": {"system_status:": "ok"}},
                     raw={"ts": now_iso()},

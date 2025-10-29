@@ -119,7 +119,7 @@ class AgentControl:
         self._send(key, message)
         print(f"Heartbeat1 : {self.heartbeat_interval}")
         ack = self._poll_ack(timeout_s=int(self.config["heartbeat_interval_s"]))
-        print(f"Heartbeat2 : {self.heartbeat_interval}")
+        print(f"ACK TYPE: {type(ack)} → {ack}")
         if ack:
             self.agent_id = ack.get("agent_id", self.agent_id)
             log.info(f"REGISTERED agent {self.agent_id}")

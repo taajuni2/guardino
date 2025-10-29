@@ -1,3 +1,5 @@
+agent_version: "0.1.0"
+agent_id: agent-01
 watch_directories:
   - "/home/vmadmin/test"
 
@@ -8,16 +10,20 @@ blacklist_paths:
   - "/tmp"
 
 kafka:
-broker: "host.docker.internal:9092"
-topic: "agent-events"
+  broker: "host.docker.internal:9092"
+  topics:
+    events: "agent-events"
+    control: "agent-control"
+
+
+heartbeat_interval_s: 60
 
 log_level: "INFO"
 
 # Optional: Parameter für Detektoren / Monitor
-agent_id: "agent-01"
 mass_create_window_s: 5
 mass_create_threshold: 50
-cooldown_seconds: 2
+cooldown_seconds: 2 # Verhindert das bei jedem Memory modification ein Alert getriggert wird
 entropy_abs_threshold: 7.2
 entropy_min_size_bytes: 1024
 entropy_sample_each: 16384

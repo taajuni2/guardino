@@ -34,10 +34,10 @@ class AgentControl:
             stdout_fallback: bool = False,
     ) -> None:
         self.broker = broker
-        self.control_topic = control_topic,
+        self.control_topic = control_topic
         self.config = config
-        self.agent_id = agent_id,
-        self.heartbeat_interval = heartbeat_interval,
+        self.agent_id = agent_id
+        self.heartbeat_interval = heartbeat_interval
         self._stop = threading.Event()
         self.stdout_fallback = stdout_fallback or not _KAFKA_AVAILABLE or not broker
 

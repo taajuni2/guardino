@@ -44,6 +44,7 @@ def main():
 # Heartbeat und Autoregistration vorbereiten
     agent_id = config.get("agent_id", "agent-default-01")
     heartbeat_interval = int(config.get("heartbeat_interval_s", 20))
+    print("DEBUG heartbeat_interval_s =", heartbeat_interval)
     agent_control = AgentControl(
         broker=broker,
         control_topic=control_topic,

@@ -72,7 +72,7 @@ class AgentControl:
         log.info(f"Successfully send to {self.control_topic}")
         self._producer.flush()
 
-    def _poll_ack(self, timeout_s: float = 8.0) -> Optional[Dict[str, Any]]:
+    def _poll_ack(self, timeout_s: int = 8) -> Optional[Dict[str, Any]]:
         if self.stdout_fallback:
             return
         log.info(f"_poll_ack is executed")
@@ -116,10 +116,12 @@ class AgentControl:
 
         key = self.agent_id or "__register__"
         self._send(key, message)
-        ack = self._poll_ack(timeout_s=float(self.config["heartbeat_interval_s"]))
+        print(f"Heartbeat1 : {self.heartbeat_interval}")
+        ack = self._poll_ack(timeout_s=int(self.config["heartbeat_interval_s"]))
+        print(f"Heartbeat2 : {self.heartbeat_interval}")
         if ack:
             self.agent_id = ack.get("agent_id", self.agent_id)
-            log.info(f"Registered agent {self.agent_id}")
+            log.info(f"REGISTERED agent {self.agent_id}")
         return self.agent_id
 
     def start_heartbeat(self) -> None:

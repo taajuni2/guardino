@@ -38,7 +38,7 @@ def main():
     control_topic = topics.get("control", "agent-control")
 
 
-
+    print("DEBUG heartbeat_interval_s =", config.get("heartbeat_interval_s"))
 
 
 # Heartbeat und Autoregistration vorbereiten

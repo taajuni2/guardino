@@ -63,6 +63,7 @@ class AgentControl:
 # ------------------- Controlling funktionen--------------------------------------#
     def _send(self, key: Optional[str], payload: Dict[str, Any]) -> None:
         if self.stdout_fallback:
+            log.info(f"stdout_fallback was executed")
             print(json.dumps({"topic": self.control_topic, "key": key, "value": payload}, ensure_ascii=False))
             return
         assert self._producer is not None

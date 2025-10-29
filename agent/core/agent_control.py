@@ -72,7 +72,7 @@ class AgentControl:
         log.info(f"Successfully send to {self.control_topic}")
         self._producer.flush()
 
-    def _poll_ack(self, timeout_s: int = 8) -> Optional[Dict[str, Any]]:
+    def _poll_ack(self, timeout_s: float = 8) -> Optional[Dict[str, Any]]:
         if self.stdout_fallback:
             return
         log.info(f"_poll_ack is executed")
@@ -94,7 +94,8 @@ class AgentControl:
 # ------------------- Calls funktionen--------------------------------------#
 
     def register(self) -> Optional[str]:
-        print(f"Config : {self.config}")
+        hb = self.config.get("heartbeat_interval_s", 60)
+        print(f"Config : {hb}")
         systeminfo = {
             "os": platform.system(),
             "os_version": platform.version(),

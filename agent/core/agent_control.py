@@ -134,6 +134,7 @@ class AgentControl:
                     metadata={"health:": {"system_status:": "ok"}},
                     raw={"ts": now_iso()},
                 ).to_dict()
+                print(f"Heartbeat: {self.heartbeat_interval}")
                 self._send(self.agent_id, payload)
                 self._stop.wait(self.heartbeat_interval)
         threading.Thread(target=run, daemon=True).start()

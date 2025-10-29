@@ -16,7 +16,7 @@ kafka:
     control: "agent-control"
 
 
-heartbeat_interval_s: 20
+heartbeat_interval_s: 60
 
 log_level: "INFO"
 

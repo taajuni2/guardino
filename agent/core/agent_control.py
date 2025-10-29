@@ -93,7 +93,7 @@ class AgentControl:
 # ------------------- Calls funktionen--------------------------------------#
 
     def register(self) -> Optional[str]:
-
+        print(f"Config: {self.config}")
         systeminfo = {
             "os": platform.system(),
             "os_version": platform.version(),

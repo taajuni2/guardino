@@ -30,7 +30,7 @@ class AgentControl:
             control_topic: str,
             config: Dict[str, Any],
             agent_id: str,
-            heartbeat_interval: int = 20,
+            heartbeat_interval: int,
             stdout_fallback: bool = False,
     ) -> None:
         self.broker = broker

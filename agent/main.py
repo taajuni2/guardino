@@ -38,7 +38,6 @@ def main():
     control_topic = topics.get("control", "agent-control")
 
 
-    print("DEBUG heartbeat_interval_s =", config.get("heartbeat_interval_s"))
 
 
 # Heartbeat und Autoregistration vorbereiten
@@ -57,7 +56,7 @@ def main():
     assigned_agent_id = agent_control.register()
     if assigned_agent_id:
         config["agent_id"] = assigned_agent_id
-        log.info("Registered as agent_id=%s", assigned_agent_id)
+        log.info("MAIN as agent_id=%s", assigned_agent_id)
     else:
         log.warning("No register_ack call received. Proceeding with agent_id=%s", agent_id)
 

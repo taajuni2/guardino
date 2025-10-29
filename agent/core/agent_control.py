@@ -94,7 +94,7 @@ class AgentControl:
 # ------------------- Calls funktionen--------------------------------------#
 
     def register(self) -> Optional[str]:
-        print(f"Heartbeat0 : {self.heartbeat_interval}")
+        print(f"Config : {self.config}")
         systeminfo = {
             "os": platform.system(),
             "os_version": platform.version(),
@@ -117,7 +117,7 @@ class AgentControl:
 
         key = self.agent_id or "__register__"
         self._send(key, message)
-        ack = self._poll_ack(timeout_s=self.heartbeat_interval)
+        ack = self._poll_ack(timeout_s=float(self.config.get("register_ack_timeout_s", 8)))
         if ack:
             self.agent_id = ack.get("agent_id", self.agent_id)
             log.info(f"REGISTERED agent {self.agent_id}")

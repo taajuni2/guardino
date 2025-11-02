@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    container_name: guardino-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: guardino-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      # ---- KRaft (Kafka ohne ZooKeeper) ----
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      # quorum: dieser eine Broker ist gleichzeitig Controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+
+      # Listener:
+      # - PLAINTEXT: für Producer/Consumer
+      # - CONTROLLER: internes Control-Protokoll
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+
+      # ganz wichtig:
+      # Aus Sicht der anderen Container im selben Compose-Netz (agent, backend)
+      # heißt dieser Broker "kafka:9092".
+      # Für dich am Host kann trotzdem Port 9092 gepublished sein.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # Single-broker safe defaults
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_NUM_PARTITIONS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+      # Storage / metadata
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+
+    volumes:
+      - kafkadata:/var/lib/kafka/data
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    container_name: guardino-agent
+    depends_on:
+      - kafka
+    volumes:
+      - ./agent/config.yaml:/app/config.yaml:ro
+    environment:
+      # falls dein Agent zusätzlich ENV braucht, kannst du das hier übergeben
+      # (z. B. Agent-ID für Identität)
+      AGENT_ID: "agent-001"
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+  kafkadata:

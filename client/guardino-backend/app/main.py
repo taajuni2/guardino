@@ -1,15 +1,41 @@
-from typing import Union
-
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from .api.user_router import router as user_router
+from .core.database import engine
 
-app = FastAPI()
+description = """
+This backend processes all the event data sent by various agents from the Guardino System!  🚀
 
+## Events
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+* You can **read Events from Kafka**. <br>
+* You can search for specific EventID's.
 
+## Users
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+You will be able to:
+
+* **Create users** (_implemented_).
+* **Read users** (_not implemented_).
+"""
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Starting up...")
+    yield
+    # Shutdown:
+    await engine.dispose()
+
+app = FastAPI(
+    title="Client Backend",
+    version="0.1.0",
+    summary="This is the backend for the Guardino client application.",
+    description=description,
+    contact={
+        "name": "Guardino Team",
+        "email": "nicolas.julier@bluewin.ch"
+    },
+    lifespan=lifespan,
+)
+
+app.include_router(user_router)

@@ -1,10 +1,29 @@
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, DateTime, func
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
+from ..core.database import Base
 
-from pydantic import BaseModel, EmailStr
-from sqlmodel import SQLModel, Field
+class User(Base):
+    __tablename__ = "users"
 
-class User(SQLModel, table=True):
-    user_id: int
-    username: str
-    email: EmailStr
-    is_admin: bool
-    last_activity: str
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4
+    )
+    email: Mapped[str] = mapped_column(
+        String(255),
+        unique=True,
+        index=True,
+        nullable=False
+    )
+    name: Mapped[str] = mapped_column(
+        String(120),
+        nullable=False
+    )
+    created_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False
+    )

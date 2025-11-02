@@ -11,5 +11,39 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
 
+
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: guardino-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      # Aktiviert den neuen KRaft-Mode (kein ZooKeeper nötig)
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@localhost:9093"
+
+      # Listener-Konfiguration (interner + externer Zugriff)
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 #Anpassen falls extern zugreifbar
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # Single-Broker-Dev-Defaults
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_NUM_PARTITIONS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+      # Verzeichnis für KRaft-Metadata
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+
+      # In-Memory-Cluster-ID (fix für lokale Tests)
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    volumes:
+      - kafkadata:/var/lib/kafka/data
+
 volumes:
   dbdata:
+  kafkadata:

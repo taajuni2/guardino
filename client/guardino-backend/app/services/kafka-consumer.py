@@ -9,7 +9,7 @@ from ..core.database import SessionLocal
 
 async def consume_file_events(stop_event: asyncio.Event | None = None):
     consumer = AIOKafkaConsumer(
-        settings.KAFKA_TOPIC_FILE_EVENTS,
+        settings.KAFKA_TOPIC_AGENT_EVENTS,
         bootstrap_servers=settings.KAFKA_BOOTSTRAP,
         group_id=settings.KAFKA_GROUP_ID,
         enable_auto_commit=False,

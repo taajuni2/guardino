@@ -77,19 +77,7 @@ async def run_migrations_online():
 
 
 #
-# >>> HIER kommt der Unterschied zu vorher <<<
-#
-# Wir entscheiden NICHT stumpf über context.is_offline_mode().
-# Stattdessen:
-#
-# - Wenn Alembic im Offline-Modus läuft (z. B. `alembic revision --autogenerate --head head --sql`),
-#   dann ruft Alembic uns mit offline_mode auf -> offline Pfad.
-#
-# - Wenn Alembic Autogenerate macht (revision), wollen wir KEINE echte Connection aufbauen.
-#   Wir können das erzwingen, indem wir prüfen, ob `config.cmd_opts.cmd` == "revision".
-#
-# - Bei echten Upgrades (upgrade / downgrade) nutzen wir online.
-#
+
 
 
 

@@ -23,6 +23,7 @@ async def create_user(payload: UserCreate, db: AsyncSession = Depends(get_db_ses
         raise HTTPException(status_code=409, detail="Email already exists")
 
     user = User(email=payload.email, name=payload.name)
+    print("Creating user:", user)
     db.add(user)
     await db.commit()
     await db.refresh(user)
@@ -30,10 +31,8 @@ async def create_user(payload: UserCreate, db: AsyncSession = Depends(get_db_ses
 
 
 @router.get(
-    "/{user_id}",
+    "/list",
 )
-def greeting():
-    return {"message": "Hello, User!"}
-# async def list_users(db: AsyncSession = Depends(get_db_session)):
-#     res = await db.execute(select(User).order_by(User.created_at.desc()))
-#     return list(res.scalars())
+async def list_users(db: AsyncSession = Depends(get_db_session)):
+    res = await db.execute(select(User).order_by(User.created_at.desc()))
+    return list(res.scalars())

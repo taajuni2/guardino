@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from .api.user_router import router as user_router
+from .api.auth_router import router as auth_router
 from .core.database import engine
 
 description = """
@@ -11,13 +12,8 @@ This backend processes all the event data sent by various agents from the Guardi
 * You can **read Events from Kafka**. <br>
 * You can search for specific EventID's.
 
-## Users
-
-You will be able to:
-
-* **Create users** (_implemented_).
-* **Read users** (_not implemented_).
 """
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -39,3 +35,4 @@ app = FastAPI(
 )
 
 app.include_router(user_router)
+app.include_router(auth_router)

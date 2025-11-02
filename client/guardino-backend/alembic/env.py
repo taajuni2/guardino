@@ -85,7 +85,6 @@ if context.is_offline_mode():
     # Wir generieren nur ein neues Skript -> kein echter DB-Connect nötig
     run_migrations_offline()
 else:
-    print("Alle Command")
 
     run_migrations_online()
     # Normale Welt:

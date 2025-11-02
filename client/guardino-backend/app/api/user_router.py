@@ -1,38 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from .deps import get_db_session
+from ..api.deps import get_db_session, get_current_user
 from ..models.user import User
 from ..schemas.user import UserCreate, UserRead
+from fastapi import HTTPException, status
 
 router = APIRouter(
     prefix="/users",
     tags=["users"],
 )
 
-@router.post(
-    "",
-    response_model=UserRead,
-    status_code=status.HTTP_201_CREATED,
-)
-async def create_user(payload: UserCreate, db: AsyncSession = Depends(get_db_session)):
-    # check if email exists
-    res = await db.execute(select(User).where(User.email == payload.email))
-    existing = res.scalar_one_or_none()
-    if existing:
-        raise HTTPException(status_code=409, detail="Email already exists")
-
-    user = User(email=payload.email, name=payload.name)
-    print("Creating user:", user)
-    db.add(user)
-    await db.commit()
-    await db.refresh(user)
-    return user
-
-
-@router.get(
-    "/list",
-)
-async def list_users(db: AsyncSession = Depends(get_db_session)):
-    res = await db.execute(select(User).order_by(User.created_at.desc()))
-    return list(res.scalars())
+@router.get("/me", response_model=UserRead)
+async def get_me(current_user: User = Depends(get_current_user)):
+    return current_user

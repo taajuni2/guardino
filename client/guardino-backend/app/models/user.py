@@ -22,6 +22,11 @@ class User(Base):
         String(120),
         nullable=False
     )
+    password_hash: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+        default="test"
+    )
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

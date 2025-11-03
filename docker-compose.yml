@@ -63,7 +63,7 @@ services:
     depends_on:
       - kafka
     volumes:
-      - ./home/vmadmin:/home/vmadmin
+      - /home/vmadmin:/home/vmadmin
     environment:
       # falls dein Agent zusätzlich ENV braucht, kannst du das hier übergeben
       # (z. B. Agent-ID für Identität)

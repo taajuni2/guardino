@@ -10,7 +10,7 @@ from core import monitor
 from core.agent_control import AgentControl
 from utils.utils import load_config, setup_logging
 
-from kafka.producer import KafkaEventProducer
+from transport.producer import KafkaEventProducer
 
 
 def main():

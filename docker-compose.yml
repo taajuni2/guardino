@@ -19,28 +19,29 @@ services:
     container_name: guardino-kafka
     ports:
       - "9092:9092"
-      - "29092:29092"
     environment:
       # ---- KRaft (Kafka ohne ZooKeeper) ----
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_NODE_ID: 1
       # quorum: dieser eine Broker ist gleichzeitig Controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
-
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       # Listener:
       # - PLAINTEXT: für Producer/Consumer
       # - CONTROLLER: internes Control-Protokoll
-
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+     # KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
 
       # ganz wichtig:
       # Aus Sicht der anderen Container im selben Compose-Netz (agent, backend)
       # heißt dieser Broker "kafka:9092".
       # Für dich am Host kann trotzdem Port 9092 gepublished sein.
+     # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+     # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      #KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 
       # Single-broker safe defaults
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

@@ -33,6 +33,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       # 4) Interne Broker-Kommunikation soll den INTERNAL-Listener nehmen
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       # Listener:
       # - PLAINTEXT: für Producer/Consumer
       # - CONTROLLER: internes Control-Protokoll

@@ -26,6 +26,7 @@ async def consume_file_events(stop_event: asyncio.Event | None = None):
                 for msg in batch:
                     raw_value = msg.value  # <- später in Pydantic parsen
                     # Beispiel: in DB schreiben
+                    print(f"Kafka event vom backend {raw_value}")
                     async with SessionLocal() as db:
                         # deine Business-Logik hier
                         # await db.execute(...)

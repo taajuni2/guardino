@@ -19,6 +19,7 @@ services:
     container_name: guardino-kafka
     ports:
       - "9092:9092"
+      - "29092:29092"
     environment:
       # ---- KRaft (Kafka ohne ZooKeeper) ----
       KAFKA_PROCESS_ROLES: broker,controller

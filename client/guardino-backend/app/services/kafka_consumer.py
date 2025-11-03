@@ -4,6 +4,7 @@ import asyncio
 from aiokafka import AIOKafkaConsumer
 from ..core.config import settings
 from ..core.database import SessionLocal
+
 # from app.schemas.file_event import FileEventIn  # später von dir
 # from app.models.file_event import FileEvent    # später von dir
 

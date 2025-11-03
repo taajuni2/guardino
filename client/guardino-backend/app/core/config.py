@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # Kafka
     KAFKA_BOOTSTRAP: str = "localhost:9092"
     KAFKA_GROUP_ID: str = "agent-consumer"
-    KAFKA_TOPIC_AGENT_EVENTS: str = "file_events"
+    KAFKA_TOPIC_AGENT_EVENTS: str = "agent-events"
     KAFKA_SSL: bool = False  # kannst du später erweitern (SASL, TLS, etc.)
 
 

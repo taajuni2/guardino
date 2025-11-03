@@ -26,10 +26,13 @@ services:
       KAFKA_NODE_ID: 1
       # quorum: dieser eine Broker ist gleichzeitig Controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
+      # 2) so werden sie von außen gesehen
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      # 3) hier war dein Fehler: beide Listener müssen ein Protokoll kriegen
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      # 4) Interne Broker-Kommunikation soll den INTERNAL-Listener nehmen
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       # Listener:
       # - PLAINTEXT: für Producer/Consumer
       # - CONTROLLER: internes Control-Protokoll

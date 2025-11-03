@@ -26,27 +26,19 @@ services:
       KAFKA_NODE_ID: 1
       # quorum: dieser eine Broker ist gleichzeitig Controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
-      KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-      # 2) so werden sie von außen gesehen
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
-      # 3) hier war dein Fehler: beide Listener müssen ein Protokoll kriegen
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-      # 4) Interne Broker-Kommunikation soll den INTERNAL-Listener nehmen
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       # Listener:
       # - PLAINTEXT: für Producer/Consumer
       # - CONTROLLER: internes Control-Protokoll
-     # KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
 
       # ganz wichtig:
       # Aus Sicht der anderen Container im selben Compose-Netz (agent, backend)
       # heißt dieser Broker "kafka:9092".
       # Für dich am Host kann trotzdem Port 9092 gepublished sein.
-     # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
-     # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      #KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 
       # Single-broker safe defaults
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -63,20 +55,20 @@ services:
       - kafkadata:/var/lib/kafka/data
     restart: unless-stopped
 
-  agent:
-    build:
-      context: ./agent
-      dockerfile: Dockerfile
-    container_name: guardino-agent
-    depends_on:
-      - kafka
-    volumes:
-      - /home/vmadmin:/home/vmadmin
-    environment:
-      # falls dein Agent zusätzlich ENV braucht, kannst du das hier übergeben
-      # (z. B. Agent-ID für Identität)
-      AGENT_ID: "agent-001"
-    restart: unless-stopped
+#  agent:
+#    build:
+#      context: ./agent
+#      dockerfile: Dockerfile
+#    container_name: guardino-agent
+#    depends_on:
+#      - kafka
+#    volumes:
+#      - /home/vmadmin:/home/vmadmin
+#    environment:
+#      # falls dein Agent zusätzlich ENV braucht, kannst du das hier übergeben
+#      # (z. B. Agent-ID für Identität)
+#      AGENT_ID: "agent-001"
+#    restart: unless-stopped
 
 volumes:
   dbdata:

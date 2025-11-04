@@ -1,3 +1,4 @@
+# app/services/kafka_consumer.py
 from __future__ import annotations
 
 import asyncio
@@ -17,7 +18,6 @@ log = logging.getLogger("backend.kafka.consumer")
 
 async def consume_agent_messages(stop_event: asyncio.Event | None = None):
     consumer = AIOKafkaConsumer(
-        # wenn du später auch heartbeats auf separatem Topic hast, einfach hier ergänzen
         settings.KAFKA_TOPIC_AGENT_EVENTS,
         settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
         bootstrap_servers=settings.KAFKA_BOOTSTRAP,
@@ -26,31 +26,23 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
         value_deserializer=lambda v: v.decode("utf-8"),
     )
     await consumer.start()
-    log.info(
-        "Kafka consumer started. Listening to: %s, %s",
-        settings.KAFKA_TOPIC_AGENT_EVENTS,
-        settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
-    )
     try:
         while True:
             if stop_event and stop_event.is_set():
                 break
 
-            # getmany = batching, gut so
             msgs = await consumer.getmany(timeout_ms=1000, max_records=50)
             for _tp, batch in msgs.items():
                 for msg in batch:
-                    raw_value = msg.value
                     try:
-                        payload = json.loads(raw_value)
+                        payload = json.loads(msg.value)
                     except json.JSONDecodeError:
-                        log.warning("Could not decode message: %r", raw_value)
+                        log.warning("Could not decode message: %r", msg.value)
                         continue
 
-                    msg_type = payload.get("type_")
+                    msg_type = payload.get("type")
                     agent_id = payload.get("agent_id")
 
-                    # pro Nachricht eine DB-Session
                     async with SessionLocal() as db:
                         try:
                             if msg_type == "register":
@@ -59,15 +51,16 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                                 await handle_heartbeat(db, payload)
                             else:
                                 await handle_generic_event(db, payload)
+
+                            # WICHTIG: async commit
                             await db.commit()
                         except Exception:
                             log.exception("Error processing message from agent %s", agent_id)
                             await db.rollback()
 
-                    # erst committen, wenn verarbeitet
+                    # Offset erst nach erfolgreicher Verarbeitung committen
                     await consumer.commit()
 
             await asyncio.sleep(0.1)
     finally:
         await consumer.stop()
-        log.info("Kafka consumer stopped")

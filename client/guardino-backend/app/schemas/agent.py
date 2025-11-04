@@ -14,7 +14,7 @@ class AgentBase(BaseModel):
     first_seen: Optional[datetime] = None
     last_seen: Optional[datetime] = None
     last_heartbeat: Optional[datetime] = None
-    metadata: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Any]] = None
 
 
 class AgentOut(AgentBase):
@@ -30,7 +30,7 @@ class EventOut(BaseModel):
     severity: Optional[str]
     summary: Optional[str]
     paths: Optional[List[str]]
-    metadata: Optional[Dict[str, Any]]
+    meta: Optional[Dict[str, Any]]
     raw: Optional[Dict[str, Any]]
 
     class Config:
@@ -42,7 +42,7 @@ class AgentLifecycleOut(BaseModel):
     ts: datetime
     agent_id: str
     event_type: str
-    metadata: Optional[Dict[str, Any]]
+    meta: Optional[Dict[str, Any]]
 
     class Config:
         from_attributes = True

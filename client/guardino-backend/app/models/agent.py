@@ -22,7 +22,7 @@ class Agent(Base):
     first_seen = Column(DateTime(timezone=True), default=now_utc)
     last_seen = Column(DateTime(timezone=True), default=now_utc)
     last_heartbeat = Column(DateTime(timezone=True), default=now_utc)
-    metadata = Column(JSONB, nullable=True)
+    meta = Column(JSONB, nullable=True)
 
     lifecycle_entries = relationship("AgentLifecycle", back_populates="agent")
     events = relationship("Event", back_populates="agent")
@@ -35,7 +35,7 @@ class AgentLifecycle(Base):
     ts = Column(DateTime(timezone=True), default=now_utc, nullable=False)
     agent_id = Column(String, ForeignKey("agents.agent_id"), nullable=False)
     event_type = Column(String, nullable=False)  # register | heartbeat
-    metadata = Column(JSONB, nullable=True)
+    meta = Column(JSONB, nullable=True)
 
     agent = relationship("Agent", back_populates="lifecycle_entries")
 
@@ -50,7 +50,7 @@ class Event(Base):
     severity = Column(String, nullable=True)
     summary = Column(String, nullable=True)
     paths = Column(JSONB, nullable=True)
-    metadata = Column(JSONB, nullable=True)
+    meta = Column(JSONB, nullable=True)
     raw = Column(JSONB, nullable=True)
 
     agent = relationship("Agent", back_populates="events")

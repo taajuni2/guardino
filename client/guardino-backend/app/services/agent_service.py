@@ -63,7 +63,7 @@ def handle_heartbeat(db, msg: dict):
             ts=_now(),
             agent_id=agent_id,
             event_type="heartbeat",
-            metadata=msg.get("metadata") or {},
+            meta=msg.get("metadata") or {},
         ))
         db.commit()
 
@@ -77,7 +77,7 @@ def handle_generic_event(db, msg: dict):
         severity=msg.get("severity"),
         summary=msg.get("summary"),
         paths=msg.get("paths") or [],
-        metadata=msg.get("metadata") or {},
+        meta=msg.get("metadata") or {},
         raw=msg.get("raw") or {},
     )
     db.add(evt)

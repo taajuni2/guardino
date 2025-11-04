@@ -43,7 +43,7 @@ def main():
     events_topic = topics.get("events", "agent-events")
     control_topic = topics.get("control", "agent-lifecycle")
 
-    agent_id = get_or_create_agent_id("config.yaml")
+    agent_id = get_or_create_agent_id(config_path)
     heartbeat_interval = int(config.get("heartbeat_interval_s", 20))
     log.debug("heartbeat_interval_s = %s", heartbeat_interval)
 

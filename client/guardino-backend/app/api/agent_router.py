@@ -10,6 +10,6 @@ router = APIRouter(
     tags=["agents"],
 )
 
-@app.get("/agents", response_model=list[AgentOut])
+@router.get("/agents", response_model=list[AgentOut])
 def list_agents(db: Session = Depends(get_db_session)):
     return db.query(Agent).all()

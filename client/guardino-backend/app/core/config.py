@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     KAFKA_BOOTSTRAP: str = "localhost:9092"
     KAFKA_GROUP_ID: str = "agent-consumer"
     KAFKA_TOPIC_AGENT_EVENTS: str = "agent-events"
+    KAFKA_TOPIC_AGENT_LIFECYCLE: str = "agent-lifecycle"
     KAFKA_SSL: bool = False  # kannst du später erweitern (SASL, TLS, etc.)
 
 

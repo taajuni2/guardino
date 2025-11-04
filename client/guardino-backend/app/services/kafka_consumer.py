@@ -19,7 +19,7 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
     consumer = AIOKafkaConsumer(
         # wenn du später auch heartbeats auf separatem Topic hast, einfach hier ergänzen
         settings.KAFKA_TOPIC_AGENT_EVENTS,
-        settings.KAFKA_TOPIC_AGENT_HEARTBEATS,
+        settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
         bootstrap_servers=settings.KAFKA_BOOTSTRAP,
         group_id=settings.KAFKA_GROUP_ID,
         enable_auto_commit=False,
@@ -29,7 +29,7 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
     log.info(
         "Kafka consumer started. Listening to: %s, %s",
         settings.KAFKA_TOPIC_AGENT_EVENTS,
-        settings.KAFKA_TOPIC_AGENT_HEARTBEATS,
+        settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
     )
     try:
         while True:
@@ -47,7 +47,7 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                         log.warning("Could not decode message: %r", raw_value)
                         continue
 
-                    msg_type = payload.get("type")
+                    msg_type = payload.get("type_")
                     agent_id = payload.get("agent_id")
 
                     # pro Nachricht eine DB-Session

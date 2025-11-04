@@ -111,7 +111,8 @@ def main():
     log.info("MAIN running as agent_id=%s", agent_id)
 
     # Heartbeat starten
-    agent_control.start_heartbeat()
+   # agent_control.start_heartbeat()
+   # agent_control.start_heartbeat()
 
     # -------------------------------------------------
     # 8. Watch Directories + Blacklist

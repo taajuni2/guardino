@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from .api.user_router import router as user_router
 from .api.auth_router import router as auth_router
+from .api.agent_router import router as agent_router
 from .core.database import engine
 from .services.kafka_consumer import consume_file_events
 
@@ -56,3 +57,4 @@ stop_event = asyncio.Event()
 
 app.include_router(user_router)
 app.include_router(auth_router)
+app.include_router(agent_router)

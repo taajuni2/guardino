@@ -1,40 +1,73 @@
 from __future__ import annotations
 
 import asyncio
+import json
+import logging
 from aiokafka import AIOKafkaConsumer
 from ..core.config import settings
 from ..core.database import SessionLocal
+from ..services.agent_service import (
+    handle_register,
+    handle_heartbeat,
+    handle_generic_event,
+)
 
-# from app.schemas.file_event import FileEventIn  # später von dir
-# from app.models.file_event import FileEvent    # später von dir
+log = logging.getLogger("backend.kafka.consumer")
 
-async def consume_file_events(stop_event: asyncio.Event | None = None):
+
+async def consume_agent_messages(stop_event: asyncio.Event | None = None):
     consumer = AIOKafkaConsumer(
+        # wenn du später auch heartbeats auf separatem Topic hast, einfach hier ergänzen
         settings.KAFKA_TOPIC_AGENT_EVENTS,
+        settings.KAFKA_TOPIC_AGENT_HEARTBEATS,
         bootstrap_servers=settings.KAFKA_BOOTSTRAP,
         group_id=settings.KAFKA_GROUP_ID,
         enable_auto_commit=False,
         value_deserializer=lambda v: v.decode("utf-8"),
     )
     await consumer.start()
+    log.info(
+        "Kafka consumer started. Listening to: %s, %s",
+        settings.KAFKA_TOPIC_AGENT_EVENTS,
+        settings.KAFKA_TOPIC_AGENT_HEARTBEATS,
+    )
     try:
         while True:
             if stop_event and stop_event.is_set():
                 break
 
+            # getmany = batching, gut so
             msgs = await consumer.getmany(timeout_ms=1000, max_records=50)
             for _tp, batch in msgs.items():
                 for msg in batch:
-                    raw_value = msg.value  # <- später in Pydantic parsen
-                    # Beispiel: in DB schreiben
-                    print(f"Kafka event vom backend {raw_value}")
-                    async with SessionLocal() as db:
-                        # deine Business-Logik hier
-                        # await db.execute(...)
-                        # await db.commit()
-                        pass
+                    raw_value = msg.value
+                    try:
+                        payload = json.loads(raw_value)
+                    except json.JSONDecodeError:
+                        log.warning("Could not decode message: %r", raw_value)
+                        continue
 
+                    msg_type = payload.get("type")
+                    agent_id = payload.get("agent_id")
+
+                    # pro Nachricht eine DB-Session
+                    async with SessionLocal() as db:
+                        try:
+                            if msg_type == "register":
+                                await handle_register(db, payload)
+                            elif msg_type == "heartbeat":
+                                await handle_heartbeat(db, payload)
+                            else:
+                                await handle_generic_event(db, payload)
+                            await db.commit()
+                        except Exception:
+                            log.exception("Error processing message from agent %s", agent_id)
+                            await db.rollback()
+
+                    # erst committen, wenn verarbeitet
                     await consumer.commit()
+
             await asyncio.sleep(0.1)
     finally:
         await consumer.stop()
+        log.info("Kafka consumer stopped")

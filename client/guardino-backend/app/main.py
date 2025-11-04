@@ -5,7 +5,7 @@ from .api.user_router import router as user_router
 from .api.auth_router import router as auth_router
 from .api.agent_router import router as agent_router
 from .core.database import engine
-from .services.kafka_consumer import consume_file_events
+from .services.kafka_consumer import consume_agent_messages
 
 description = """
 This backend processes all the event data sent by various agents from the Guardino System!  🚀
@@ -22,7 +22,7 @@ This backend processes all the event data sent by various agents from the Guardi
 async def lifespan(app: FastAPI):
     print("Starting up...")
     stop_event = asyncio.Event()
-    consumer_task = asyncio.create_task(consume_file_events(stop_event))
+    consumer_task = asyncio.create_task(consume_agent_messages(stop_event))
     app.state.kafka_stop_event = stop_event
     app.state.kafka_task = consumer_task
     print("🚀 Kafka-Consumer gestartet...")

@@ -1,5 +1,5 @@
 agent_version: "0.1.0"
-agent_id: agent-01
+agent_id: ""
 watch_directories:
   - "/home/vmadmin/test"
 

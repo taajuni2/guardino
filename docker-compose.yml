@@ -55,6 +55,7 @@ services:
 #      - kafka
 #    volumes:
 #      - /home/vmadmin:/home/vmadmin
+#      - ./config.yaml:/app/config.yaml
 #    environment:
 #      # falls dein Agent zusätzlich ENV braucht, kannst du das hier übergeben
 #      # (z. B. Agent-ID für Identität)

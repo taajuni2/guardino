@@ -37,7 +37,7 @@ def handle_register(db, msg: dict):
         agent.agent_version = meta.get("agent_version") or agent.agent_version
         agent.last_seen = _now()
         agent.last_heartbeat = _now()
-        agent.metadata = meta or agent.metadata
+        agent.meta = meta or agent.metadata
 
     # Lifecycle-Eintrag
     lifecycle = AgentLifecycle(
@@ -45,11 +45,10 @@ def handle_register(db, msg: dict):
         ts=_now(),
         agent_id=agent_id,
         event_type="register",
-        metadata=meta,
+        meta=meta,
     )
     db.add(lifecycle)
 
-    db.commit()
 
 
 def handle_heartbeat(db, msg: dict):
@@ -65,7 +64,6 @@ def handle_heartbeat(db, msg: dict):
             event_type="heartbeat",
             meta=msg.get("metadata") or {},
         ))
-        db.commit()
 
 
 def handle_generic_event(db, msg: dict):
@@ -81,4 +79,3 @@ def handle_generic_event(db, msg: dict):
         raw=msg.get("raw") or {},
     )
     db.add(evt)
-    db.commit()

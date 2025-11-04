@@ -148,6 +148,7 @@ class FileMonitorHandler(FileSystemEventHandler):
         )
         self._emit(ev)
     def _emit(self, event_obj: Event):
+        log.info("Emitting event from monitor.py")
         """
         Zentraler Emitter-Hook: einheitliches JSON, Logging, Callback.
         Den eigentlichen Versand (Kafka/REST) übernimmt detection_callback (z. B. main.emit_event).

@@ -1,7 +1,21 @@
-# Guardino-Backend
+# Guardino-System
+
+Guardino ist ein Lightweight Ransomware Detection Tool für Klein- und Mittelunternehmen. <br>
+
+**Das Guardino System besteht aus folgenden Komponenten:**
+* Client (Frontend, Backend, DB, KafkaBroker)
+* Agent (Ransomware Detection)
+
 
 
 ### Installation
+
+
+#### Local 
+
+
+
+#### Non-Local
 
 ### Config parameters 
 
@@ -12,7 +26,7 @@
 
 
 
-#### Manual DB access 
+#### Manual DB access:
 
 1. Connect to Container 
 

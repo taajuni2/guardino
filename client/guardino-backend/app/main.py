@@ -1,8 +1,10 @@
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from .api.user_router import router as user_router
 from .api.auth_router import router as auth_router
 from .core.database import engine
+from .services.kafka_consumer import consume_file_events
 
 description = """
 This backend processes all the event data sent by various agents from the Guardino System!  🚀
@@ -18,9 +20,26 @@ This backend processes all the event data sent by various agents from the Guardi
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting up...")
-    yield
-    # Shutdown:
-    await engine.dispose()
+    stop_event = asyncio.Event()
+    consumer_task = asyncio.create_task(consume_file_events(stop_event))
+    app.state.kafka_stop_event = stop_event
+    app.state.kafka_task = consumer_task
+    print("🚀 Kafka-Consumer gestartet...")
+    # Fast API hook
+    try:
+        yield
+    finally:
+        # 2) Shutdownphase
+        print("🛑 Kafka-Consumer wird gestoppt...")
+        app.state.kafka_stop_event.set()
+        # Task abbrechen, falls er noch irgendwo hängt
+        app.state.kafka_task.cancel()
+        try:
+            await app.state.kafka_task
+            await engine.dispose()
+        except asyncio.CancelledError:
+            pass
+        print("✅ Kafka-Consumer gestoppt")
 
 app = FastAPI(
     title="Client Backend",
@@ -33,6 +52,7 @@ app = FastAPI(
     },
     lifespan=lifespan,
 )
+stop_event = asyncio.Event()
 
 app.include_router(user_router)
 app.include_router(auth_router)

@@ -66,9 +66,8 @@ class AgentControl:
             print(json.dumps({"topic": self.control_topic, "key": key, "value": payload}, ensure_ascii=False))
             return
         assert self._producer is not None
-        log.info(f"_send is executed")
+        log.info(f"_send is executed for heartbeats")
         self._producer.send(self.control_topic, key=key, value=payload)
-        log.info(f"Successfully send to {self.control_topic}")
         self._producer.flush()
 
     def _poll_ack(self, timeout_s: float = 8) -> Optional[Dict[str, Any]]:
@@ -77,7 +76,7 @@ class AgentControl:
         log.info(f"_poll_ack is executed")
         end = time.time() + timeout_s
         while time.time() < end:
-            polled = self._consumer.poll(timeout_ms=500)
+            polled = self._consumer.poll(timeout_ms=5000)
             for _tp, records in polled.items():
                 for item in records:
                     val = item.value

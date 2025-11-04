@@ -1,11 +1,11 @@
 # app/models.py
 from sqlalchemy import Column, String, DateTime, JSON, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, JSONB
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
+from ..core.database import Base
 import uuid
 from datetime import datetime, timezone
 
-Base = declarative_base()
 
 def now_utc():
     return datetime.now(timezone.utc)

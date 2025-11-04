@@ -115,12 +115,9 @@ class AgentControl:
 
         key = self.agent_id or "__register__"
         self._send(key, message)
-        ack = self._poll_ack(timeout_s=float(self.config.get("register_ack_timeout_s", 8)))
-        print(f"hb {self.heartbeat_interval}")
-        if ack:
-            self.agent_id = ack.get("agent_id", self.agent_id)
-            log.info(f"REGISTERED agent {self.agent_id}")
-        return self.agent_id
+        log.info(f"Sent registration event for agent {self.agent_id}")
+       ## ack = self._poll_ack(timeout_s=float(self.config.get("register_ack_timeout_s", 8))) -> nur nötig wenn uuid vom backend kommt
+
 
     def start_heartbeat(self) -> None:
         def run():

@@ -8,7 +8,7 @@ import threading
 from core.blacklist import PathBlacklist
 from core import monitor
 from core.agent_control import AgentControl
-from utils.utils import load_config, setup_logging
+from utils.utils import load_config, setup_logging, get_or_create_agent_id
 
 from transport.producer import KafkaEventProducer
 
@@ -23,7 +23,7 @@ def main():
     # -------------------------------------------------
     # 2. Logger setup
     # -------------------------------------------------
-    logger = setup_logging(config.get("log_level", "INFO"))
+    setup_logging(config.get("log_level", "INFO"))
     log = logging.getLogger("agent.main")
 
     # -------------------------------------------------
@@ -41,9 +41,9 @@ def main():
     topics = kafka_cfg.get("topics", {})
     broker = kafka_cfg.get("broker", "localhost:9092")
     events_topic = topics.get("events", "agent-events")
-    control_topic = topics.get("control", "agent-control")
+    control_topic = topics.get("control", "agent-lifecycle")
 
-    agent_id = config.get("agent_id", "agent-default-01")
+    agent_id = get_or_create_agent_id(config_path)
     heartbeat_interval = int(config.get("heartbeat_interval_s", 20))
     log.debug("heartbeat_interval_s = %s", heartbeat_interval)
 
@@ -106,17 +106,11 @@ def main():
         stdout_fallback=bool(os.environ.get("STDOUT_ONLY", "0") == "1"),
     )
 
-    assigned_agent_id = agent_control.register()
-    if assigned_agent_id:
-        config["agent_id"] = assigned_agent_id
-        agent_id = assigned_agent_id
-        log.info("MAIN running as agent_id=%s", assigned_agent_id)
-    else:
-        log.warning(
-            "No register_ack received. Continuing with agent_id=%s",
-            agent_id,
-        )
+    # Registrierung jetzt nur noch "ich bin da", kein ack erwartet
+    agent_control.register()
+    log.info("MAIN running as agent_id=%s", agent_id)
 
+    # Heartbeat starten
     agent_control.start_heartbeat()
 
     # -------------------------------------------------

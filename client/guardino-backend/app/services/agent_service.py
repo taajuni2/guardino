@@ -31,7 +31,7 @@ async def handle_register(db, msg: dict):
             first_seen=now,
             last_seen=now,
             last_heartbeat=now,
-            meta=meta,  # ACHTUNG: Spalte heißt bei uns meta ("metadata" ist reserviert)
+            meta=meta,  # Spalte heißt bei uns meta
         )
         db.add(agent)
     else:
@@ -54,6 +54,8 @@ async def handle_register(db, msg: dict):
     )
     db.add(lifecycle)
     # commit macht der Consumer
+
+
 async def handle_heartbeat(db, msg: dict):
     agent_id = msg["agent_id"]
     now = _now()
@@ -64,9 +66,15 @@ async def handle_heartbeat(db, msg: dict):
     )
     agent = result.scalars().first()
 
-    if agent:
-        agent.last_seen = now
-        agent.last_heartbeat = now
+    if not agent:
+        # hier nur loggen/printen und KEIN lifecycle-Insert,
+        # damit der FK nicht mehr knallt
+        print(f"[WARN] Heartbeat von unbekanntem Agent empfangen: {agent_id} :: {msg}")
+        return
+
+    # wenn Agent existiert → updaten
+    agent.last_seen = now
+    agent.last_heartbeat = now
 
     lifecycle = models.AgentLifecycle(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),

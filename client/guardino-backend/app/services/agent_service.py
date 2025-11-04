@@ -92,7 +92,7 @@ async def handle_generic_event(db, msg: dict):
     now = _now()
     evt = models.Event(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
-        ts=msg.get("timestamp", now),
+        ts=msg.get("ts", now),
         agent_id=msg["agent_id"],
         event_type=msg.get("type"),
         severity=msg.get("severity"),

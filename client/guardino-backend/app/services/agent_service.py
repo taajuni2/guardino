@@ -53,3 +53,43 @@ async def handle_register(db, msg: dict):
     )
     db.add(lifecycle)
     # commit macht der Consumer
+async def handle_heartbeat(db, msg: dict):
+    agent_id = msg["agent_id"]
+    now = _now()
+
+    # Agent laden (ASYNC!)
+    result = await db.execute(
+        select(models.Agent).where(models.Agent.agent_id == agent_id)
+    )
+    agent = result.scalars().first()
+
+    if agent:
+        agent.last_seen = now
+        agent.last_heartbeat = now
+
+    lifecycle = models.AgentLifecycle(
+        id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
+        ts=now,
+        agent_id=agent_id,
+        event_type="heartbeat",
+        meta=msg.get("metadata") or {},
+    )
+    db.add(lifecycle)
+    # commit macht der Consumer
+
+
+async def handle_generic_event(db, msg: dict):
+    now = _now()
+    evt = models.Event(
+        id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
+        ts=msg.get("timestamp", now),
+        agent_id=msg["agent_id"],
+        event_type=msg.get("type"),
+        severity=msg.get("severity"),
+        summary=msg.get("summary"),
+        paths=msg.get("paths") or [],
+        meta=msg.get("metadata") or {},
+        raw=msg.get("raw") or {},
+    )
+    db.add(evt)
+    # commit macht der Consumer

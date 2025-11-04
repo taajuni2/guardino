@@ -1,2 +1,2 @@
-from .agent_service import AgentLifecycle, Agent
+from .agent_service import handle_register, handle_heartbeat, handle_generic_event
 from .kafka_consumer import consume_agent_messages

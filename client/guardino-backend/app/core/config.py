@@ -6,7 +6,7 @@ class Settings(BaseSettings):
 
     # Database
     DB_URL: str = Field(
-        default="postgresql+asyncpg://postgres:postgres@localhost:5432/appdb",
+        default="postgresql+asyncpg://postgres:postgres@localhost:5432/guardino",
         description="Async SQLAlchemy/asyncpg URL"
     )
 

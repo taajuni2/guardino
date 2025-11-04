@@ -21,6 +21,7 @@ async def handle_register(db, msg: dict):
     agent = result.scalars().first()
 
     if agent is None:
+        print("Neuer Agent, lege an:", agent_id)
         agent = models.Agent(
             agent_id=agent_id,
             os=meta.get("os"),

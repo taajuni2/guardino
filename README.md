@@ -9,6 +9,9 @@ Guardino ist ein Lightweight Ransomware Detection Tool für Klein- und Mittelunt
 
 
 ### Installation
+alembic upgrade head
+alembic revision --autogenerate -m "Added event table"
+uvicorn app.main:app --reload
 
 
 #### Local 
@@ -34,5 +37,8 @@ Guardino ist ein Lightweight Ransomware Detection Tool für Klein- und Mittelunt
  docker exec -it guardino-db /bin/bash``<br>
 2. Access Postgres DB <br> 
 
-``psql -U postgres appdb``
+\pset expanded on -> für bessere Lesbarkeit <br>
 
+``psql -U postgres guardino``SELE
+
+UPDATE alembic_version SET version_num = '83fcfc501973';

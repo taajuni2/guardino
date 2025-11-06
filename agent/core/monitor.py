@@ -89,7 +89,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     # Prüfen, ob Schwellwert erreicht
         count = self.mass_detector.count(path, now=now)
         if count >= self.mass_detector.threshold:
-            key = f"mass:{self.mass_detector._key_for(path)}"
+            key = f"mass:{self.mass_detector.key_for(path)}"
             if not self._rate_limited(key, now):
                 details = self.mass_detector.details(path, now=now)
                 sev = "warning" if count < (self.mass_detector.threshold * 2) else "critical"
@@ -110,6 +110,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                     },
                     raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=10)},
                 )
+                print("Event got emitted!")
                 self._emit(ev)
 
         # 2) Für on_created direkt auch Entropie prüfen (frühe Erkennung)

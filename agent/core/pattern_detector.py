@@ -19,7 +19,7 @@ class PatternDetector:
         self.events = defaultdict(deque) # key -> deque[timestamps]
         self.paths = defaultdict(deque) # key -> deque[paths]
 
-    def _key_for(self, path: str) -> str:
+    def key_for(self, path: str) -> str:
         return os.path.dirname(path) if self.per_dir else "__all__"
 
     def _prune(self, q: deque, now: float):
@@ -29,7 +29,7 @@ class PatternDetector:
 
     def add_event(self, path: str, now: float | None = None):
         now = now or time.time()
-        k = self._key_for(path)
+        k = self.key_for(path)
         self.events[k].append(now)
         self.paths[k].append(path)
         self._prune(self.events[k], now)
@@ -39,14 +39,14 @@ class PatternDetector:
 
     def count(self, path: str, now: float | None = None) -> int:
         now = now or time.time()
-        k = self._key_for(path)
+        k = self.key_for(path)
         q = self.events[k]
         self._prune(q, now)
         return len(q)
 
     def recent_paths(self, path: str, now: float | None = None, max_items: int = 100) -> list[str]:
         now = now or time.time()
-        k = self._key_for(path)
+        k = self.key_for(path)
         q = self.events[k]
         self._prune(q, now)
         # n jüngste Pfade (bis Fensterlänge)
@@ -54,7 +54,7 @@ class PatternDetector:
 
     def details(self, path: str, now: float | None = None) -> dict:
         now = now or time.time()
-        k = self._key_for(path)
+        k = self.key_for(path)
         q = self.events[k]
         self._prune(q, now)
         return {

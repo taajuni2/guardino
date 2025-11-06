@@ -83,17 +83,14 @@ class FileMonitorHandler(FileSystemEventHandler):
             return
     # 1) Mass Creation Pfad füttern
         now = time.time()
-        print("On_created hook executed")
         self.mass_detector.add_event(path, now=now)
 
 
     # Prüfen, ob Schwellwert erreicht
         count = self.mass_detector.count(path, now=now)
         if count >= self.mass_detector.threshold:
-            print("On_created hook inside if count")
             key = f"mass:{self.mass_detector.key_for(path)}"
             if not self._rate_limited(key, now):
-                print("further down the if")
                 details = self.mass_detector.details(path, now=now)
                 sev = "warning" if count < (self.mass_detector.threshold * 2) else "critical"
                 ev = Event.build(

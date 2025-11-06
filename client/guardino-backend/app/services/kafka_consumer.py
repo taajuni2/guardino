@@ -57,12 +57,13 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
 
                             # WICHTIG: async commit
                             await db.commit()
+                            await consumer.commit()
                         except Exception:
                             log.exception("Error processing message from agent %s", agent_id)
                             await db.rollback()
 
                     # Offset erst nach erfolgreicher Verarbeitung committen
-                    await consumer.commit()
+
 
             await asyncio.sleep(0.1)
     finally:

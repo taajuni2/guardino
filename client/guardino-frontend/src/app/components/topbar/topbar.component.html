@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" class="topbar">
+  <button mat-icon-button (click)="toggleSidebar.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="topbar-title">Dashboard</span>
+
+  <span class="spacer"></span>
+
+  <div class="status" matTooltip="System operational">
+    <mat-icon color="accent">circle</mat-icon>
+    <span class="status-text">Operational</span>
+  </div>
+
+  <button mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>

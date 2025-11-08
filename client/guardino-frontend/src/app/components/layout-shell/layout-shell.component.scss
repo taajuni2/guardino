@@ -1,0 +1,13 @@
+.app-container {
+  height: 100vh;
+}
+
+.app-sidenav {
+  width: 240px;
+}
+
+.app-content {
+  padding: 1.5rem;
+  background: #f5f5f5;
+  min-height: calc(100vh - 64px); // toolbar höhe
+}

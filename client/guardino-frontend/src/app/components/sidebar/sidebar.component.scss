@@ -1,0 +1,14 @@
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem .5rem;
+}
+
+.sidebar-header.collapsed .logo {
+  display: none;
+}
+
+a.active {
+  background: rgba(0,0,0,0.08);
+}

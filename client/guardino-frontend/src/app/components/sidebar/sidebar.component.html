@@ -1,0 +1,30 @@
+<div class="sidebar-header" [class.collapsed]="collapsed">
+  <div class="logo" *ngIf="!collapsed">
+    <span>Guardino</span>
+  </div>
+  <button mat-icon-button (click)="toggle.emit()">
+    <mat-icon>menu_open</mat-icon>
+  </button>
+</div>
+
+<mat-nav-list>
+  <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle *ngIf="!collapsed">Dashboard</span>
+  </a>
+
+  <a mat-list-item routerLink="/agents" routerLinkActive="active">
+    <mat-icon matListItemIcon>memory</mat-icon>
+    <span matListItemTitle *ngIf="!collapsed">Agents</span>
+  </a>
+
+  <a mat-list-item routerLink="/events" routerLinkActive="active">
+    <mat-icon matListItemIcon>warning</mat-icon>
+    <span matListItemTitle *ngIf="!collapsed">Events</span>
+  </a>
+
+  <a mat-list-item routerLink="/settings" routerLinkActive="active">
+    <mat-icon matListItemIcon>settings</mat-icon>
+    <span matListItemTitle *ngIf="!collapsed">Settings</span>
+  </a>
+</mat-nav-list>

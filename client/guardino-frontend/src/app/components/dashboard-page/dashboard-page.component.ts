@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-page.component.scss'
 })
 export class DashboardPageComponent {
-
+  totalAgents = 247;
+  activeAgents = 241;
+  threatsDetected = 12;
 }

@@ -1,1 +1,25 @@
-<p>dashboard-page works!</p>
+
+<div class="dashboard-page">
+  <header class="dashboard-header">
+    <h1>Ransomware Detection Dashboard</h1>
+    <p>Monitor your security infrastructure in real-time</p>
+  </header>
+
+  <!-- Stat cards row -->
+  <app-stat-cards
+    [totalAgents]="totalAgents"
+    [activeAgents]="activeAgents"
+    [threatsDetected]="threatsDetected"
+  ></app-stat-cards>
+
+  <!-- Charts row -->
+  <div class="dashboard-charts">
+    <app-thread-trends class="chart-left"></app-thread-trends>
+    <app-agent-status     [online]="241"
+                          [offline]="6"
+                          [degraded]="0" class="chart-right"></app-agent-status>
+  </div>
+
+  <!-- Recent activity -->
+  <app-recent-activity></app-recent-activity>
+</div>

@@ -1,0 +1,19 @@
+.threat-chart-card {
+  height: 100%;
+}
+
+.chart-container {
+  height: 220px;
+  display: flex;
+}
+
+.icon-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background: rgba(239, 68, 68, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+}

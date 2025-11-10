@@ -1,0 +1,42 @@
+<mat-card class="agent-status-card">
+  <mat-card-header>
+    <div mat-card-avatar class="icon-circle">
+      <mat-icon>show_chart</mat-icon>
+    </div>
+    <mat-card-title>Agent Status Distribution</mat-card-title>
+    <mat-card-subtitle>Current status of all monitored agents</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="chart-wrapper">
+      <ngx-charts-pie-chart
+        [results]="chartData"
+        [view]="view"
+        [doughnut]="isDoughnut"
+        [scheme]="colorScheme"
+        [legend]="showLegend"
+        [labels]="showLabels"
+        [gradient]="gradient"
+        [arcWidth]="0.4">
+      </ngx-charts-pie-chart>
+
+      <div class="legend">
+        <div class="legend-item" *ngIf="online !== null">
+          <span class="dot dot-online"></span>
+          <span class="label">Online:</span>
+          <span class="value">{{ online }}</span>
+        </div>
+        <div class="legend-item" *ngIf="offline !== null">
+          <span class="dot dot-offline"></span>
+          <span class="label">Offline:</span>
+          <span class="value">{{ offline }}</span>
+        </div>
+        <div class="legend-item" *ngIf="degraded">
+          <span class="dot dot-degraded"></span>
+          <span class="label">Degraded:</span>
+          <span class="value">{{ degraded }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

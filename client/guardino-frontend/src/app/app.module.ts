@@ -9,6 +9,10 @@ import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {TopbarComponent} from "./components/topbar/topbar.component";
 import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {DashboardPageComponent} from "./components/dashboard-page/dashboard-page.component";
+import {StatCardsComponent} from "./components/dashboard-page/widgets/stat-cards/stat-cards.component";
+import {RecentActivityComponent} from "./components/dashboard-page/widgets/recent-activity/recent-activity.component";
+import {ThreadTrendsComponent} from "./components/dashboard-page/widgets/thread-trends/thread-trends.component";
+import {AgentStatusComponent} from "./components/dashboard-page/widgets/agent-status/agent-status.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
@@ -18,8 +22,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule }    from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatCard} from "@angular/material/card";
+import {MatCardModule} from "@angular/material/card";
 import {MatInput} from "@angular/material/input";
+import {MatProgressBar} from "@angular/material/progress-bar";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -29,7 +35,11 @@ import {MatInput} from "@angular/material/input";
     SidebarComponent,
     TopbarComponent,
     AuthPageComponent,
-    DashboardPageComponent
+    DashboardPageComponent,
+    StatCardsComponent,
+    RecentActivityComponent,
+    ThreadTrendsComponent,
+    AgentStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +53,11 @@ import {MatInput} from "@angular/material/input";
     MatListModule,
     MatTooltipModule,
     MatFormField,
-    MatCard,
     MatLabel,
     MatInput,
+    MatProgressBar,
+    MatCardModule,
+    NgxChartsModule
 
   ],
   providers: [

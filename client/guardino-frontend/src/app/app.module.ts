@@ -26,6 +26,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatInput} from "@angular/material/input";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {MatDividerModule} from "@angular/material/divider";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -57,7 +58,8 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     MatInput,
     MatProgressBar,
     MatCardModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatDividerModule
 
   ],
   providers: [

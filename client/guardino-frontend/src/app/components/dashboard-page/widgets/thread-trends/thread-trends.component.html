@@ -1,0 +1,27 @@
+<mat-card class="threat-card">
+  <mat-card-header>
+    <div mat-card-avatar class="icon-circle">
+      <mat-icon>trending_up</mat-icon>
+    </div>
+    <mat-card-title>Threat Detection Trends</mat-card-title>
+    <mat-card-subtitle>Daily threat detection over the past week</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="chart-container">
+      <ngx-charts-bar-vertical
+        [results]="data"
+        [view]="view"
+        [scheme]="colorScheme"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [xAxisLabel]="showXAxisLabel"
+        [yAxisLabel]="showYAxisLabel"
+        [animations]="animations"
+        [roundEdges]="false">
+      </ngx-charts-bar-vertical>
+    </div>
+  </mat-card-content>
+</mat-card>

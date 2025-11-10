@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+@use '../../../styles/guardino-theme' as guardino;
+
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem .5rem;
+}
+
+.sidebar-header.collapsed .logo {
+  display: none;
+}

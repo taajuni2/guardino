@@ -1,0 +1,14 @@
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #146C94, #20C997);
+}
+
+.login-card {
+  width: 320px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  color: #0B2545;
+}

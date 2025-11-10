@@ -1,0 +1,53 @@
+.agent-status-card {
+  height: 100%;
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.1rem 1.2rem 1rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(14, 30, 37, 0.03);
+}
+
+.chart-wrapper {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 120px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: 0.85rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.dot-online {
+  background: #22c55e; // green
+}
+
+.dot-offline {
+  background: #ef4444; // red
+}
+
+.dot-degraded {
+  background: #f97316; // orange
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

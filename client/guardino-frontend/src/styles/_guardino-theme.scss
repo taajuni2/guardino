@@ -1,0 +1,67 @@
+@use '@angular/material' as mat;
+
+// hier kommt alles rein, was wir vorher in styles.scss hatten
+$guardino-primary-palette: (
+  50:  #e5f1f6,
+  100: #bfd9e7,
+  200: #96bed7,
+  300: #6ca3c7,
+  400: #4d90bc,
+  500: #146C94,
+  600: #125f84,
+  700: #0f5273,
+  800: #0d4563,
+  900: #093347,
+  contrast: (
+    50:  #0B2545,
+    100: #0B2545,
+    200: #0B2545,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$guardino-bg: #F8F9FA;
+$guardino-text: #0B2545;
+$guardino-primary-base: #146C94; // Primär Blau
+$guardino-primary-dark: #0f5273; // etwas dunkler
+$guardino-primary-light: #4d90bc; // etwas heller
+
+$guardino-accent-base: #20C997;   // Primär Grün
+$guardino-accent-dark: #00c896;   // dein Verlaufsgrün
+$guardino-accent-light: #7de3c9;  // künstlich heller
+
+$guardino-accent-palette: (
+  50:  #e3f9f3,
+  100: #baf0e1,
+  200: #8ce5ce,
+  300: #5edaba,
+  400: #3cd1ab,
+  500: $guardino-accent-base,
+  600: $guardino-accent-dark,
+  700: #00aa7b,
+  800: #008a61,
+  900: #006946,
+  contrast: (
+    50:  $guardino-text,
+    100: $guardino-text,
+    200: $guardino-text,
+    300: $guardino-text,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+
+$guardino-primary: mat.define-palette($guardino-primary-palette, 500, 100, 700);
+$guardino-accent:  mat.define-palette($guardino-accent-palette, 500, 100, 700);
+$guardino-warn:    mat.define-palette(mat.$red-palette);

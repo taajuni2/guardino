@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use 'styles/guardino-theme' as guardino;
+
+$guardino-accent: mat.define-palette(mat.$teal-palette);
+
+$guardino-theme: mat.define-light-theme((
+  color: (
+    primary: guardino.$guardino-primary,
+    accent: $guardino-accent,
+  )
+));
+
+@include mat.all-component-themes($guardino-theme);
+
+
+body {
+  margin: 0;
+  background: #f4f5f7;
+}

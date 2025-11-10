@@ -1,0 +1,24 @@
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="stat-title">Total Agents</div>
+    <div class="stat-value">247</div>
+    <div class="stat-sub">+12 from last month</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-title">Active Agents</div>
+    <div class="stat-value">241</div>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="(241 / 247) * 100"
+      class="stat-progress"
+    ></mat-progress-bar>
+    <div class="stat-sub">97.6% online</div>
+  </div>
+
+  <div class="stat-card stat-danger">
+    <div class="stat-title">Threats Detected</div>
+    <div class="stat-value">12</div>
+    <div class="stat-sub">Last 24 hours</div>
+  </div>
+</div>

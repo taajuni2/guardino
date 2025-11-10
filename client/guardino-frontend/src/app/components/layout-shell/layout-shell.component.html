@@ -1,0 +1,23 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    [opened]="!isSidebarCollapsed"
+    class="app-sidenav"
+  >
+    <app-sidebar
+      [collapsed]="isSidebarCollapsed"
+      (toggle)="toggleSidebar()"
+    ></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-topbar
+      (toggleSidebar)="toggleSidebar()"
+    ></app-topbar>
+
+    <div class="app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

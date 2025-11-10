@@ -7,6 +7,8 @@ import {AppRoutingModule} from "./app-routing.module";
 import {LayoutShellComponent} from "./components/layout-shell/layout-shell.component";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {TopbarComponent} from "./components/topbar/topbar.component";
+import {AuthPageComponent} from "./components/auth-page/auth-page.component";
+import {DashboardPageComponent} from "./components/dashboard-page/dashboard-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
@@ -15,6 +17,9 @@ import {MatIconModule} from "@angular/material/icon";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule }    from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatCard} from "@angular/material/card";
+import {MatInput} from "@angular/material/input";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -22,7 +27,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AppComponent,
     LayoutShellComponent,
     SidebarComponent,
-    TopbarComponent
+    TopbarComponent,
+    AuthPageComponent,
+    DashboardPageComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatToolbarModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormField,
+    MatCard,
+    MatLabel,
+    MatInput,
+
   ],
   providers: [
   //  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

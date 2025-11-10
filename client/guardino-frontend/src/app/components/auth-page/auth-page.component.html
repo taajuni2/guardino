@@ -1,0 +1,21 @@
+<div class="auth-container">
+  <mat-card class="login-card">
+    <h1>Login</h1>
+
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="username"  name="username" placeholder="Enter your username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="password"  name="password" type="password" placeholder="••••••••" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width">
+        Login
+      </button>
+    </form>
+  </mat-card>
+</div>

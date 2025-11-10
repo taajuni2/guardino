@@ -1,3 +1,7 @@
+@use '@angular/material' as mat;
+@use '../../../styles/guardino-theme' as guardino;
+
+
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -7,8 +11,4 @@
 
 .sidebar-header.collapsed .logo {
   display: none;
-}
-
-a.active {
-  background: rgba(0,0,0,0.08);
 }

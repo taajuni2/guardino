@@ -1,12 +1,10 @@
 <div class="sidebar-header" [class.collapsed]="collapsed">
   <div class="logo" *ngIf="!collapsed">
-    <span>Guardino</span>
+    <span>Guardino System</span>
   </div>
-  <button mat-icon-button (click)="toggle.emit()">
-    <mat-icon>menu_open</mat-icon>
-  </button>
+    <img src="assets/logo_no_text.png" alt="Guardino Logo" class="logo-icon" width="50" height="50"/>
 </div>
-
+<mat-divider></mat-divider>
 <mat-nav-list>
   <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
     <mat-icon matListItemIcon>dashboard</mat-icon>

@@ -13,6 +13,8 @@ import {StatCardsComponent} from "./components/dashboard-page/widgets/stat-cards
 import {RecentActivityComponent} from "./components/dashboard-page/widgets/recent-activity/recent-activity.component";
 import {ThreadTrendsComponent} from "./components/dashboard-page/widgets/thread-trends/thread-trends.component";
 import {AgentStatusComponent} from "./components/dashboard-page/widgets/agent-status/agent-status.component";
+import {EventsPageComponent} from "./components/events-page/events-page.component";
+import {EventStatsCardComponent} from "./components/events-page/widgets/event-stats-card/event-stats-card.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
@@ -40,7 +42,9 @@ import {MatDividerModule} from "@angular/material/divider";
     StatCardsComponent,
     RecentActivityComponent,
     ThreadTrendsComponent,
-    AgentStatusComponent
+    AgentStatusComponent,
+    EventsPageComponent,
+    EventStatsCardComponent
   ],
   imports: [
     BrowserModule,

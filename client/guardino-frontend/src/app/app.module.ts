@@ -14,8 +14,11 @@ import {RecentActivityComponent} from "./components/dashboard-page/widgets/recen
 import {ThreadTrendsComponent} from "./components/dashboard-page/widgets/thread-trends/thread-trends.component";
 import {AgentStatusComponent} from "./components/dashboard-page/widgets/agent-status/agent-status.component";
 import {EventsPageComponent} from "./components/events-page/events-page.component";
+import {AgentStatsCardComponent} from "./components/agents-page/widgets/agent-stats-card/agent-stats-card.component";
 import {EventStatsCardComponent} from "./components/events-page/widgets/event-stats-card/event-stats-card.component";
 import {EventTimelineComponent} from "./components/events-page/widgets/event-timeline/event-timeline.component";
+import {AgentListComponent} from "./components/agents-page/widgets/agent-list/agent-list.component";
+import {AgentsPageComponent} from "./components/agents-page/agents-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
@@ -47,7 +50,10 @@ import {MatSelectModule} from "@angular/material/select";
     AgentStatusComponent,
     EventsPageComponent,
     EventStatsCardComponent,
-    EventTimelineComponent
+    EventTimelineComponent,
+    AgentsPageComponent,
+    AgentStatsCardComponent,
+    AgentListComponent
   ],
   imports: [
     BrowserModule,

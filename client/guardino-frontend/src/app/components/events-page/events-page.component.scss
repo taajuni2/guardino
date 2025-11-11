@@ -1,19 +1,23 @@
-.dashboard-page {
+.event-page {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  .event-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    page-subtitle {
+      color: #94a3b8;
+      font-size: .8rem;
+    }
+  }
+
 }
 
-.dashboard-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  h1 {
-    margin: 0;
-    font-size: 1.4rem;
-  }
-  page-subtitle {
-    color: #94a3b8;
-    font-size: .8rem;
-  }
-}

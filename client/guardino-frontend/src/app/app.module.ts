@@ -30,7 +30,7 @@ import {MatInput} from "@angular/material/input";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatDividerModule} from "@angular/material/divider";
-import {MatSelect, MatOption} from "@angular/material/select";
+import {MatSelectModule} from "@angular/material/select";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -67,8 +67,7 @@ import {MatSelect, MatOption} from "@angular/material/select";
     MatCardModule,
     NgxChartsModule,
     MatDividerModule,
-    MatSelect,
-    MatOption
+    MatSelectModule
 
   ],
   providers: [

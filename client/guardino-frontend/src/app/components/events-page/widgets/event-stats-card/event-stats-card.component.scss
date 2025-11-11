@@ -1,0 +1,56 @@
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+.event-stat-card {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  border-radius: 18px;
+  padding: 1rem 1.2rem 1rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(14, 30, 37, 0.03);
+}
+
+
+.icon-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background: rgba(15, 118, 178, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f76b2;
+}
+
+.event-stat-card--danger .icon-pill {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.event-stat-card--warn .icon-pill {
+  background: rgba(234, 179, 8, 0.12);
+  color: #eab308;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: .7rem;
+  color: #94a3b8;
+  margin-bottom: .25rem;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}

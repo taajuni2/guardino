@@ -1,0 +1,19 @@
+<div class="stat-row">
+  <div
+    class="event-stat-card"
+    *ngFor="let stat of stats"
+    [ngClass]="{
+      'event-stat-card--danger': stat.tone === 'danger',
+      'event-stat-card--warn': stat.tone === 'warn'
+    }"
+  >
+    <div class="icon-pill">
+      <mat-icon>{{ stat.icon }}</mat-icon>
+    </div>
+    <div class="stat-content">
+      <div class="stat-label">{{ stat.label }}</div>
+      <div class="stat-value">{{ stat.value }}</div>
+    </div>
+  </div>
+</div>
+

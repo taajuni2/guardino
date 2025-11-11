@@ -1,28 +1,23 @@
-<div class="sidebar-header" [class.collapsed]="collapsed">
-  <div class="logo" *ngIf="!collapsed">
+<div [class.collapsed]="collapsed" class="sidebar-header">
+  <div *ngIf="!collapsed" class="logo">
     <span>Guardino System</span>
   </div>
-    <img src="assets/logo_no_text.png" alt="Guardino Logo" class="logo-icon" width="50" height="50"/>
+  <img alt="Guardino Logo" class="logo-icon" height="50" src="assets/logo_no_text.png" width="50"/>
 </div>
 <mat-divider></mat-divider>
-<mat-nav-list>
+<mat-nav-list class="nav-list">
   <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
     <mat-icon matListItemIcon>dashboard</mat-icon>
-    <span matListItemTitle *ngIf="!collapsed">Dashboard</span>
+    <span *ngIf="!collapsed" matListItemTitle>Dashboard</span>
   </a>
 
   <a mat-list-item routerLink="/agents" routerLinkActive="active">
     <mat-icon matListItemIcon>memory</mat-icon>
-    <span matListItemTitle *ngIf="!collapsed">Agents</span>
+    <span *ngIf="!collapsed" matListItemTitle>Agents</span>
   </a>
 
   <a mat-list-item routerLink="/events" routerLinkActive="active">
     <mat-icon matListItemIcon>warning</mat-icon>
-    <span matListItemTitle *ngIf="!collapsed">Events</span>
-  </a>
-
-  <a mat-list-item routerLink="/settings" routerLinkActive="active">
-    <mat-icon matListItemIcon>settings</mat-icon>
-    <span matListItemTitle *ngIf="!collapsed">Settings</span>
+    <span *ngIf="!collapsed" matListItemTitle>Events</span>
   </a>
 </mat-nav-list>

@@ -4,6 +4,7 @@ import {LayoutShellComponent} from "./components/layout-shell/layout-shell.compo
 import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {DashboardPageComponent} from "./components/dashboard-page/dashboard-page.component";
 import {AuthGuard} from "./auth.guard";
+import {EventsPageComponent} from "./components/events-page/events-page.component";
 
 
 const routes: Routes = [
@@ -16,11 +17,11 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutShellComponent,
-    canActivate: [AuthGuard],          // schützt das Layout selbst
+    // canActivate: [AuthGuard],          // schützt das Layout selbst
     children: [
          { path: 'dashboard', component: DashboardPageComponent },
       // { path: 'agents', component: AgentsPageComponent },
-      // { path: 'events', component: EventsPageComponent },
+         { path: 'events', component: EventsPageComponent },
       // { path: 'settings', component: SettingsPageComponent },
       {path:'', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

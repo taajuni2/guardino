@@ -1,0 +1,62 @@
+<div class="dashboard-card timeline-card">
+  <div class="timeline-header">
+    <div>
+      <div class="timeline-title">Event Timeline</div>
+      <div class="timeline-subtitle">Real-time security events from all monitored agents</div>
+    </div>
+    <div class="timeline-filters">
+      <mat-form-field appearance="outline">
+        <mat-select [(value)]="selectedSeverity">
+          <mat-option value="all">All Severities</mat-option>
+          <mat-option value="critical">Critical</mat-option>
+          <mat-option value="warning">Warning</mat-option>
+          <mat-option value="info">Info</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-select [(value)]="selectedType">
+          <mat-option value="all">All Types</mat-option>
+          <mat-option value="heartbeat">Heartbeat</mat-option>
+          <mat-option value="detection">Detection</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Search bar -->
+  <div class="timeline-search">
+    <mat-icon>search</mat-icon>
+    <input matInput placeholder="Search events, agents, or messages..." />
+  </div>
+
+  <!-- Event list -->
+  <div class="event-list">
+    <div class="event-item" *ngFor="let ev of events">
+      <div class="event-left">
+        <div class="severity-icon" [ngClass]="ev.severity">
+          <mat-icon *ngIf="ev.severity === 'info'">monitor_heart</mat-icon>
+          <mat-icon *ngIf="ev.severity === 'critical'">warning</mat-icon>
+          <mat-icon *ngIf="ev.severity === 'warning'">error_outline</mat-icon>
+        </div>
+        <div>
+          <div class="event-title">
+            {{ ev.title }}
+            <span class="severity-badge" [ngClass]="ev.severity" *ngIf="ev.severity !== 'info'">
+              {{ ev.severity | titlecase }}
+            </span>
+            <span class="severity-badge info" *ngIf="ev.severity === 'info'">Info</span>
+          </div>
+          <div class="event-meta">
+            {{ ev.agentName }} ({{ ev.agent }})
+          </div>
+          <div class="event-description" *ngIf="ev.description">
+            {{ ev.description }}
+          </div>
+        </div>
+      </div>
+      <div class="event-time">{{ ev.timestamp }}</div>
+    </div>
+  </div>
+</div>
+

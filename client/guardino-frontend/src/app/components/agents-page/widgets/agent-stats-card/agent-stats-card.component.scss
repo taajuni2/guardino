@@ -1,0 +1,64 @@
+.agent-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.agent-stat-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  padding: .9rem 1rem;
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.02);
+}
+
+.icon-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background: rgba(15, 118, 178, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f76b2;
+}
+
+.success-dot,
+.danger-dot,
+.warn-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+}
+
+.success-dot {
+  background: #22c55e;
+}
+
+.danger-dot {
+  background: #ef4444;
+}
+
+.warn-dot {
+  background: #f97316;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: .7rem;
+  color: #94a3b8;
+  margin-bottom: .25rem;
+}
+
+.value {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #0f172a;
+}

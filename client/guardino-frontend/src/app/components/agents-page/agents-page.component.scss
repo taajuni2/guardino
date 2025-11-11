@@ -1,20 +1,28 @@
 .agent-page {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
 
-  .agent-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+.agent-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .page-title {
   font-size: 1.4rem;
-  margin: 0;
+  font-weight: 600;
+  margin-bottom: .25rem;
 }
+
 .page-subtitle {
   color: #94a3b8;
   font-size: .8rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: .75rem;
+
 }

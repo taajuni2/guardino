@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutShellComponent,
-    canActivate: [AuthGuard],          // schützt das Layout selbst
+    // canActivate: [AuthGuard],          // schützt das Layout selbst
     children: [
          { path: 'dashboard', component: DashboardPageComponent },
       // { path: 'agents', component: AgentsPageComponent },

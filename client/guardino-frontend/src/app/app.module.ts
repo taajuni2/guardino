@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 import {AppRoutingModule} from "./app-routing.module";
 import {LayoutShellComponent} from "./components/layout-shell/layout-shell.component";
@@ -15,20 +15,22 @@ import {ThreadTrendsComponent} from "./components/dashboard-page/widgets/thread-
 import {AgentStatusComponent} from "./components/dashboard-page/widgets/agent-status/agent-status.component";
 import {EventsPageComponent} from "./components/events-page/events-page.component";
 import {EventStatsCardComponent} from "./components/events-page/widgets/event-stats-card/event-stats-card.component";
+import {EventTimelineComponent} from "./components/events-page/widgets/event-timeline/event-timeline.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule }    from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatCardModule} from "@angular/material/card";
 import {MatInput} from "@angular/material/input";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatSelect, MatOption} from "@angular/material/select";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -44,7 +46,8 @@ import {MatDividerModule} from "@angular/material/divider";
     ThreadTrendsComponent,
     AgentStatusComponent,
     EventsPageComponent,
-    EventStatsCardComponent
+    EventStatsCardComponent,
+    EventTimelineComponent
   ],
   imports: [
     BrowserModule,
@@ -63,15 +66,18 @@ import {MatDividerModule} from "@angular/material/divider";
     MatProgressBar,
     MatCardModule,
     NgxChartsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSelect,
+    MatOption
 
   ],
   providers: [
-  //  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-   // {provide: DatePipe, useClass: DatePipe, multi: true},
+    //  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    // {provide: DatePipe, useClass: DatePipe, multi: true},
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {
+}

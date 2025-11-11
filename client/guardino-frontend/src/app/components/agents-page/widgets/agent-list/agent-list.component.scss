@@ -1,0 +1,116 @@
+.dashboard-card.agents-table-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.02);
+  padding: 1.25rem;
+}
+
+.agents-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .75rem;
+  gap: 1rem;
+}
+
+.agents-table-header .title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.agents-table-header .subtitle {
+  font-size: .7rem;
+  color: #94a3b8;
+}
+
+.filters {
+  display: flex;
+  gap: .5rem;
+}
+
+.agents-search {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: #f8fafc;
+  border-radius: 9999px;
+  padding: .45rem .85rem;
+  margin-bottom: 1rem;
+}
+
+.agents-search mat-icon {
+  color: #94a3b8;
+}
+
+.agents-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.agents-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.agents-table thead tr {
+  background: #f8fafc;
+}
+
+.agents-table th,
+.agents-table td {
+  text-align: left;
+  padding: .6rem .5rem;
+  font-size: .75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.agents-table th {
+  font-weight: 500;
+  color: #64748b;
+}
+
+.agent-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.agent-id {
+  font-size: .65rem;
+  color: #94a3b8;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: .15rem .5rem;
+  border-radius: 9999px;
+  font-size: .65rem;
+  font-weight: 500;
+}
+
+.status-badge.online {
+  background: rgba(34, 197, 94, .12);
+  color: #16a34a;
+}
+
+.status-badge.danger {
+  background: rgba(239, 68, 68, .12);
+  color: #b91c1c;
+}
+
+.status-badge.warning {
+  background: rgba(234, 179, 8, .12);
+  color: #92400e;
+}
+
+.threat-count.danger {
+  color: #b91c1c;
+  font-weight: 600;
+}

@@ -1,0 +1,105 @@
+<div class="dashboard-card agents-table-card">
+  <div class="agents-table-header">
+    <div>
+      <div class="title">Agents List</div>
+      <div class="subtitle">View and manage all registered security agents</div>
+    </div>
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-select value="all">
+          <mat-option value="all">All Status</mat-option>
+          <mat-option value="online">Online</mat-option>
+          <mat-option value="offline">Offline</mat-option>
+          <mat-option value="warning">Warning</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-select value="all">
+          <mat-option value="all">All Types</mat-option>
+          <mat-option value="desktop">Desktop</mat-option>
+          <mat-option value="server">Server</mat-option>
+          <mat-option value="laptop">Laptop</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- search -->
+  <div class="agents-search">
+    <mat-icon>search</mat-icon>
+    <input matInput placeholder="Search by agent name or ID..." />
+  </div>
+
+  <!-- table -->
+  <div class="table-wrapper">
+    <table class="agents-table">
+      <thead>
+      <tr>
+        <th>Agent</th>
+        <th>Type</th>
+        <th>Operating System</th>
+        <th>Status</th>
+        <th>Last Heartbeat</th>
+        <th>Threats</th>
+        <th>Version</th>
+        <th>Location</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <div class="agent-name">Marketing-PC-01</div>
+          <div class="agent-id">DESK-001</div>
+        </td>
+        <td>Desktop</td>
+        <td>Windows 11</td>
+        <td><span class="status-badge online">Online</span></td>
+        <td>2 minutes ago</td>
+        <td>0</td>
+        <td>2.1.5</td>
+        <td>New York Office</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="agent-name">FileServer-Main</div>
+          <div class="agent-id">SRV-005</div>
+        </td>
+        <td>Server</td>
+        <td>Windows Server 2022</td>
+        <td><span class="status-badge danger">Threat Detected</span></td>
+        <td>1 minute ago</td>
+        <td><span class="threat-count danger">3</span></td>
+        <td>2.1.5</td>
+        <td>Data Center</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="agent-name">HR-Laptop-07</div>
+          <div class="agent-id">DESK-123</div>
+        </td>
+        <td>Laptop</td>
+        <td>macOS Ventura</td>
+        <td><span class="status-badge warning">Warning</span></td>
+        <td>15 minutes ago</td>
+        <td>0</td>
+        <td>2.1.5</td>
+        <td>Remote</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="agent-name">Web-Server-01</div>
+          <div class="agent-id">SRV-012</div>
+        </td>
+        <td>Server</td>
+        <td>Ubuntu Server 20.04</td>
+        <td><span class="status-badge online">Online</span></td>
+        <td>45 seconds ago</td>
+        <td>0</td>
+        <td>2.1.5</td>
+        <td>Cloud – AWS</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

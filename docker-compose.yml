@@ -51,8 +51,12 @@ services:
       context: ./client/guardino-backend
       dockerfile: Dockerfile
     container_name: guardino-backend
-    env_file:
-      - ./client/guardino-backend/app/.env
+#    env_file:
+#      - ./client/guardino-backend/app/.env
+    environment:
+      DB_URL: postgresql+asyncpg://postgres:postgres@db:5432/guardino
+      DB_HOST: db
+      DB_PORT: 5432
     ports:
       - "8000:8000"
     depends_on:

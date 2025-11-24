@@ -10,6 +10,8 @@ COPY package*.json ./
 # Dependencies installieren
 RUN npm ci
 
+RUN npm install --save-dev @angular/cli@17.3.8
+
 # Restlichen Code kopieren
 COPY . .
 
@@ -18,4 +20,4 @@ EXPOSE 4200
 
 # Standard-Command: Angular Dev Server starten
 # Voraussetzung: @angular/cli ist als devDependency installiert
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--port", "4200"]
+CMD ["npm", "run", "start"]

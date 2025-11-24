@@ -8,21 +8,22 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
-# ---- Pfad fixen ----
+# --- Pfad, damit "import app" funktioniert ---
 project_root = os.path.dirname(os.path.dirname(__file__))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-# ---- Imports ----
 from app.core.config import settings
 from app.core.database import Base
-from app import models  # noqa
+from app import models  # noqa: F401  # registriert Tabellen
 
-# ---- Alembic config ----
+# --- Alembic Config ---
 config = context.config
 
-# DB_URL *NUR* aus ENV / Pydantic übernehmen
+# DB-URL aus deinen Settings (Pydantic, liest ENV DB_URL)
 database_url = settings.DB_URL
+print(f"*** Alembic DB_URL: {database_url}")
+
 config.set_main_option("sqlalchemy.url", database_url)
 
 # Logging
@@ -30,10 +31,11 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
+print("DEBUG TABLES:", list(target_metadata.tables.keys()))
 
 
 def run_migrations_offline():
-    """Offline Migration."""
+    """Offline-Migration (ohne echte DB-Verbindung)."""
     context.configure(
         url=database_url,
         target_metadata=target_metadata,
@@ -45,7 +47,7 @@ def run_migrations_offline():
 
 
 def do_run_migrations(connection: Connection):
-    """Online Migration."""
+    """Migrationen mit echter DB-Connection."""
     context.configure(
         connection=connection,
         target_metadata=target_metadata,
@@ -56,7 +58,7 @@ def do_run_migrations(connection: Connection):
 
 
 async def run_migrations_online():
-    """Online + Async."""
+    """Migrationen mit async Engine."""
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -69,8 +71,7 @@ async def run_migrations_online():
     await connectable.dispose()
 
 
-# ---- Richtige Branching Logik (dein Fehler war hier!) ----
-
+# --- WICHTIG: Nur EIN sauberer Einstiegspunkt! ---
 if context.is_offline_mode():
     run_migrations_offline()
 else:

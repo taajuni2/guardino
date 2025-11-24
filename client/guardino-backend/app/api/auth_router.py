@@ -12,7 +12,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def register(payload: UserCreate, db: AsyncSession = Depends(get_db_session)):
     # existiert email schon?
-    print(f"Registering user with email: {payload.email}")
+    print(f"Registering user with payload: {payload}")
     res = await db.execute(select(User).where(User.email == payload.email))
     existing = res.scalar_one_or_none()
     if existing:

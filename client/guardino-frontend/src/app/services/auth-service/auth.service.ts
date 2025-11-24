@@ -1,7 +1,7 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of} from "rxjs";
 import {authResponse, User} from "../../../entities/User";
 import {environment} from "../../../environment/environment";
 import {HttpClient} from "@angular/common/http";
@@ -49,5 +49,12 @@ export class AuthService {
 
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  public isOnline(): Observable<boolean> {
+    return this.http.get(this.API_URL + "/stats/health").pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }

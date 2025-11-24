@@ -72,8 +72,8 @@ services:
     restart: unless-stopped
     # Für Live-Reload während der Entwicklung:
     volumes:
-      - ./frontend:/app          # Code ins Container-Workspace mounten
-      - /app/node_modules        # Node_modules im Container behalten
+      - ./client/guardino-frontend:/app          # Code ins Container-Workspace mounten
+      - /client/guardino-frontend/node_modules        # Node_modules im Container behalten
 
 #  agent:
 #    build:

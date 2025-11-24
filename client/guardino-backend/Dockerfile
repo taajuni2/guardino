@@ -27,7 +27,7 @@ COPY . .
 # Optional: eigener User, nicht root
 RUN useradd -m appuser
 USER appuser
-
+RUN chmod +x /app/entrypoint.sh
 # ---- Port & Startkommando ----
 EXPOSE 8000
 

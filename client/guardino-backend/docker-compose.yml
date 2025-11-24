@@ -46,4 +46,4 @@ services:
 
 volumes:
   dbdata:
-  kafkadata:
+  #kafkadata:

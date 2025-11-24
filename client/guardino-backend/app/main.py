@@ -1,6 +1,8 @@
 import asyncio
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .api.user_router import router as user_router
 from .api.auth_router import router as auth_router
 from .api.agent_router import router as agent_router
@@ -16,7 +18,6 @@ This backend processes all the event data sent by various agents from the Guardi
 * You can search for specific EventID's.
 
 """
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -52,6 +53,15 @@ app = FastAPI(
         "email": "nicolas.julier@bluewin.ch"
     },
     lifespan=lifespan,
+)
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:4200").split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,  # Frontend-URL
+    allow_credentials=True,
+    allow_methods=["*"],            # z. B. ['GET', 'POST']
+    allow_headers=["*"],
 )
 stop_event = asyncio.Event()
 

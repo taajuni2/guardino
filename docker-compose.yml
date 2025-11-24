@@ -73,7 +73,7 @@ services:
     # Für Live-Reload während der Entwicklung:
     volumes:
       - ./client/guardino-frontend:/app          # Code ins Container-Workspace mounten
-      - /client/guardino-frontend/node_modules        # Node_modules im Container behalten
+      - /app/node_modules        # Node_modules im Container behalten
 
 #  agent:
 #    build:

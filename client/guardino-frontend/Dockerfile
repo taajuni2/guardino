@@ -4,13 +4,13 @@ FROM node:20-alpine
 # Arbeitsverzeichnis im Container
 WORKDIR /app
 
+RUN npm install -g @angular/cli
+
 # Nur package-Dateien zuerst für besseren Cache
 COPY package*.json ./
 
-# Dependencies installieren
-RUN npm ci
 
-RUN npm install --save-dev @angular/cli@17.3.8
+RUN npm install
 
 # Restlichen Code kopieren
 COPY . .
@@ -20,4 +20,4 @@ EXPOSE 4200
 
 # Standard-Command: Angular Dev Server starten
 # Voraussetzung: @angular/cli ist als devDependency installiert
-CMD ["npm", "run", "start"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200"]

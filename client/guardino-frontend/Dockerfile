@@ -4,7 +4,6 @@ FROM node:20-alpine
 # Arbeitsverzeichnis im Container
 WORKDIR /app
 
-RUN npm install -g @angular/cli
 
 # Nur package-Dateien zuerst für besseren Cache
 COPY package*.json ./

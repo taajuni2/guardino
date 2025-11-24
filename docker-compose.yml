@@ -46,19 +46,19 @@ services:
 #      - kafkadata:/var/lib/kafka/data
 #    restart: unless-stopped
 #
-#  backend:
-#    build:
-#      context: ./client/guardino-backend
-#      dockerfile: Dockerfile
-#    container_name: guardino-backend
-#    env_file:
-#      - ./client/guardino-backend/app/.env
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - db
+  backend:
+    build:
+      context: ./client/guardino-backend
+      dockerfile: Dockerfile
+    container_name: guardino-backend
+    env_file:
+      - ./client/guardino-backend/app/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
 #      - kafka
-#    restart: unless-stopped
+    restart: unless-stopped
 
 #  frontend:
 #    build:

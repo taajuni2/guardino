@@ -17,7 +17,7 @@ log = logging.getLogger("backend.kafka.consumer")
 
 
 async def consume_agent_messages(stop_event: asyncio.Event | None = None):
-    print("Starting Kafka consumer for agent messages...")
+    print(f"Starting Kafka consumer for agent messages... on {settings.KAFKA_BOOTSTRAP}")
     consumer = AIOKafkaConsumer(
         settings.KAFKA_TOPIC_AGENT_EVENTS,
         settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
@@ -37,6 +37,7 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                 for msg in batch:
                     try:
                         payload = json.loads(msg.value)
+                        print(f"Kafka MESSAGE FETCHED: {payload}")
                     except json.JSONDecodeError:
                         log.warning("Could not decode message: %r", msg.value)
                         continue

@@ -62,7 +62,7 @@ services:
       DB_URL: postgresql+asyncpg://postgres:postgres@db:5432/guardino
       DB_HOST: db
       DB_PORT: 5432
-      KAFKA_BOOTSTRAP: "localhost:9092,kafka:9092"
+      KAFKA_BOOTSTRAP: "kafka:9092"
       ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.60:4200"
 
     ports:

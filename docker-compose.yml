@@ -63,13 +63,13 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       KAFKA_BOOTSTRAP: "localhost:9092,kafka:9092"
-      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200"
+      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.60:4200"
 
     ports:
       - "8000:8000"
     depends_on:
       - db
-#      - kafka
+      - kafka
     restart: unless-stopped
 
   frontend:

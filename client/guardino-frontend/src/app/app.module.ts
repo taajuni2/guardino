@@ -33,7 +33,9 @@ import {MatInput} from "@angular/material/input";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatDividerModule} from "@angular/material/divider";
-import {MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from "@angular/material/select"
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthInterceptor} from "./auth.interceptor";
 
 /* the AppModule class with the @NgModule decorator */
 @NgModule({
@@ -73,11 +75,12 @@ import {MatSelectModule} from "@angular/material/select";
     MatCardModule,
     NgxChartsModule,
     MatDividerModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
 
   ],
   providers: [
-    //  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+     // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     // {provide: DatePipe, useClass: DatePipe, multi: true},
     provideAnimationsAsync()
   ],

@@ -7,7 +7,9 @@
   <span class="spacer"></span>
 
   <div class="status" matTooltip="System operational">
-    <mat-icon color="warn">circle</mat-icon>
+    <mat-icon [ngClass]="backendOnline ? 'icon-green' : 'icon-red'">
+      circle
+    </mat-icon>
     <span class="status-text">Operational</span>
   </div>
 

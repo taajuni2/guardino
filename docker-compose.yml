@@ -46,6 +46,40 @@ services:
       - kafkadata:/var/lib/kafka/data
     restart: unless-stopped
 
+  backend:
+    build:
+      context: ./client/guardino-backend
+      dockerfile: Dockerfile
+    container_name: guardino-backend
+#    env_file:
+#      - ./client/guardino-backend/app/.env
+    environment:
+      DB_URL: postgresql+asyncpg://postgres:postgres@db:5432/guardino
+      DB_HOST: db
+      DB_PORT: 5432
+      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200"
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+#      - kafka
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./client/guardino-frontend        # Pfad zu deinem Angular-Frontend
+      dockerfile: Dockerfile
+    container_name: guardino-frontend
+    ports:
+      - "4200:4200"     # außen 4200 -> innen 4200 (ng serve)
+    depends_on:
+      - backend
+    restart: unless-stopped
+    volumes:
+      - ./client/guardino-frontend:/app          # Code ins Container-Workspace mounten
+      - /app/node_modules        # Node_modules im Container behalten
+
 #  agent:
 #    build:
 #      context: ./agent

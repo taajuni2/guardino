@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+import psutil
 import json
 import platform
 import socket
@@ -100,6 +100,22 @@ class AgentControl:
             "python_version": platform.python_version(),
             "agent_version": self.config.get("agent_version"),
             "nonce": str(uuid.uuid4()),
+
+            # CPU
+            "cpu_count": psutil.cpu_count(logical=True),
+            "cpu_physical": psutil.cpu_count(logical=False),
+            "cpu_freq": psutil.cpu_freq()._asdict() if psutil.cpu_freq() else None,
+
+            # RAM
+            "ram_total": psutil.virtual_memory().total,
+            "ram_available": psutil.virtual_memory().available,
+            "ram_percent": psutil.virtual_memory().percent,
+
+            # Disk
+            "disk_total": psutil.disk_usage("/").total,
+            "disk_used": psutil.disk_usage("/").used,
+            "disk_free": psutil.disk_usage("/").free,
+            "disk_percent": psutil.disk_usage("/").percent,
 
         }
 

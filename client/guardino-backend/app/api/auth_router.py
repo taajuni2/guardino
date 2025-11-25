@@ -12,15 +12,16 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def register(payload: UserCreate, db: AsyncSession = Depends(get_db_session)):
     # existiert email schon?
+    print(f"Registering user with payload: {payload}")
     res = await db.execute(select(User).where(User.email == payload.email))
     existing = res.scalar_one_or_none()
     if existing:
         raise HTTPException(status_code=409, detail="Email already registered")
 
     user = User(
-        email=payload.email,
         name=payload.name,
-        password_hash=hash_password(payload.password),
+        email=payload.email,
+        password_hash=hash_password(payload.password)
     )
     db.add(user)
     await db.commit()
@@ -31,7 +32,7 @@ async def register(payload: UserCreate, db: AsyncSession = Depends(get_db_sessio
 @router.post("/login", response_model=TokenResponse)
 async def login(payload: LoginRequest, db: AsyncSession = Depends(get_db_session)):
     # User nach email holen
-    res = await db.execute(select(User).where(User.email == payload.email))
+    res = await db.execute(select(User).where(User.name == payload.name))
     user = res.scalar_one_or_none()
 
     if not user:

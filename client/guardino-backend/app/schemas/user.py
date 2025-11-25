@@ -2,13 +2,13 @@ from pydantic import BaseModel, EmailStr
 from uuid import UUID
 
 class UserCreate(BaseModel):
-    email: EmailStr
     name: str
-    password: str   # neu: Plaintext PW kommt nur hier rein
+    password: str
+    email: str
+    # neu: Plaintext PW kommt nur hier rein
 
 class UserRead(BaseModel):
-    id: UUID
-    email: EmailStr
+    email: str
     name: str
 
     class Config:
@@ -19,5 +19,5 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    name: str
     password: str

@@ -10,7 +10,7 @@ blacklist_paths:
   - "/tmp"
 
 kafka:
-  broker: "localhost:9092"
+  broker: "192.168.110.60:9092"
   topics:
     events: "agent-events"
     control: "agent-lifecycle"

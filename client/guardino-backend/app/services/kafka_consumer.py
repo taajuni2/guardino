@@ -37,7 +37,6 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                 for msg in batch:
                     try:
                         payload = json.loads(msg.value)
-                        print(f"Kafka MESSAGE FETCHED: {payload}")
                     except json.JSONDecodeError:
                         log.warning("Could not decode message: %r", msg.value)
                         continue

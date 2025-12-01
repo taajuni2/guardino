@@ -88,7 +88,7 @@ services:
       dockerfile: Dockerfile
     container_name: guardino-frontend
     ports:
-      - "4200:4200"     # außen 4200 -> innen 4200 (ng serve)
+      - "4200:80"     # außen 4200 -> innen 4200 (ng serve)
     depends_on:
       - backend
     restart: unless-stopped

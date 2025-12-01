@@ -1,44 +1,36 @@
-# Guardino-System
-
-Guardino ist ein Lightweight Ransomware Detection Tool für Klein- und Mittelunternehmen. <br>
-
-**Das Guardino System besteht aus folgenden Komponenten:**
-* Client (Frontend, Backend, DB, KafkaBroker)
-* Agent (Ransomware Detection)
+# Guardino – Lightweight Ransomware Detection System
+Guardino ist ein schlankes, containerisiertes Ransomware Detection System für kleine und mittlere Unternehmen.
+Es besteht aus einem zentralen Client-System (inkl. Webinterface) und verteilten Agents, die auf Hosts laufen und verdächtige File-Operationen überwachen.
 
 
+## Systemarchitektur
+Das Guardino-System besteht aus zwei Hauptkomponenten:
+1. Client (Zentrales System)
+   - Frontend (Angular)
+   - Backend (Python/FastAPI)
+   - Datenbank (PostgreSQL)
+   - Kafka-Broker für Event-Ingestion vom Agent
+<br>
+<br>
+2. Agent
+   - Lightweight Detection Engine
+   - Läuft auf separaten Hosts
+   - Sendet Events über Kafka an das zentrale Backend
+   - Konfigurierbar (Blacklist, Extensions, Thresholds)
 
-### Installation
-alembic upgrade head
-alembic revision --autogenerate -m "Added event table"
-uvicorn app.main:app --reload
+___
 
+## Installation - Voraussetzungen 
 
-#### Local 
-
-
-
-#### Non-Local
-
-### Config parameters 
-
-
-
-
-### Troubleshooting 
+- Docker installieren -> `sudo apt install docker.io`
+- Docker-compose installieren -> `sudo apt install docker-compose`
 
 
 
-#### Manual DB access:
 
-1. Connect to Container 
 
-``
- docker exec -it guardino-db /bin/bash``<br>
-2. Access Postgres DB <br> 
+### Troubleshooting - Fehlerbehbung
 
-\pset expanded on -> für bessere Lesbarkeit <br>
-
-``psql -U postgres guardino``SELE
-
-UPDATE alembic_version SET version_num = '83fcfc501973';
+PostgreSQL debugging
+Frontend Config 
+Backend Config 

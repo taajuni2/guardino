@@ -48,6 +48,8 @@ class AgentControl:
         if not self.stdout_fallback:
             self._producer = KafkaProducer(
                 bootstrap_servers=[broker],
+                security_protocol="SSL",
+                ssl_cafile="../certs/ca.crt",
                 value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 key_serializer=lambda v: json.dumps(v).encode("utf-8"),
             )
@@ -55,6 +57,8 @@ class AgentControl:
             self._consumer = KafkaConsumer(
                 self.control_topic,
                 bootstrap_servers=[broker],
+                security_protocol="SSL",
+                ssl_cafile="../certs/ca.crt",
                 value_deserializer=lambda v: json.loads(v.decode("utf-8")),
                 enable_auto_commit=True,
                 group_id=self.agent_id,

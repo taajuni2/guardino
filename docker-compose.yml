@@ -36,10 +36,10 @@ services:
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       # TLS-Settings
       KAFKA_SSL_KEYSTORE_LOCATION: /opt/kafka/certs/kafka.keystore.p12
-      KAFKA_SSL_KEYSTORE_PASSWORD: guardino
+      KAFKA_SSL_KEYSTORE_PASSWORD: changeit
       KAFKA_SSL_KEYSTORE_TYPE: PKCS12
       KAFKA_SSL_TRUSTSTORE_LOCATION: /opt/kafka/certs/kafka.truststore.p12
-      KAFKA_SSL_TRUSTSTORE_PASSWORD: guardino
+      KAFKA_SSL_TRUSTSTORE_PASSWORD: changeit
       KAFKA_SSL_TRUSTSTORE_TYPE: PKCS12
       #client Auth
       KAFKA_SSL_CLIENT_AUTH: "none"

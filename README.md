@@ -10,8 +10,7 @@ Das Guardino-System besteht aus zwei Hauptkomponenten:
    - Backend (Python/FastAPI)
    - Datenbank (PostgreSQL)
    - Kafka-Broker für Event-Ingestion vom Agent
-<br>
-<br>
+
 2. Agent
    - Lightweight Detection Engine
    - Läuft auf separaten Hosts

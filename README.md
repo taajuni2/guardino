@@ -17,7 +17,7 @@ Das Guardino-System besteht aus zwei Hauptkomponenten:
    - Sendet Events über Kafka an das zentrale Backend
    - Konfigurierbar (Blacklist, Extensions, Thresholds)
 
-___
+
 
 ## Installation & Setup
 ### Voraussetzungen

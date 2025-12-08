@@ -1,15 +1,15 @@
 <div class="stat-row">
   <div class="stat-card">
     <div class="stat-title">Total Agents</div>
-    <div class="stat-value">247</div>
+    <div class="stat-value">{{this.totalAgents}}</div>
     <div class="stat-sub">+12 from last month</div>
   </div>
 
   <div class="stat-card">
     <div class="stat-title">Active Agents</div>
-    <div class="stat-value">241</div>
+    <div class="stat-value">{{this.activeAgents}}</div>
     <mat-progress-bar
-      [value]="(241 / 247) * 100"
+      [value]="getPrecentage(this.activeAgents, this.totalAgents)"
       class="stat-progress"
       mode="determinate"
     ></mat-progress-bar>
@@ -18,7 +18,7 @@
 
   <div class="stat-card stat-danger">
     <div class="stat-title">Threats Detected</div>
-    <div class="stat-value">12</div>
+    <div class="stat-value">{{this.threatsDetected}}</div>
     <div class="stat-sub">Last 24 hours</div>
   </div>
 </div>

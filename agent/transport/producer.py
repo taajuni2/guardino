@@ -3,13 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 import json
 import logging
-import asyncio
+import ssl
 from aiokafka import AIOKafkaProducer
 
 logger = logging.getLogger("agent.producer")
 
 
 class KafkaEventProducer:
+    base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
+    ca_file = base_dir / "certs" / "ca.crt"
+    ctx = ssl.create_default_context(cafile=str(ca_file))
     """
     Wrapper um AIOKafkaProducer.
 
@@ -24,7 +27,7 @@ class KafkaEventProducer:
         self._broker = broker
         self._topic = topic
         self.security_protocol="SSL",
-        self.ssl_cafile="../certs/ca.crt",
+        self.ssl_context = self.ctx,
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
 
@@ -33,7 +36,6 @@ class KafkaEventProducer:
         Initialisiert die Kafka-Verbindung einmal.
         Muss vor send_event() aufgerufen werden.
         """
-        print("HALLOOOOOOO OVELLLLOOOOOO STARRTTTTTT")
         try:
             if self._producer is not None:
                 return  # schon gestartet
@@ -44,7 +46,7 @@ class KafkaEventProducer:
             self._producer = AIOKafkaProducer(
                 bootstrap_servers=self._broker,
                 security_protocol="SSL",
-                ssl_cafile=ca_file,
+                ssl_context=self.ctx,
                 value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 acks="all",
             )

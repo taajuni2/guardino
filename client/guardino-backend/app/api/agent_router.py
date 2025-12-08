@@ -1,6 +1,8 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
-from fastapi_cli.cli import app
-from sqlmodel import Session
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from ..api.deps import get_db_session, get_current_user
 from ..models.agent import Agent
 from ..schemas.agent import AgentOut
@@ -10,6 +12,8 @@ router = APIRouter(
     tags=["agents"],
 )
 
-@router.get("/all", response_model=list[AgentOut])
-def list_agents(db: Session = Depends(get_db_session)):
-    return db.query(Agent).all()
+@router.get("/agents" , response_model=List[AgentOut])
+async def list_agents(db: AsyncSession = Depends(get_db_session)):
+    result = await db.execute(select(Agent))
+    agents = result.scalars().all()
+    return agents

@@ -21,6 +21,7 @@ export class DashboardPageComponent implements  OnInit {
   ngOnInit() {
     this.agentService.getAgents().subscribe(agents => {
       this.totalAgents = agents.length;
+      console.log(agents)
       this.inactiveAgents = agents.filter(a =>
         this.isAgentInactive(a.last_seen)
       );

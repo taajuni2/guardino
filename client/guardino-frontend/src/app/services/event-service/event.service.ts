@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Agent} from "../../../entities/Agent";
+import {environment} from "../../../environment/environment";
+import {Event, EventsGrouped, AgentLifecycle } from "../../../entities/Events";
 
 @Injectable({
   providedIn: 'root'
@@ -7,5 +11,13 @@ import {HttpClient} from "@angular/common/http";
 export class EventService {
 
   constructor(private http: HttpClient) { }
+
+
+
+
+  getGroupedEvents(): Observable<EventsGrouped[]> {
+    return this.http.get<EventsGrouped[]>(`${environment.apiUrl}/agents/grouped`);
+  }
+
 }
 

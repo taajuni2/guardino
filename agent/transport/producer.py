@@ -33,7 +33,7 @@ class KafkaEventProducer:
         Initialisiert die Kafka-Verbindung einmal.
         Muss vor send_event() aufgerufen werden.
         """
-
+        print("Start funktion ist executed")
         if self._producer is not None:
             return  # schon gestartet
         base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino

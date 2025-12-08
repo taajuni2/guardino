@@ -84,7 +84,7 @@ def main():
         """
         fut = asyncio.run_coroutine_threadsafe(producer.send_event(evt), loop)
         try:
-            ok = fut.result(timeout=2)
+            ok = fut.result(timeout=5)
             if not ok:
                 # Kafka nicht ready oder Sendefehler
                 log.debug("STDOUT fallback (Kafka send failed or producer not started): %s", evt)

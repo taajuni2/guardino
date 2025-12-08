@@ -10,7 +10,7 @@ logger = logging.getLogger("agent.producer")
 
 
 class KafkaEventProducer:
-    base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
+    base_dir = Path(__file__).resolve().parent.parent.parent
     ca_file = base_dir / "certs" / "ca.crt"
     ctx = ssl.create_default_context(cafile=str(ca_file))
     """
@@ -51,10 +51,9 @@ class KafkaEventProducer:
                 acks="all",
             )
             await self._producer.start()
-            logger.info("Producer gestartet")
             self._log.info("✅ Kafka producer connected to %s", self._broker)
         except Exception as e:
-            logger.info("FEHLER AUFGETRETTEN %e ", e)
+            logger.info("Kafka producer konnte nicht gestartet werden %e ", e)
             self._producer = None
     async def stop(self):
         """

@@ -1,4 +1,4 @@
-# app/schemas.py
+# schema/agent.py
 from datetime import datetime
 from typing import Any, List, Optional, Dict
 from pydantic import BaseModel
@@ -43,6 +43,10 @@ class AgentLifecycleOut(BaseModel):
     agent_id: str
     event_type: str
     meta: Optional[Dict[str, Any]]
+
+class EventsGroupedOut(BaseModel):
+    lifecycle: List[AgentLifecycleOut]
+    events: List[EventOut]
 
     class Config:
         from_attributes = True

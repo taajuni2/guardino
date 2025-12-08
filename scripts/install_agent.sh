@@ -117,7 +117,7 @@ Environment="PYTHONUNBUFFERED=1"
 Environment="AGENT_CONFIG=${CONFIG_FILE}"
 
 # WICHTIG: Dein Package heißt 'agent', main liegt in agent/main.py
-ExecStart=${VENV_DIR}/bin/python -m agent.main
+ExecStart=${VENV_DIR}/bin/python3  agent/main.py
 
 Restart=always
 RestartSec=5

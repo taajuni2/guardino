@@ -24,6 +24,8 @@ class KafkaEventProducer:
     def __init__(self, broker: str, topic: str, log: logging.Logger | None = None):
         self._broker = broker
         self._topic = topic
+        security_protocol="SSL",
+        ssl_cafile="../../certs/ca.crt",
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
 
@@ -32,7 +34,9 @@ class KafkaEventProducer:
         Initialisiert die Kafka-Verbindung einmal.
         Muss vor send_event() aufgerufen werden.
         """
+
         if self._producer is not None:
+            print("Producer is none")
             return  # schon gestartet
 
         self._producer = AIOKafkaProducer(

@@ -25,7 +25,7 @@ class KafkaEventProducer:
         self._broker = broker
         self._topic = topic
         security_protocol="SSL",
-        ssl_cafile="../certs/ca.crt",
+        ssl_cafile="../../certs/ca.crt",
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
 
@@ -45,7 +45,7 @@ class KafkaEventProducer:
         self._producer = AIOKafkaProducer(
             bootstrap_servers=self._broker,
             security_protocol="SSL",
-            ssl_cafile="../certs/ca.crt",
+            ssl_cafile="../../certs/ca.crt",
             value_serializer=lambda v: json.dumps(v).encode("utf-8"),
             acks="all",
         )

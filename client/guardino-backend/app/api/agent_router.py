@@ -12,7 +12,7 @@ router = APIRouter(
     tags=["agents"],
 )
 
-@router.get("/agents" , response_model=List[AgentOut])
+@router.get("/all" , response_model=List[AgentOut])
 async def list_agents(db: AsyncSession = Depends(get_db_session)):
     result = await db.execute(select(Agent))
     agents = result.scalars().all()

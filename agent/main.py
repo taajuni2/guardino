@@ -83,7 +83,6 @@ def main():
         Fallback: stdout, wenn Kafka nicht bereit ist oder send_event False liefert.
         """
         fut = asyncio.run_coroutine_threadsafe(producer.send_event(evt), loop)
-        print("Event got emitted!")
         try:
             ok = fut.result(timeout=2)
             if not ok:

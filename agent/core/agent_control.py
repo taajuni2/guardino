@@ -77,7 +77,6 @@ class AgentControl:
     def _poll_ack(self, timeout_s: float = 8) -> Optional[Dict[str, Any]]:
         if self.stdout_fallback:
             return
-        log.info(f"_poll_ack is executed")
         end = time.time() + timeout_s
         while time.time() < end:
             polled = self._consumer.poll(timeout_ms=5000)

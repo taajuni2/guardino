@@ -24,7 +24,7 @@ class KafkaEventProducer:
     def __init__(self, broker: str, topic: str, log: logging.Logger | None = None):
         self._broker = broker
         self.security_protocol = "SSL",
-        self.ssl_cafile="..//certs/ca.crt"
+        self.ssl_cafile="../../certs/ca.crt"
         self._topic = topic
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
@@ -43,6 +43,7 @@ class KafkaEventProducer:
             acks="all",
         )
         await self._producer.start()
+        logger.info("Producer gestartet")
         self._log.info("✅ Kafka producer connected to %s", self._broker)
 
     async def stop(self):

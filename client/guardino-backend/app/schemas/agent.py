@@ -2,6 +2,7 @@
 from datetime import datetime
 from typing import Any, List, Optional, Dict
 from pydantic import BaseModel
+from sqlalchemy import UUID
 
 
 class AgentBase(BaseModel):
@@ -23,7 +24,7 @@ class AgentOut(AgentBase):
 
 
 class EventOut(BaseModel):
-    id: str
+    id: UUID
     ts: datetime
     agent_id: str
     event_type: str
@@ -38,7 +39,7 @@ class EventOut(BaseModel):
 
 
 class AgentLifecycleOut(BaseModel):
-    id: str
+    id: UUID
     ts: datetime
     agent_id: str
     event_type: str

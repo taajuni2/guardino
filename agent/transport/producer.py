@@ -38,14 +38,14 @@ class KafkaEventProducer:
         if self._producer is not None:
             logger.info("Producer ist NONE")
             return  # schon gestartet
-        base = Path.cwd()  # aktuelles Arbeitsverzeichnis
-        ca_file = base / "certs" / "ca.crt"
+        base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
+        ca_file = base_dir / "certs" / "ca.crt"
 
-        logger.info("Using CA file at: %s (exists=%s)", ca_file, ca_file.exists())
+        self._log.info("Using CA file at: %s (exists=%s)", ca_file, ca_file.exists())
         self._producer = AIOKafkaProducer(
             bootstrap_servers=self._broker,
             security_protocol="SSL",
-            ssl_cafile="../../certs/ca.crt",
+            ssl_cafile=ca_file,
             value_serializer=lambda v: json.dumps(v).encode("utf-8"),
             acks="all",
         )

@@ -15,7 +15,7 @@ export class DashboardPageComponent implements  OnInit {
   constructor(private agentService: AgentService) { }
 
 
-  activeAgents = 0;
+  activeAgents = this.totalAgents - this.inactiveCount;
   threatsDetected = 0;
 
   ngOnInit() {

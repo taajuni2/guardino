@@ -34,23 +34,26 @@ class KafkaEventProducer:
         Muss vor send_event() aufgerufen werden.
         """
         print("HALLOOOOOOO OVELLLLOOOOOO STARRTTTTTT")
-        if self._producer is not None:
-            return  # schon gestartet
-        base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
-        ca_file = base_dir / "certs" / "ca.crt"
+        try:
+            if self._producer is not None:
+                return  # schon gestartet
+            base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
+            ca_file = base_dir / "certs" / "ca.crt"
 
-        self._log.info("Using CA file at: %s (exists=%s)", ca_file, ca_file.exists())
-        self._producer = AIOKafkaProducer(
-            bootstrap_servers=self._broker,
-            security_protocol="SSL",
-            ssl_cafile=ca_file,
-            value_serializer=lambda v: json.dumps(v).encode("utf-8"),
-            acks="all",
-        )
-        await self._producer.start()
-        logger.info("Producer gestartet")
-        self._log.info("✅ Kafka producer connected to %s", self._broker)
-
+            self._log.info("Using CA file at: %s (exists=%s)", ca_file, ca_file.exists())
+            self._producer = AIOKafkaProducer(
+                bootstrap_servers=self._broker,
+                security_protocol="SSL",
+                ssl_cafile=ca_file,
+                value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+                acks="all",
+            )
+            await self._producer.start()
+            logger.info("Producer gestartet")
+            self._log.info("✅ Kafka producer connected to %s", self._broker)
+        except Exception as e:
+            logger.log("FEHLER AUFGETRETTEN %e ", e)
+            self._producer = None
     async def stop(self):
         """
         Schließt die Verbindung wieder sauber.

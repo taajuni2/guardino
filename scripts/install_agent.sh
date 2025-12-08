@@ -67,11 +67,30 @@ if [ ! -f "${CONFIG_FILE}" ]; then
   echo "[*] Creating default config file..."
   cat > "${CONFIG_FILE}" <<EOF
 # Guardino Agent config (default)
-agent_id: null
 agent_version: "0.1.0"
+agent_id: ""
+watch_directories:
+  - "/home/vmadmin/test"
+
+blacklist_paths:
+  - "/proc"
+  - "/sys"
+  - "/dev"
+  - "/tmp"
+
 kafka:
   broker: "192.168.110.60:9092"
-  topic: "guardino-events"
+  topics:
+    events: "agent-events"
+    control: "agent-lifecycle"
+
+
+heartbeat_interval_s: 60
+
+log_level: "INFO"
+
+
+
 EOF
   chown "${AGENT_USER}:${AGENT_GROUP}" "${CONFIG_FILE}"
   chmod 640 "${CONFIG_FILE}"

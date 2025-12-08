@@ -13,7 +13,7 @@
       class="stat-progress"
       mode="determinate"
     ></mat-progress-bar>
-    <div class="stat-sub">97.6% online</div>
+    <div class="stat-sub">{{ getPrecentage(this.activeAgents, this.totalAgents) }}% online</div>
   </div>
 
   <div class="stat-card stat-danger">

@@ -15,7 +15,7 @@ export class DashboardPageComponent implements  OnInit {
   constructor(private agentService: AgentService) { }
 
 
-  activeAgents = this.totalAgents - this.inactiveCount;
+  activeAgents = 0;
   threatsDetected = 0;
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class DashboardPageComponent implements  OnInit {
       this.inactiveAgents = agents.filter(a =>
         this.isAgentInactive(a.last_seen)
       );
-
+      this.activeAgents = this.totalAgents - this.inactiveCount;
       this.inactiveCount = this.inactiveAgents.length;
 
       console.log("Inactive agents:", this.inactiveAgents);

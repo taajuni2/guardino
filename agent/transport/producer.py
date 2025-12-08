@@ -20,12 +20,11 @@ class KafkaEventProducer:
     Diese Klasse macht KEIN eigenes Config-Loading.
     Du gibst broker, topic und optional logger von außen rein.
     """
-
     def __init__(self, broker: str, topic: str, log: logging.Logger | None = None):
         self._broker = broker
         self._topic = topic
         security_protocol="SSL",
-        ssl_cafile="../../certs/ca.crt",
+        ssl_cafile="../certs/ca.crt",
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
 

@@ -16,7 +16,7 @@ export class EventService {
 
 
   getGroupedEvents(): Observable<EventsGrouped[]> {
-    return this.http.get<EventsGrouped[]>(`${environment.apiUrl}/agents/grouped`);
+    return this.http.get<EventsGrouped[]>(`${environment.apiUrl}/events/grouped`);
   }
 
 }

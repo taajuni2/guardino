@@ -2,7 +2,7 @@
 from datetime import datetime
 from typing import Any, List, Optional, Dict
 from pydantic import BaseModel
-from sqlalchemy import UUID
+from uuid import UUID
 
 
 class AgentBase(BaseModel):

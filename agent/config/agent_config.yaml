@@ -25,6 +25,6 @@ mass_create_window_s: 5
 mass_create_threshold: 50
 cooldown_seconds: 2 # Verhindert das bei jedem Memory modification ein Alert getriggert wird
 entropy_abs_threshold: 7.2
-entropy_min_size_bytes: 1024
-entropy_sample_each: 16384
+entropy_min_size_bytes: 512
+entropy_sample_each: 4096
 

@@ -66,6 +66,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     # Filesystem Hooks
     # --------------------------
     def on_modified(self, event):
+        print("FileMonitorHandler on_modified")
         if event.is_directory:
             return
         path = event.src_path
@@ -76,6 +77,7 @@ class FileMonitorHandler(FileSystemEventHandler):
 
 
     def on_created(self, event):
+        print("FileMonitorHandler on_created")
         if event.is_directory:
             return
         path = event.src_path

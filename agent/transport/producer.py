@@ -52,7 +52,7 @@ class KafkaEventProducer:
             logger.info("Producer gestartet")
             self._log.info("✅ Kafka producer connected to %s", self._broker)
         except Exception as e:
-            logger.log("FEHLER AUFGETRETTEN %e ", e)
+            logger.info("FEHLER AUFGETRETTEN %e ", e)
             self._producer = None
     async def stop(self):
         """

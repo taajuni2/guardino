@@ -23,8 +23,8 @@ class KafkaEventProducer:
     def __init__(self, broker: str, topic: str, log: logging.Logger | None = None):
         self._broker = broker
         self._topic = topic
-        security_protocol="SSL",
-        ssl_cafile="../certs/ca.crt",
+        self.security_protocol="SSL",
+        self.ssl_cafile="../certs/ca.crt",
         self._log = log or logger
         self._producer: AIOKafkaProducer | None = None
 
@@ -35,7 +35,6 @@ class KafkaEventProducer:
         """
 
         if self._producer is not None:
-            logger.info("Producer ist NONE")
             return  # schon gestartet
         base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
         ca_file = base_dir / "certs" / "ca.crt"

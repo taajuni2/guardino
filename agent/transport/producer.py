@@ -1,6 +1,6 @@
 # agent/kafka/kafka_producer.py
 from __future__ import annotations
-
+from pathlib import Path
 import json
 import logging
 import asyncio
@@ -38,7 +38,10 @@ class KafkaEventProducer:
         if self._producer is not None:
             logger.info("Producer ist NONE")
             return  # schon gestartet
+        base = Path.cwd()  # aktuelles Arbeitsverzeichnis
+        ca_file = base / "certs" / "ca.crt"
 
+        logger.info("Using CA file at: %s (exists=%s)", ca_file, ca_file.exists())
         self._producer = AIOKafkaProducer(
             bootstrap_servers=self._broker,
             security_protocol="SSL",

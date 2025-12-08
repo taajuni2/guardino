@@ -10,7 +10,6 @@ def _entropy(data: bytes) -> float:
         return 0.0
     total = len(data)
     counts = Counter(data)
-    print("Entropy calculation is hitted")
     return -sum((c / total) * math.log2(c / total) for c in counts.values())
 
 
@@ -37,7 +36,6 @@ def entropy_spike(path: str,
         data = head + tail
         H = _entropy(data)
         is_spike = H >= abs_threshold
-        print("Entropy_spike function is executed")
         details = {
             "entropy": round(H, 3),
             "bytes_sampled": len(data),

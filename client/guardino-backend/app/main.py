@@ -7,6 +7,7 @@ from .api.user_router import router as user_router
 from .api.auth_router import router as auth_router
 from .api.agent_router import router as agent_router
 from .api.stats_router import router as stats_router
+from .api.events_router import router as events_router
 from .core.database import engine
 from .services.kafka_consumer import consume_agent_messages
 
@@ -71,3 +72,4 @@ app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(agent_router)
 app.include_router(stats_router)
+app.include_router(events_router)

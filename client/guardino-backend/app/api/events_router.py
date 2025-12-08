@@ -15,7 +15,12 @@ async def list_lifecycle_events(db: AsyncSession = Depends(get_db_session)):
     result = await db.execute(
         select(AgentLifecycle).order_by(AgentLifecycle.ts.desc())
     )
-    return result.scalars().all()
+    rows = result.scalars().all()
+
+    return [
+        AgentLifecycleOut.model_validate(row, from_attributes=True)
+        for row in rows
+    ]
 
 
 @router.get("/all", response_model=list[EventOut])
@@ -23,7 +28,12 @@ async def list_all_events(db: AsyncSession = Depends(get_db_session)):
     result = await db.execute(
         select(Event).order_by(Event.ts.desc())
     )
-    return result.scalars().all()
+    rows = result.scalars().all()
+
+    return [
+        EventOut.model_validate(row, from_attributes=True)
+        for row in rows
+    ]
 
 
 @router.get("/grouped", response_model=EventsGroupedOut)
@@ -35,7 +45,19 @@ async def list_grouped_events(db: AsyncSession = Depends(get_db_session)):
         select(Event).order_by(Event.ts.desc())
     )
 
+    lifecycle_rows = lifecycle_q.scalars().all()
+    event_rows = events_q.scalars().all()
+
+    lifecycle_out = [
+        AgentLifecycleOut.model_validate(row, from_attributes=True)
+        for row in lifecycle_rows
+    ]
+    events_out = [
+        EventOut.model_validate(row, from_attributes=True)
+        for row in event_rows
+    ]
+
     return EventsGroupedOut(
-        lifecycle=lifecycle_q.scalars().all(),
-        events=events_q.scalars().all(),
+        lifecycle=lifecycle_out,
+        events=events_out,
     )

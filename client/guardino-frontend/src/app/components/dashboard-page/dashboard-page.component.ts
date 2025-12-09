@@ -8,8 +8,8 @@ import {Agent} from "../../../entities/Agent";
   styleUrl: './dashboard-page.component.scss'
 })
 
-export class DashboardPageComponent implements  OnInit {
-  public totalAgents: number = 0;
+export class DashboardPageComponent implements OnInit {
+  public totalAgentsCount: number = 0;
   public inactiveAgents : Agent[] = [];
   public inactiveCount:  number = 0;
   constructor(private agentService: AgentService) { }
@@ -20,17 +20,16 @@ export class DashboardPageComponent implements  OnInit {
 
   ngOnInit() {
     this.agentService.getAgents().subscribe(agents => {
-      this.totalAgents = agents.length;
+      this.totalAgentsCount = agents.length;
       this.inactiveAgents = agents.filter(a =>
         this.isAgentInactive(a.last_seen)
       );
-      this.activeAgents = this.totalAgents - this.inactiveCount;
+      this.activeAgents = this.totalAgentsCount - this.inactiveCount;
       this.inactiveCount = this.inactiveAgents.length;
       this.agentService.startPolling();
       this.agentService.agents$.subscribe(agents => {
-        this.totalAgents = agents.length;
+        this.totalAgentsCount = agents.length;
       })
-
     })
   }
   private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {

@@ -22,10 +22,10 @@ export class AgentService {
   startPolling() {
     interval(5000)
       .pipe(
-        switchMap(() => this.http.get<Agent[]>('/agents/all'))
+        switchMap(() => this.http.get<Agent[]>(`${environment.apiUrl}/agents/all`))
       )
       .subscribe(agents => {
-        this.agentsSubject.next(agents); // einfach ersetzen
+        this.agentsSubject.next(agents);
       });
   }
 

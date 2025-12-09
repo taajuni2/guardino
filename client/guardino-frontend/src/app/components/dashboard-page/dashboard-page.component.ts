@@ -21,14 +21,16 @@ export class DashboardPageComponent implements  OnInit {
   ngOnInit() {
     this.agentService.getAgents().subscribe(agents => {
       this.totalAgents = agents.length;
-      console.log(agents)
       this.inactiveAgents = agents.filter(a =>
         this.isAgentInactive(a.last_seen)
       );
       this.activeAgents = this.totalAgents - this.inactiveCount;
       this.inactiveCount = this.inactiveAgents.length;
+      this.agentService.startPolling();
+      this.agentService.agents$.subscribe(agents => {
+        this.totalAgents = agents.length;
+      })
 
-      console.log("Inactive agents:", this.inactiveAgents);
     })
   }
   private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {

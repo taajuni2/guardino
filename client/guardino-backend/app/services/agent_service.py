@@ -12,7 +12,6 @@ async def handle_register(db, msg: dict):
     agent_id = msg["agent_id"]
     meta = msg.get("metadata") or {}
     now = _now()
-    print(f"Handling register for agent {agent_id} at {msg}")
 
     # Agent holen (ASYNC!)
     result = await db.execute(
@@ -21,7 +20,6 @@ async def handle_register(db, msg: dict):
     agent = result.scalars().first()
 
     if agent is None:
-        print("Neuer Agent, lege an:", agent_id)
         agent = models.Agent(
             agent_id=agent_id,
             os=meta.get("os"),

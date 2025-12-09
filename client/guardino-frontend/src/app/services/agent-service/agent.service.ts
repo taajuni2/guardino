@@ -20,7 +20,7 @@ export class AgentService {
   }
 
   startPolling() {
-    interval(5000)
+    interval(10000)
       .pipe(
         switchMap(() => this.http.get<Agent[]>(`${environment.apiUrl}/agents/all`))
       )

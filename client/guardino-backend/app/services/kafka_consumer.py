@@ -47,10 +47,8 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                     async with SessionLocal() as db:
                         try:
                             if msg_type == "register":
-                                print("Handling register message")
                                 await handle_register(db, payload)
                             elif msg_type == "heartbeat":
-                                print("Handling register message")
                                 await handle_heartbeat(db, payload)
                             else:
                                 await handle_generic_event(db, payload)

@@ -16,12 +16,12 @@ export class EventService {
 
 
 
-  getGroupedEvents(): Observable<EventsGrouped[]> {
-    return this.http.get<EventsGrouped[]>(`${environment.apiUrl}/events/grouped`);
+  getGroupedEvents(): Observable<EventsGrouped> {
+    return this.http.get<EventsGrouped>(`${environment.apiUrl}/events/grouped`);
   }
 
   startPolling() {
-    interval(5000)
+    interval(10000)
       .pipe(
         switchMap(() => this.http.get<Event[]>(`${environment.apiUrl}/agents/all`))
       )

@@ -13,11 +13,12 @@ export class DashboardPageComponent implements OnInit, OnChanges {
   public totalAgentsCount: number = 0;
   public inactiveAgents : Agent[] = [];
   public inactiveCount:  number = 0;
+  activeAgents = 0;
+  threatsDetected = 0;
   constructor(private agentService: AgentService) { }
 
 
-  activeAgents = 0;
-  threatsDetected = 0;
+
 
   ngOnInit() {
     this.agentService.getAgents().subscribe(agents => {
@@ -27,7 +28,6 @@ export class DashboardPageComponent implements OnInit, OnChanges {
       );
       this.activeAgents = this.totalAgentsCount - this.inactiveCount;
       this.inactiveCount = this.inactiveAgents.length;
-      this.agentService.startPolling();
       this.agentService.agents$.subscribe(agents => {
         this.totalAgentsCount = agents.length;
       })

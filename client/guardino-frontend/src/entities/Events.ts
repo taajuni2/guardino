@@ -1,3 +1,5 @@
+import * as events from "node:events";
+
 export type ISODateTimeString = string;
 export interface Event {
   id: string;
@@ -12,14 +14,7 @@ export interface Event {
 }
 
 
-export interface AgentLifecycle {
-  id: string;
-  ts: ISODateTimeString;
-  severity?: string | null;
-  summary?: string | null;
-  agent_id: string;
-  event_type: string;
-  meta?: Record<string, any> | null;
+export interface AgentLifecycle  extends Event{
 }
 
 
@@ -28,3 +23,5 @@ export interface EventsGrouped {
   lifecycle: AgentLifecycle[];
   events: Event[];
 }
+
+export type UnifiedEvent = Event | AgentLifecycle;

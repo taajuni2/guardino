@@ -20,15 +20,5 @@ export class EventService {
     return this.http.get<EventsGrouped>(`${environment.apiUrl}/events/grouped`);
   }
 
-  startPolling() {
-    interval(10000)
-      .pipe(
-        switchMap(() => this.http.get<Event[]>(`${environment.apiUrl}/agents/all`))
-      )
-      .subscribe(events => {
-        this.eventsSubject.next(events);
-      });
-  }
-
 }
 

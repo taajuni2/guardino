@@ -1,7 +1,8 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AgentService} from "../../services/agent-service/agent.service";
 import {Agent} from "../../../entities/Agent";
 import {SimpleChanges} from "@angular/core";
+import {WebsocketService} from "../../services/websocket-service/websocket.service";
 
 @Component({
   selector: 'app-dashboard-page',
@@ -9,13 +10,13 @@ import {SimpleChanges} from "@angular/core";
   styleUrl: './dashboard-page.component.scss'
 })
 
-export class DashboardPageComponent implements OnInit, OnChanges {
+export class DashboardPageComponent implements OnInit {
   public totalAgentsCount: number = 0;
   public inactiveAgents : Agent[] = [];
   public inactiveCount:  number = 0;
   activeAgents = 0;
   threatsDetected = 0;
-  constructor(private agentService: AgentService) { }
+  constructor(private agentService: AgentService, private websocketService: WebsocketService) { }
 
 
 
@@ -32,6 +33,9 @@ export class DashboardPageComponent implements OnInit, OnChanges {
         this.totalAgentsCount = agents.length;
       })
     })
+    this.websocketService.agents$.subscribe(agents => {
+      console.log("[Websocket] Agents received", agents);
+    })
   }
   private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {
     if (!lastSeen) return true;
@@ -42,6 +46,4 @@ export class DashboardPageComponent implements OnInit, OnChanges {
     return (now - last) > minutes * 60 * 1000;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-  }
 }

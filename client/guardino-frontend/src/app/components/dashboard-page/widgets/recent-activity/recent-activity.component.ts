@@ -9,15 +9,15 @@ import {AgentLifecycle} from "../../../../../entities/Events";
 })
 
 export class RecentActivityComponent implements OnInit {
-  public mergedArray: Array<Event | AgentLifecycle> = [];
+  public allEvents: Array<Event | AgentLifecycle> = [];
 
   constructor(private eventService: EventService) {
   }
 
   ngOnInit() {
     this.eventService.getGroupedEvents().subscribe(groupedEvents => {
-      this.mergedArray = [...groupedEvents.events, ...groupedEvents.lifecycle];
-      console.log(this.mergedArray);
+      this.allEvents = [...groupedEvents.events, ...groupedEvents.lifecycle];
+      console.log(this.allEvents);
     })
   }
 }

@@ -81,7 +81,7 @@ async def handle_heartbeat(db, msg: dict):
         agent_id=agent_id,
         event_type="heartbeat",
         summary="Heartbeat received",
-        severity="info"
+        severity="info",
         meta=msg.get("metadata") or {},
     )
     db.add(lifecycle)

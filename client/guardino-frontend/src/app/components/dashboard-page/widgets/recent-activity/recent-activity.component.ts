@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../../../services/event-service/event.service";
-import {AgentLifecycle} from "../../../../../entities/Events";
+import {AgentLifecycle, Event} from "../../../../../entities/Events";
 
 @Component({
   selector: 'app-recent-activity',

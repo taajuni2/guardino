@@ -110,7 +110,6 @@ class FileMonitorHandler(FileSystemEventHandler):
                     },
                     raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=10)},
                 )
-                print("Event got emitted!")
                 self._emit(ev)
 
         # 2) Für on_created direkt auch Entropie prüfen (frühe Erkennung)

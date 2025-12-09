@@ -48,6 +48,8 @@ class AgentLifecycleOut(BaseModel):
     agent_id: str
     event_type: str
     meta: Optional[Dict[str, Any]]
+    severity: Optional[str]
+    summary: Optional[str]
 
 class EventsGroupedOut(BaseModel):
     lifecycle: List[AgentLifecycleOut]

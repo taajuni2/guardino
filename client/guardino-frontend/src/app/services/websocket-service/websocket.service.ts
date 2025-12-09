@@ -35,12 +35,15 @@ export class WebsocketService {
       this.zone.run(() => {
         switch (message.type) {
           case 'agent_new':
+            console.log('[Agent] Agent_new created', message.data);
             this.agentSubject.next(message as Agent);
             break;
           case 'event_new':
+            console.log('[Agent] Event_new created', message.data);
             this.eventSubject.next(message as Event);
             break;
           case 'agent_heartbeat':
+            console.log('[Agent] Event_heartbeat created', message);
             this.eventSubject.next(message as AgentLifecycle);
         }
       })

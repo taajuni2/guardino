@@ -1,4 +1,6 @@
 # schema/agent.py
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any, List, Optional, Dict
 from pydantic import BaseModel
@@ -16,6 +18,8 @@ class AgentBase(BaseModel):
     last_seen: Optional[datetime] = None
     last_heartbeat: Optional[datetime] = None
     meta: Optional[Dict[str, Any]] = None
+    severity: str | None = None
+    summary: str | None = None
 
 
 class AgentOut(AgentBase):

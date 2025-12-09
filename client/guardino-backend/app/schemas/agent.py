@@ -18,8 +18,6 @@ class AgentBase(BaseModel):
     last_seen: Optional[datetime] = None
     last_heartbeat: Optional[datetime] = None
     meta: Optional[Dict[str, Any]] = None
-    severity: str | None = None
-    summary: str | None = None
 
 
 class AgentOut(AgentBase):

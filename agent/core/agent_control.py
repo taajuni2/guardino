@@ -128,7 +128,7 @@ class AgentControl:
             severity="info",
             paths=[],
             summary="Agent autoregistration",
-            metadata=systeminfo,
+            meta=systeminfo,
             raw={"ts": now_iso()},
         ).to_dict()
 
@@ -147,7 +147,7 @@ class AgentControl:
                     severity="info",
                     paths=[],
                     summary="Agent heartbeat",
-                    metadata={"health:": {"system_status:": "ok"}},
+                    meta={"health:": {"system_status:": "ok"}},
                     raw={"ts": now_iso()},
                 ).to_dict()
                 self._send(self.agent_id, payload)

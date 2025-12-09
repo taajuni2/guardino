@@ -1,11 +1,12 @@
 # app/api/events_router.py
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from ..api.deps import get_db_session
 from ..models.agent import AgentLifecycle, Event
 from ..schemas.agent import AgentLifecycleOut, EventsGroupedOut, EventOut
+from ..services.websockets import events_manager
 
 router = APIRouter(prefix="/events", tags=["events"])
 
@@ -61,3 +62,14 @@ async def list_grouped_events(db: AsyncSession = Depends(get_db_session)):
         lifecycle=lifecycle_out,
         events=events_out,
     )
+
+@router.websocket("/ws")
+async def events_ws(websocket: WebSocket):
+    await events_manager.connect(websocket)
+    try:
+        while True:
+            _ = await websocket.receive_text()
+    except WebSocketDisconnect:
+        events_manager.disconnect(websocket)
+    except Exception:
+        events_manager.disconnect(websocket)

@@ -35,6 +35,7 @@ class AgentLifecycle(Base):
     ts = Column(DateTime(timezone=True), default=now_utc, nullable=False)
     summary = Column(String, nullable=True)
     severity = Column(String, nullable=True)
+
     agent_id = Column(String, ForeignKey("agents.agent_id"), nullable=False)
     event_type = Column(String, nullable=False)  # register | heartbeat
     meta = Column(JSONB, nullable=True)

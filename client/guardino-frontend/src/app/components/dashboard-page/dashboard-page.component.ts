@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import {AgentService} from "../../services/agent-service/agent.service";
 import {Agent} from "../../../entities/Agent";
+import {SimpleChanges} from "@angular/core";
 
 @Component({
   selector: 'app-dashboard-page',
@@ -8,7 +9,7 @@ import {Agent} from "../../../entities/Agent";
   styleUrl: './dashboard-page.component.scss'
 })
 
-export class DashboardPageComponent implements OnInit {
+export class DashboardPageComponent implements OnInit, OnChanges {
   public totalAgentsCount: number = 0;
   public inactiveAgents : Agent[] = [];
   public inactiveCount:  number = 0;
@@ -41,5 +42,6 @@ export class DashboardPageComponent implements OnInit {
     return (now - last) > minutes * 60 * 1000;
   }
 
-
+  ngOnChanges(changes: SimpleChanges) {
+  }
 }

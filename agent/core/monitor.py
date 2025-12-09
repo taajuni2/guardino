@@ -99,7 +99,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                     severity=sev,
                     summary=f"Mass file creation detected: {details['count_in_window']} files in {details['window_s']}s",
                     paths=self._limit_paths(self.mass_detector.recent_paths(path, now=now)),
-                    metadata={
+                    meta={
                         "key": details["key"],
                         "category": "mass_creation",
                         "count_in_window": details["count_in_window"],
@@ -138,7 +138,7 @@ class FileMonitorHandler(FileSystemEventHandler):
             severity=sev,
             summary=f"Entropy spike detected (H={entropy_val}) at {path}",
             paths=[path],
-            metadata={
+            meta={
                 "category": "entropy_spike",
                 "entropy": entropy_val,
                 "threshold": details.get("threshold", self.entropy_abs_threshold),

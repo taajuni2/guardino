@@ -21,7 +21,7 @@ class Event:
     severity: str # "info" | "warning" | "critical"
     summary: str
     paths: List[str]
-    metadata: Dict[str, Any]
+    meta: Dict[str, Any]
     raw: Dict[str, Any]
 
     @classmethod
@@ -33,7 +33,7 @@ class Event:
             severity: str,
             summary: str,
             paths: list,
-            metadata: dict,
+            meta: dict,
             raw: dict | None = None,
     ) -> "Event":
         return cls(
@@ -44,7 +44,7 @@ class Event:
             severity=severity,
             summary=summary,
             paths=paths,
-            metadata=metadata,
+            meta=meta,
             raw=raw or {},
         )
 

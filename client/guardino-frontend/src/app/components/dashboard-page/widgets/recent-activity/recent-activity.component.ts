@@ -18,6 +18,8 @@ export class RecentActivityComponent implements OnInit {
     this.eventService.getGroupedEvents().subscribe(groupedEvents => {
       this.allEvents = [...groupedEvents.events, ...groupedEvents.lifecycle];
       console.log(this.allEvents);
+      this.allEvents = this.allEvents.filter(ev => ev.event_type !== "register");
+      this.allEvents.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
     })
   }
 }

@@ -5,7 +5,7 @@
   </div>
 
   <div class="activity-list">
-    <div class="activity-item" *ngFor="let item of allEvents"   [ngClass]="item.severity === 'info' ? 'success' : 'danger'">
+    <div class="activity-item" *ngFor="let item of allEvents"   [ngClass]="item.severity == 'info' ? 'success' : 'danger'">
       <span class="dot"></span>
       <div class="content">
         <div class="title">{{item.summary}}</div>

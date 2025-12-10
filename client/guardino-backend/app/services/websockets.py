@@ -30,5 +30,5 @@ class ConnectionManager:
             self.disconnect(ws)
 
 
-agents_manager = ConnectionManager()
-events_manager = ConnectionManager()
+
+websocker_manager = ConnectionManager()

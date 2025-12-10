@@ -29,8 +29,8 @@ export class WebsocketService {
       console.log("[Websocket] Connected!", wsUrl);
     }
 
-    this.ws.onmessage = (event:any) => {
-      const message = JSON.parse(event);
+    this.ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
       console.log("Message from backend", message)
 
       this.zone.run(() => {

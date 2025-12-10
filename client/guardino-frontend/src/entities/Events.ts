@@ -14,7 +14,14 @@ export interface Event {
 }
 
 
-export interface AgentLifecycle  extends Event{
+export interface AgentLifecycle {
+  id: string
+  ts: ISODateTimeString
+  summary: string | null;
+  severity?: string | null;
+  agent_id: string;
+  event_type:string;
+  meta: Record<string, any> | null;
 }
 
 

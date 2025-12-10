@@ -44,7 +44,7 @@ export class WebsocketService {
             break;
           case 'agent_heartbeat':
             console.log('[Agent] Event_heartbeat created', message);
-            this.eventSubject.next(message as AgentLifecycle);
+            this.eventSubject.next(message as Event);
         }
       })
     }

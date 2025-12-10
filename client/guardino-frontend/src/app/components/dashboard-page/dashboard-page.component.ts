@@ -11,6 +11,7 @@ import {WebsocketService} from "../../services/websocket-service/websocket.servi
 })
 
 export class DashboardPageComponent implements OnInit {
+  public totalAgents: Agent[] = [];
   public totalAgentsCount: number = 0;
   public inactiveAgents : Agent[] = [];
   public inactiveCount:  number = 0;
@@ -36,6 +37,8 @@ export class DashboardPageComponent implements OnInit {
     })
     this.websocketService.agents$.subscribe(agents => {
       console.log("[Websocket] Agents received", agents);
+      this.totalAgents.push(agents);
+      this.totalAgentsCount++
     })
   }
   private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {

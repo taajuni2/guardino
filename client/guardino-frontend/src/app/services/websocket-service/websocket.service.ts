@@ -35,7 +35,7 @@ export class WebsocketService {
 
       this.zone.run(() => {
         switch (message.type) {
-          case 'agent_new':
+          case 'agent_register':
             console.log('[Agent] Agent_new created', message.data);
             this.agentSubject.next(message as Agent);
             break;

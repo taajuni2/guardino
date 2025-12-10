@@ -6,7 +6,7 @@ from sqlalchemy import select
 from ..api.deps import get_db_session
 from ..models.agent import AgentLifecycle, Event
 from ..schemas.agent import AgentLifecycleOut, EventsGroupedOut, EventOut
-from ..services.websockets import events_manager
+
 
 router = APIRouter(prefix="/events", tags=["events"])
 

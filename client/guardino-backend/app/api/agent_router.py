@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ..api.deps import get_db_session, get_current_user
 from ..models.agent import Agent
 from ..schemas.agent import AgentOut
-from ..services.websockets import agents_manager
+from ..services.websockets import websocker_manager
 
 router = APIRouter(
     prefix="/agents",
@@ -22,12 +22,12 @@ async def list_agents(db: AsyncSession = Depends(get_db_session)):
 
 @router.websocket("/ws")
 async def agents_ws(websocket: WebSocket):
-    await agents_manager.connect(websocket)
+    await websocker_manager.connect(websocket)
     try:
         while True:
             _ = await websocket.receive_text()
     except WebSocketDisconnect:
-        agents_manager.disconnect(websocket)
+        websocker_manager.disconnect(websocket)
     except Exception as e:
         print(f"Error in Websocket: {e}")
-        agents_manager.disconnect(websocket)
+        websocker_manager.disconnect(websocket)

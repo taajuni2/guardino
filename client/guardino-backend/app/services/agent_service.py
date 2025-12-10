@@ -4,7 +4,7 @@ import uuid
 from sqlalchemy import select
 from ..models.agent import Agent, AgentLifecycle, Event
 from ..schemas.agent import EventOut, AgentOut
-from ..services.websockets import websocker_manager
+from ..services.websockets import websocket_manager
 
 def _now():
     return datetime.now(timezone.utc)
@@ -55,8 +55,8 @@ async def handle_register(db, msg: dict):
     )
     db.add(evt)
     # commit macht der Consume
-    ws_event = AgentOut.model_validate(agent)
-    await websocker_manager.broadcast_json({
+    ws_event = AgentOut.model_validate(agent, from_attributes=True)
+    await websocket_manager.broadcast_json({
         "type": "agent_register",
         "data": ws_event.model_dump()
     })
@@ -95,7 +95,7 @@ async def handle_heartbeat(db, msg: dict):
     db.add(evt)
     # commit macht der Consumer
     ws_event = AgentOut.model_validate(evt)
-    await websocker_manager.broadcast_json({
+    await websocket_manager.broadcast_json({
         "type": "agent_heartbeat",
         "data": ws_event.model_dump()
 })
@@ -118,7 +118,7 @@ async def handle_generic_event(db, msg: dict):
     )
     db.add(evt)
     ws_event = EventOut.model_validate(evt)
-    await websocker_manager.broadcast_json({
+    await websocket_manager.broadcast_json({
         "type": "event_new",
         "data": ws_event.model_dump()
     })

@@ -29,4 +29,4 @@ class ConnectionManager:
 
 
 
-websocker_manager = ConnectionManager()
+websocket_manager = ConnectionManager()

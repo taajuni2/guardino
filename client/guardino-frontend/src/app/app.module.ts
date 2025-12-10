@@ -81,7 +81,6 @@ import {AuthInterceptor} from "./auth.interceptor";
   ],
   providers: [
       {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    // {provide: DatePipe, useClass: DatePipe, multi: true},
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],

@@ -1,4 +1,4 @@
-# app/websockets.py
+# services/websockets.py
 from typing import List
 from fastapi import WebSocket, WebSocketDisconnect
 
@@ -15,6 +15,7 @@ class ConnectionManager:
             self.active_connections.remove(websocket)
 
     async def broadcast_json(self, message: dict):
+        print("Broadcast Json happend")
         dead = []
         for ws in self.active_connections:
             try:

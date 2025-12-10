@@ -3,6 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import {environment} from "../../../environment/environment";
 import {Agent} from "../../../entities/Agent";
 import {Event,UnifiedEvent, AgentLifecycle} from "../../../entities/Events";
+import {WsMessage} from "../../../entities/Websocket";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class WebsocketService {
       console.log("[Websocket] Connected!", wsUrl);
     }
 
-    this.ws.onmessage = (event) => {
+    this.ws.onmessage = (event: WsMessage) => {
+      console.log("[Websocket] Received", event.data);
       const message = JSON.parse(event.data);
 
       this.zone.run(() => {

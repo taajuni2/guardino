@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 router = APIRouter(prefix="", tags=["ws"])
 
-@router.websocket("/ws")
+@router.websocket("/")
 async def events_ws(websocket: WebSocket):
     await events_manager.connect(websocket)
     try:

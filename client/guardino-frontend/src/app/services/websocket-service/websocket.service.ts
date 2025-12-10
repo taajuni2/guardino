@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import {environment} from "../../../environment/environment";
 import {Agent} from "../../../entities/Agent";
-import {Event, AgentLifecycle} from "../../../entities/Events";
+import {Event,UnifiedEvent, AgentLifecycle} from "../../../entities/Events";
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +29,8 @@ export class WebsocketService {
       console.log("[Websocket] Connected!", wsUrl);
     }
 
-    this.ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
+    this.ws.onmessage = (event:any) => {
+      const message = JSON.parse(event);
       console.log("Message from backend", message)
 
       this.zone.run(() => {

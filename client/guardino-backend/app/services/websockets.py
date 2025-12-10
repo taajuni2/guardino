@@ -20,7 +20,9 @@ class ConnectionManager:
         for ws in self.active_connections:
             try:
                 await ws.send_json(message)
+                print(f"Successfully to send message to websocket {message}" )
             except WebSocketDisconnect:
+                print("Failed to send message to websocket")
                 dead.append(ws)
             except Exception:
                 dead.append(ws)

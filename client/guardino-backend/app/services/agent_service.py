@@ -55,7 +55,7 @@ async def handle_register(db, msg: dict):
     )
     db.add(evt)
     # commit macht der Consume
-    ws_event = AgentOut.model_validate(evt)
+    ws_event = AgentOut.model_validate(agent)
     await websocker_manager.broadcast_json({
         "type": "agent_register",
         "data": ws_event.model_dump()

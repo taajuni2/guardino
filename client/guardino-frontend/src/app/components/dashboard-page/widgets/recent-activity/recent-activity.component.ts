@@ -25,6 +25,9 @@ export class RecentActivityComponent implements OnInit {
 
     this.websocketService.connect();
     this.websocketService.events$.subscribe(newEvents => {
+      if (newEvents.event_type === "register") {
+        return
+      }
       this.allEvents.push(newEvents)
     })
   }

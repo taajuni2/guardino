@@ -31,7 +31,6 @@ export class WebsocketService {
 
     this.ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log("Message from backend", message)
 
       this.zone.run(() => {
         switch (message.type) {

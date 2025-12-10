@@ -63,13 +63,4 @@ async def list_grouped_events(db: AsyncSession = Depends(get_db_session)):
         events=events_out,
     )
 
-@router.websocket("/ws")
-async def events_ws(websocket: WebSocket):
-    await events_manager.connect(websocket)
-    try:
-        while True:
-            _ = await websocket.receive_text()
-    except WebSocketDisconnect:
-        events_manager.disconnect(websocket)
-    except Exception:
-        events_manager.disconnect(websocket)
+

@@ -36,6 +36,7 @@ export class WebsocketService {
       this.zone.run(() => {
         switch (message.type) {
           case 'agent_register':
+            console.log("agent_register received in websocket.service")
             this.agentSubject.next(message as Agent);
             break;
           case 'event_new':

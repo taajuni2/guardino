@@ -129,7 +129,6 @@ class AgentControl:
             paths=[],
             summary="Agent autoregistration",
             meta=systeminfo,
-            raw={"ts": now_iso()},
         ).to_dict()
 
         key = self.agent_id or "__register__"
@@ -148,7 +147,6 @@ class AgentControl:
                     paths=[],
                     summary="Agent heartbeat",
                     meta={"health:": {"system_status:": "ok"}},
-                    raw={"ts": now_iso()},
                 ).to_dict()
                 self._send(self.agent_id, payload)
                 self._stop.wait(self.heartbeat_interval)

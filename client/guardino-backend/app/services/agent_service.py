@@ -119,7 +119,6 @@ async def handle_generic_event(db, msg: dict):
         summary=msg.get("summary"),
         paths=msg.get("paths") or [],
         meta=msg.get("metadata") or {},
-        raw=msg.get("raw") or {},
     )
     db.add(evt)
     ws_event = EventOut.model_validate(evt)

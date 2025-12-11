@@ -54,6 +54,5 @@ class Event(Base):
     summary = Column(String, nullable=True)
     paths = Column(JSONB, nullable=True)
     meta = Column(JSONB, nullable=True)
-    raw = Column(JSONB, nullable=True)
 
     agent = relationship("Agent", back_populates="events")

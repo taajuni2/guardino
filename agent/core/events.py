@@ -22,7 +22,6 @@ class Event:
     summary: str
     paths: List[str]
     meta: Dict[str, Any]
-    raw: Dict[str, Any]
 
     @classmethod
     def build(
@@ -34,7 +33,6 @@ class Event:
             summary: str,
             paths: list,
             meta: dict,
-            raw: dict | None = None,
     ) -> "Event":
         return cls(
             id=str(uuid.uuid4()),
@@ -45,7 +43,6 @@ class Event:
             summary=summary,
             paths=paths,
             meta=meta,
-            raw=raw or {},
         )
 
     def to_dict(self):

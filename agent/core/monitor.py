@@ -107,8 +107,8 @@ class FileMonitorHandler(FileSystemEventHandler):
                         "threshold": details["threshold"],
                         "first_ts": details["first_ts"],
                         "last_ts": details["last_ts"],
+                        "sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=1)
                     },
-                    raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=10)},
                 )
                 self._emit(ev)
 
@@ -143,8 +143,8 @@ class FileMonitorHandler(FileSystemEventHandler):
                 "entropy": entropy_val,
                 "threshold": details.get("threshold", self.entropy_abs_threshold),
                 "bytes_sampled": details.get("bytes_sampled"),
+                "reason": details.get("reason")
             },
-            raw={"reason": details.get("reason")},
         )
         self._emit(ev)
     def _emit(self, event_obj: Event):

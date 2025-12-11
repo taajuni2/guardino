@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import uuid
 from sqlalchemy import select
 from ..models.agent import Agent, AgentLifecycle, Event
-from ..schemas.agent import EventOut, AgentOut
+from ..schemas.agent import EventOut, AgentOut, AgentLifecycleOut
 from ..services.websockets import websocket_manager
 
 def _now():
@@ -48,7 +48,7 @@ async def handle_register(db, msg: dict):
         agent.meta = meta or agent.meta
 
 
-    # Lifecycle-Eintrag mitschreiben
+    # Lifecycle-Eintrag mitschreiben in DB
     evt = AgentLifecycle(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
         ts=now,
@@ -58,7 +58,6 @@ async def handle_register(db, msg: dict):
     )
     db.add(evt)
     ws_agent = AgentOut.model_validate(agent)
-    print(f"HANDLE REGISTER MODEL DUMP {agent}")
     await websocket_manager.broadcast_json({
         "type": "agent_register",
         "data": ws_agent.model_dump(mode="json")
@@ -98,10 +97,10 @@ async def handle_heartbeat(db, msg: dict):
     )
     db.add(evt)
     # commit macht der Consumer
-    ws_event = AgentOut.model_validate(evt)
+    ws_event = AgentLifecycleOut.model_validate(evt)
     await websocket_manager.broadcast_json({
         "type": "agent_heartbeat",
-        "data": ws_event.model_dump()
+        "data": ws_event.model_dump(mode="json")
 })
 
 
@@ -124,6 +123,6 @@ async def handle_generic_event(db, msg: dict):
     ws_event = EventOut.model_validate(evt)
     await websocket_manager.broadcast_json({
         "type": "event_new",
-        "data": ws_event.model_dump()
+        "data": ws_event.model_dump(mode="json")
     })
     # commit macht der Consumer

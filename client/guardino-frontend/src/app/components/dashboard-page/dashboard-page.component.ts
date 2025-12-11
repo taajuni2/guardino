@@ -11,38 +11,33 @@ import {WebsocketService} from "../../services/websocket-service/websocket.servi
 })
 
 export class DashboardPageComponent implements OnInit {
-  public totalAgents: Agent[] = [];
-  public totalAgentsCount: number = 0;
-  public inactiveAgents : Agent[] = [];
-  public inactiveCount:  number = 0;
-  activeAgents = 0;
-  threatsDetected = 0;
+  public agents: Agent[] = [];
+  public inactiveAgents: Agent[] = [];
+  public inactiveCount = 0;
+  public activeCount = 0;
+
   constructor(private agentService: AgentService, private websocketService: WebsocketService) { }
 
 
 
 
   ngOnInit() {
-    this.agentService.getAgents().subscribe(agents => {
+    this.agentService.agents$.subscribe(agents => {
+      this.agents = agents;
+
       this.inactiveAgents = agents.filter(a =>
         this.isAgentInactive(a.last_seen)
       );
-      this.activeAgents = this.totalAgentsCount - this.inactiveCount;
       this.inactiveCount = this.inactiveAgents.length;
-    })
-    this.websocketService.agents$.subscribe(agents => {
-      this.totalAgents.push(agents);
-      this.totalAgentsCount++
-      console.log("[Websocket] Total Agents", this.totalAgents);
-    })
+      this.activeCount = this.agents.length - this.inactiveCount;
+    });
   }
-  private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {
+  isAgentInactive(lastSeen: string | null | undefined): boolean {
     if (!lastSeen) return true;
-
     const last = new Date(lastSeen).getTime();
     const now = Date.now();
-
-    return (now - last) > minutes * 60 * 1000;
+    const diffMs = now - last;
+    return diffMs > 5 * 60 * 1000; // > 5 Minuten
   }
 
 }

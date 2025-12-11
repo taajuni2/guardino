@@ -131,11 +131,10 @@ class FileMonitorHandler(FileSystemEventHandler):
             return
 
         entropy_val = details.get("entropy", 0.0)
-        sev = "warning" if entropy_val < (self.entropy_abs_threshold + 0.8) else "critical"
         ev = Event.build(
             agent_id=self.agent_id,
             type_="alert",
-            severity=sev,
+            severity="critical",
             summary=f"Entropy spike detected (H={entropy_val}) at {path}",
             paths=[path],
             meta={

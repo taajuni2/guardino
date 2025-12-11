@@ -21,7 +21,7 @@ export class WebsocketService {
   constructor(private zone: NgZone) { }
 
   connect() {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) return;
+    if (this.ws && this.ws.readyState === WebSocket.OPEN || this.ws?.readyState === WebSocket.CONNECTING) return;
 
     const wsUrl = environment.wsUrl;
     this.ws = new WebSocket(wsUrl);

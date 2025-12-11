@@ -45,6 +45,7 @@ async def handle_register(db, msg: dict):
         agent.last_heartbeat = now
         agent.meta = meta or agent.meta
 
+
     # Lifecycle-Eintrag mitschreiben
     evt = AgentLifecycle(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
@@ -54,11 +55,26 @@ async def handle_register(db, msg: dict):
         meta=meta,
     )
     db.add(evt)
-    # commit macht der Consume
-    ws_event = AgentOut.model_validate(agent, from_attributes=True)
+    ws_agent = {
+        "agent_id": agent.agent_id,
+        "os": agent.os,
+        "os_version": agent.os_version,
+        "arch": agent.arch,
+        "python_version": agent.python_version,
+        "agent_version": agent.agent_version,
+        "first_seen": agent.first_seen,
+        "last_seen": agent.last_seen,
+        "last_heartbeat": agent.last_heartbeat,
+        "meta": agent.meta,
+        # falls du sie im Frontend erwartest:
+        "severity": None,
+        "summary": None,
+    }
+
     await websocket_manager.broadcast_json({
         "type": "agent_register",
-        "data": ws_event.model_dump()
+        "data": ws_agent,
+    # commit macht der Consume
     })
 
 

@@ -35,6 +35,8 @@ async def handle_register(db, msg: dict):
             meta=meta,  # Spalte heißt bei uns meta
         )
         db.add(agent)
+
+
     else:
         agent.os = meta.get("os") or agent.os
         agent.os_version = meta.get("os_version") or agent.os_version
@@ -55,25 +57,11 @@ async def handle_register(db, msg: dict):
         meta=meta,
     )
     db.add(evt)
-    ws_agent = {
-        "agent_id": agent.agent_id,
-        "os": agent.os,
-        "os_version": agent.os_version,
-        "arch": agent.arch,
-        "python_version": agent.python_version,
-        "agent_version": agent.agent_version,
-        "first_seen": agent.first_seen,
-        "last_seen": agent.last_seen,
-        "last_heartbeat": agent.last_heartbeat,
-        "meta": agent.meta,
-        # falls du sie im Frontend erwartest:
-        "severity": None,
-        "summary": None,
-    }
-
+    ws_agent = AgentOut.model_validate(agent)
+    print(f"HANDLE REGISTER MODEL DUMP {agent}")
     await websocket_manager.broadcast_json({
         "type": "agent_register",
-        "data": ws_agent,
+        "data": ws_agent.model_dump(mode="json")
     # commit macht der Consume
     })
 

@@ -31,7 +31,7 @@ export class WebsocketService {
     }
 
     this.ws.onmessage = (event: WsMessage) => {
-      console.log("[Websocket] Received", event.data);
+      console.log("[Websocket] Message Received", event.data);
       const message = JSON.parse(event.data);
 
       this.zone.run(() => {

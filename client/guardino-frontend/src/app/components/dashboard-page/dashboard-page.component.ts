@@ -35,6 +35,7 @@ export class DashboardPageComponent implements OnInit {
       console.log("[Websocket] Agents received", agents);
       this.totalAgents.push(agents);
       this.totalAgentsCount++
+      console.log("[Websocket] Total Agents", this.totalAgents);
     })
   }
   private isAgentInactive(lastSeen: string, minutes: number = 5): boolean {

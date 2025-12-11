@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import {environment} from "../../../environment/environment";
 import {Agent} from "../../../entities/Agent";
-import {Event,UnifiedEvent, AgentLifecycle} from "../../../entities/Events";
+import {Event} from "../../../entities/Events";
 import {WsMessage} from "../../../entities/Websocket";
 
 @Injectable({

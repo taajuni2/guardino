@@ -30,5 +30,3 @@ export interface EventsGrouped {
   lifecycle: AgentLifecycle[];
   events: Event[];
 }
-
-export type UnifiedEvent = Event | AgentLifecycle;

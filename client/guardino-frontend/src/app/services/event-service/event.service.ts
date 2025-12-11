@@ -100,5 +100,6 @@ export class EventService {
     );
 
     this.allEventsSubject.next(updated);
+    this.recomputeStats(updated);
   }
 }

@@ -16,20 +16,8 @@ export class RecentActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.eventService.getGroupedEvents().subscribe(groupedEvents => {
-    //   this.allEvents = [...groupedEvents.events, ...groupedEvents.lifecycle];
-    //   this.allEvents = this.allEvents.filter(ev => ev.event_type !== "register");
-    //   this.allEvents.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
-    // })
-
-    this.websocketService.events$.subscribe(newEvents => {
-      console.log("[Websocket] event.push", newEvents.event_type);
-      if (newEvents.event_type != "register") {
-        this.allEvents.push(newEvents)
-        console.log(this.allEvents)
-      } else {
-        return;
-      }
-    })
+    this.eventService.allEvents$.subscribe(events => {
+      this.allEvents = events;
+    });
   }
 }

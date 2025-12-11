@@ -16,7 +16,7 @@ export class DashboardPageComponent implements OnInit {
   public inactiveCount = 0;
   public activeCount = 0;
 
-  constructor(private agentService: AgentService, private websocketService: WebsocketService) { }
+  constructor(private agentService: AgentService) { }
 
 
 

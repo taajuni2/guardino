@@ -32,7 +32,6 @@ export class DashboardPageComponent implements OnInit {
       this.inactiveCount = this.inactiveAgents.length;
     })
     this.websocketService.agents$.subscribe(agents => {
-      console.log("[Websocket] Agents received", agents);
       this.totalAgents.push(agents);
       this.totalAgentsCount++
       console.log("[Websocket] Total Agents", this.totalAgents);

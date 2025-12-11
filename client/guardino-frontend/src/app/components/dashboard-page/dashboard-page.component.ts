@@ -3,6 +3,7 @@ import {AgentService} from "../../services/agent-service/agent.service";
 import {Agent} from "../../../entities/Agent";
 import {SimpleChanges} from "@angular/core";
 import {WebsocketService} from "../../services/websocket-service/websocket.service";
+import {EventService} from "../../services/event-service/event.service";
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,8 +16,9 @@ export class DashboardPageComponent implements OnInit {
   public inactiveAgents: Agent[] = [];
   public inactiveCount = 0;
   public activeCount = 0;
+  public threadCount = 0;
 
-  constructor(private agentService: AgentService) { }
+  constructor(private agentService: AgentService, private eventService: EventService) { }
 
 
 
@@ -31,6 +33,9 @@ export class DashboardPageComponent implements OnInit {
       this.inactiveCount = this.inactiveAgents.length;
       this.activeCount = this.agents.length - this.inactiveCount;
     });
+    this.eventService.allEvents$.subscribe(events => {
+      this.threadCount = events.filter(ev => ev.event_type === "alert").length;
+    })
   }
   isAgentInactive(lastSeen: string | null | undefined): boolean {
     if (!lastSeen) return true;

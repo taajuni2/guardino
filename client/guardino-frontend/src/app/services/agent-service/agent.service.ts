@@ -69,11 +69,17 @@ export class AgentService {
       updated[idx] = agent;
     }
 
-    // optional nach last_seen sortieren (neueste oben)
+    //  nach last_seen sortieren
     updated.sort((a, b) =>
       (b.last_seen || '').localeCompare(a.last_seen || '')
     );
 
     this.agentsSubject.next(updated);
+  }
+
+  public isAgentInactive(lastSeen: string | null | undefined): boolean {
+    if (!lastSeen) return true;
+    const last = new Date(lastSeen).getTime();
+    return (Date.now() - last) > 5 * 60 * 1000; // > 5 min
   }
 }

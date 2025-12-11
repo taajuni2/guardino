@@ -14,6 +14,12 @@ export class EventService {
   private allEventsSubject = new BehaviorSubject<UnifiedEvent[]>([]);
   allEvents$ = this.allEventsSubject.asObservable();
 
+  private alertsLast24hSubject = new BehaviorSubject<number>(0);
+  alertsLast24h$ = this.alertsLast24hSubject.asObservable();
+
+  private threatsByAgentSubject = new BehaviorSubject<Record<string, number>>({});
+  threatsByAgent$ = this.threatsByAgentSubject.asObservable();
+
 
   constructor(
     private http: HttpClient,
@@ -37,6 +43,24 @@ export class EventService {
     return this.allEventsSubject.value;
   }
 
+  private recomputeStats(events: Event[]): void {
+    const now = Date.now();
+    const cutoff = now - 24 * 60 * 60 * 1000;
+
+    const alerts24h = events.filter(e =>
+      e.event_type === 'alert' &&
+      new Date(e.ts).getTime() >= cutoff
+    );
+    this.alertsLast24hSubject.next(alerts24h.length);
+
+    const perAgent: Record<string, number> = {};
+    for (const e of alerts24h) {
+      const id = e.agent_id; // ggf. Feldnamen anpassen
+      perAgent[id] = (perAgent[id] ?? 0) + 1;
+    }
+    this.threatsByAgentSubject.next(perAgent);
+  }
+
   // ---------- intern ----------
 
   private loadInitialEvents(): void {
@@ -49,7 +73,6 @@ export class EventService {
 
         // register-Events rausfiltern
         all = all.filter(ev => ev.event_type !== 'register');
-
         // nach ts sortieren: neueste zuerst
         all.sort((a, b) =>
           new Date(b.ts).getTime() - new Date(a.ts).getTime()
@@ -57,6 +80,7 @@ export class EventService {
 
 
         this.allEventsSubject.next(all);
+        this.recomputeStats(all)
       });
   }
 

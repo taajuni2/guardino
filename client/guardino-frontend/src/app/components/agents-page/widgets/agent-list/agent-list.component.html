@@ -4,6 +4,7 @@
       <div class="title">Agents List</div>
       <div class="subtitle">View and manage all registered security agents</div>
     </div>
+
     <div class="filters">
       <mat-form-field appearance="outline">
         <mat-select value="all">
@@ -46,58 +47,45 @@
         <th>Location</th>
       </tr>
       </thead>
+
       <tbody>
-      <tr>
+      <tr *ngFor="let agent of agents">
         <td>
-          <div class="agent-name">Marketing-PC-01</div>
-          <div class="agent-id">DESK-001</div>
+          <div class="agent-name">Marketing PC-01</div>
+          <div class="agent-id">{{ agent.agent_id}}</div>
         </td>
-        <td>Desktop</td>
-        <td>Windows 11</td>
-        <td><span class="status-badge online">Online</span></td>
-        <td>2 minutes ago</td>
-        <td>0</td>
-        <td>2.1.5</td>
-        <td>New York Office</td>
-      </tr>
-      <tr>
+
+        <td>Linux HOST</td>
+        <td>{{ agent.os }}</td>
+
         <td>
-          <div class="agent-name">FileServer-Main</div>
-          <div class="agent-id">SRV-005</div>
+          <span
+            class="status-badge"
+            [ngClass]="{
+              'online':  getStatus(agent) === 'online',
+              'danger':  getStatus(agent) === 'warning',
+              'offline': getStatus(agent) === 'offline'
+            }"
+          >
+            {{ getStatus(agent) | titlecase }}
+          </span>
         </td>
-        <td>Server</td>
-        <td>Windows Server 2022</td>
-        <td><span class="status-badge danger">Threat Detected</span></td>
-        <td>1 minute ago</td>
-        <td><span class="threat-count danger">3</span></td>
-        <td>2.1.5</td>
-        <td>Data Center</td>
-      </tr>
-      <tr>
+
         <td>
-          <div class="agent-name">HR-Laptop-07</div>
-          <div class="agent-id">DESK-123</div>
+          {{ agent.last_seen | date:'short' }}
         </td>
-        <td>Laptop</td>
-        <td>macOS Ventura</td>
-        <td><span class="status-badge warning">Warning</span></td>
-        <td>15 minutes ago</td>
-        <td>0</td>
-        <td>2.1.5</td>
-        <td>Remote</td>
-      </tr>
-      <tr>
+
         <td>
-          <div class="agent-name">Web-Server-01</div>
-          <div class="agent-id">SRV-012</div>
+          <span
+            class="threat-count"
+            [ngClass]="{ 'danger': getThreats(agent.agent_id) > 0 }"
+          >
+            {{ getThreats(agent.agent_id) }}
+          </span>
         </td>
-        <td>Server</td>
-        <td>Ubuntu Server 20.04</td>
-        <td><span class="status-badge online">Online</span></td>
-        <td>45 seconds ago</td>
-        <td>0</td>
-        <td>2.1.5</td>
-        <td>Cloud – AWS</td>
+
+        <td>{{ agent.os_version }}</td>
+        <td>Zürich</td>
       </tr>
       </tbody>
     </table>

@@ -7,16 +7,16 @@
 
   <!-- Stat cards row -->
   <app-stat-cards
-    [totalAgents]="totalAgents"
-    [activeAgents]="activeAgents"
-    [threatsDetected]="threatsDetected"
+    [totalAgents]="this.agents.length"
+    [activeAgents]="activeCount"
+    [threatsDetected]="threadCount"
   ></app-stat-cards>
 
   <!-- Charts row -->
   <div class="dashboard-charts">
     <app-thread-trends class="chart-left"></app-thread-trends>
-    <app-agent-status     [online]="241"
-                          [offline]="6"
+    <app-agent-status     [online]="this.activeCount"
+                          [offline]="inactiveCount"
                           [degraded]="0" class="chart-right"></app-agent-status>
   </div>
 

@@ -99,7 +99,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                     severity=sev,
                     summary=f"Mass file creation detected: {details['count_in_window']} files in {details['window_s']}s",
                     paths=self._limit_paths(self.mass_detector.recent_paths(path, now=now)),
-                    metadata={
+                    meta={
                         "key": details["key"],
                         "category": "mass_creation",
                         "count_in_window": details["count_in_window"],
@@ -107,10 +107,9 @@ class FileMonitorHandler(FileSystemEventHandler):
                         "threshold": details["threshold"],
                         "first_ts": details["first_ts"],
                         "last_ts": details["last_ts"],
+                        "sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=1)
                     },
-                    raw={"sample_paths": self.mass_detector.recent_paths(path, now=now, max_items=10)},
                 )
-                print("Event got emitted!")
                 self._emit(ev)
 
         # 2) Für on_created direkt auch Entropie prüfen (frühe Erkennung)
@@ -132,24 +131,22 @@ class FileMonitorHandler(FileSystemEventHandler):
             return
 
         entropy_val = details.get("entropy", 0.0)
-        sev = "warning" if entropy_val < (self.entropy_abs_threshold + 0.8) else "critical"
         ev = Event.build(
             agent_id=self.agent_id,
             type_="alert",
-            severity=sev,
+            severity="critical",
             summary=f"Entropy spike detected (H={entropy_val}) at {path}",
             paths=[path],
-            metadata={
+            meta={
                 "category": "entropy_spike",
                 "entropy": entropy_val,
                 "threshold": details.get("threshold", self.entropy_abs_threshold),
                 "bytes_sampled": details.get("bytes_sampled"),
+                "reason": details.get("reason")
             },
-            raw={"reason": details.get("reason")},
         )
         self._emit(ev)
     def _emit(self, event_obj: Event):
-        log.info("Emitting event from monitor.py")
         """
         Zentraler Emitter-Hook: einheitliches JSON, Logging, Callback.
         Den eigentlichen Versand (Kafka/REST) übernimmt detection_callback (z. B. main.emit_event).

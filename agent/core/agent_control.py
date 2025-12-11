@@ -48,6 +48,8 @@ class AgentControl:
         if not self.stdout_fallback:
             self._producer = KafkaProducer(
                 bootstrap_servers=[broker],
+                security_protocol="SSL",
+                ssl_cafile="../certs/ca.crt",
                 value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 key_serializer=lambda v: json.dumps(v).encode("utf-8"),
             )
@@ -55,6 +57,8 @@ class AgentControl:
             self._consumer = KafkaConsumer(
                 self.control_topic,
                 bootstrap_servers=[broker],
+                security_protocol="SSL",
+                ssl_cafile="../certs/ca.crt",
                 value_deserializer=lambda v: json.loads(v.decode("utf-8")),
                 enable_auto_commit=True,
                 group_id=self.agent_id,
@@ -73,7 +77,6 @@ class AgentControl:
     def _poll_ack(self, timeout_s: float = 8) -> Optional[Dict[str, Any]]:
         if self.stdout_fallback:
             return
-        log.info(f"_poll_ack is executed")
         end = time.time() + timeout_s
         while time.time() < end:
             polled = self._consumer.poll(timeout_ms=5000)
@@ -125,8 +128,7 @@ class AgentControl:
             severity="info",
             paths=[],
             summary="Agent autoregistration",
-            metadata=systeminfo,
-            raw={"ts": now_iso()},
+            meta=systeminfo,
         ).to_dict()
 
         key = self.agent_id or "__register__"
@@ -144,8 +146,7 @@ class AgentControl:
                     severity="info",
                     paths=[],
                     summary="Agent heartbeat",
-                    metadata={"health:": {"system_status:": "ok"}},
-                    raw={"ts": now_iso()},
+                    meta={"health:": {"system_status:": "ok"}},
                 ).to_dict()
                 self._send(self.agent_id, payload)
                 self._stop.wait(self.heartbeat_interval)

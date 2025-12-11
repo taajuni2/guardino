@@ -1,22 +1,14 @@
-# Basis-Image mit Node
-FROM node:20-alpine
-
-# Arbeitsverzeichnis im Container
+# Build
+FROM node:20-alpine AS build
 WORKDIR /app
-
-
-# Nur package-Dateien zuerst für besseren Cache
 COPY package*.json ./
-
-
-RUN npm install
-
-# Restlichen Code kopieren
+RUN npm ci
 COPY . .
-
-# Angular Dev Server Port
-EXPOSE 4200
-
-# Standard-Command: Angular Dev Server starten
-# Voraussetzung: @angular/cli ist als devDependency installiert
-CMD ["npm", "run", "start"]
+RUN npm run build
+# Run
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/dist/guardino-frontend/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

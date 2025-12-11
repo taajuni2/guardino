@@ -2,7 +2,9 @@
 from datetime import datetime, timezone
 import uuid
 from sqlalchemy import select
-from .. import models
+from ..models.agent import Agent, AgentLifecycle, Event
+from ..schemas.agent import EventOut, AgentOut, AgentLifecycleOut
+from ..services.websockets import websocket_manager
 
 def _now():
     return datetime.now(timezone.utc)
@@ -10,19 +12,17 @@ def _now():
 
 async def handle_register(db, msg: dict):
     agent_id = msg["agent_id"]
-    meta = msg.get("metadata") or {}
+    meta = msg.get("meta") or {}
     now = _now()
-    print(f"Handling register for agent {agent_id} at {msg}")
 
     # Agent holen (ASYNC!)
     result = await db.execute(
-        select(models.Agent).where(models.Agent.agent_id == agent_id)
+        select(Agent).where(Agent.agent_id == agent_id)
     )
     agent = result.scalars().first()
 
     if agent is None:
-        print("Neuer Agent, lege an:", agent_id)
-        agent = models.Agent(
+        agent = Agent(
             agent_id=agent_id,
             os=meta.get("os"),
             os_version=meta.get("os_version"),
@@ -35,6 +35,8 @@ async def handle_register(db, msg: dict):
             meta=meta,  # Spalte heißt bei uns meta
         )
         db.add(agent)
+
+
     else:
         agent.os = meta.get("os") or agent.os
         agent.os_version = meta.get("os_version") or agent.os_version
@@ -45,16 +47,24 @@ async def handle_register(db, msg: dict):
         agent.last_heartbeat = now
         agent.meta = meta or agent.meta
 
-    # Lifecycle-Eintrag mitschreiben
-    lifecycle = models.AgentLifecycle(
+
+    # Lifecycle-Eintrag mitschreiben in DB
+    evt = AgentLifecycle(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
         ts=now,
         agent_id=agent_id,
         event_type="register",
         meta=meta,
     )
-    db.add(lifecycle)
-    # commit macht der Consumer
+    db.add(evt)
+    ws_agent = AgentOut.model_validate(agent)
+    await websocket_manager.broadcast_json({
+        "type": "agent_register",
+        "data": ws_agent.model_dump(mode="json")
+    # commit macht der Consume
+    })
+    print("[INFO] Regoster event received")
+
 
 
 async def handle_heartbeat(db, msg: dict):
@@ -63,7 +73,7 @@ async def handle_heartbeat(db, msg: dict):
 
     # Agent laden (ASYNC!)
     result = await db.execute(
-        select(models.Agent).where(models.Agent.agent_id == agent_id)
+        select(Agent).where(Agent.agent_id == agent_id)
     )
     agent = result.scalars().first()
 
@@ -77,20 +87,30 @@ async def handle_heartbeat(db, msg: dict):
     agent.last_seen = now
     agent.last_heartbeat = now
 
-    lifecycle = models.AgentLifecycle(
+    evt = AgentLifecycle(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
         ts=now,
         agent_id=agent_id,
         event_type="heartbeat",
-        meta=msg.get("metadata") or {},
+        summary="Heartbeat received",
+        severity="info",
+        meta=msg.get("meta") or {},
     )
-    db.add(lifecycle)
+    db.add(evt)
     # commit macht der Consumer
+    ws_event = AgentLifecycleOut.model_validate(evt)
+    await websocket_manager.broadcast_json({
+        "type": "agent_heartbeat",
+        "data": ws_event.model_dump(mode="json")
+})
+    print("[INFO] Heartbeat received")
+
+
 
 
 async def handle_generic_event(db, msg: dict):
     now = _now()
-    evt = models.Event(
+    evt = Event(
         id=uuid.UUID(msg["id"]) if msg.get("id") else uuid.uuid4(),
         ts=msg.get("ts", now),
         agent_id=msg["agent_id"],
@@ -99,7 +119,12 @@ async def handle_generic_event(db, msg: dict):
         summary=msg.get("summary"),
         paths=msg.get("paths") or [],
         meta=msg.get("metadata") or {},
-        raw=msg.get("raw") or {},
     )
     db.add(evt)
+    ws_event = EventOut.model_validate(evt)
+    await websocket_manager.broadcast_json({
+        "type": "event_new",
+        "data": ws_event.model_dump(mode="json")
+    })
+    print("[INFO] Generic event received")
     # commit macht der Consumer

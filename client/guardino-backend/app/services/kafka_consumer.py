@@ -17,7 +17,7 @@ log = logging.getLogger("backend.kafka.consumer")
 
 
 async def consume_agent_messages(stop_event: asyncio.Event | None = None):
-    print("Starting Kafka consumer for agent messages...")
+    print(f"Starting Kafka consumer for agent messages... on {settings.KAFKA_BOOTSTRAP}")
     consumer = AIOKafkaConsumer(
         settings.KAFKA_TOPIC_AGENT_EVENTS,
         settings.KAFKA_TOPIC_AGENT_LIFECYCLE,
@@ -47,10 +47,8 @@ async def consume_agent_messages(stop_event: asyncio.Event | None = None):
                     async with SessionLocal() as db:
                         try:
                             if msg_type == "register":
-                                print("Handling register message")
                                 await handle_register(db, payload)
                             elif msg_type == "heartbeat":
-                                print("Handling register message")
                                 await handle_heartbeat(db, payload)
                             else:
                                 await handle_generic_event(db, payload)

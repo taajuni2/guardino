@@ -5,22 +5,14 @@
   </div>
 
   <div class="activity-list">
-    <div class="activity-item success">
+    <div class="activity-item" *ngFor="let item of allEvents"   [ngClass]="item.severity == 'info' ? 'success' : 'danger'">
       <span class="dot"></span>
       <div class="content">
-        <div class="title">Heartbeat received</div>
-        <div class="meta">Agent: DESK-001</div>
+        <div class="title">{{item.summary}}</div>
+        <div class="meta">{{ item.agent_id }}</div>
       </div>
-      <div class="time">14:32</div>
+      <div class="time">{{item.ts | date:'dd.MM.yyyy HH:mm:ss' }}</div>
     </div>
 
-    <div class="activity-item danger">
-      <span class="dot"></span>
-      <div class="content">
-        <div class="title">Threat detected: Suspicious file encryption</div>
-        <div class="meta">Agent: SRV-005</div>
-      </div>
-      <div class="time">14:30</div>
-    </div>
-  </div>
+</div>
 </div>

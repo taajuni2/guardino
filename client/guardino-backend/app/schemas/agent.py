@@ -1,7 +1,10 @@
-# app/schemas.py
+# schema/agent.py
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any, List, Optional, Dict
 from pydantic import BaseModel
+from uuid import UUID
 
 
 class AgentBase(BaseModel):
@@ -23,7 +26,7 @@ class AgentOut(AgentBase):
 
 
 class EventOut(BaseModel):
-    id: str
+    id: UUID
     ts: datetime
     agent_id: str
     event_type: str
@@ -31,18 +34,26 @@ class EventOut(BaseModel):
     summary: Optional[str]
     paths: Optional[List[str]]
     meta: Optional[Dict[str, Any]]
-    raw: Optional[Dict[str, Any]]
 
     class Config:
         from_attributes = True
 
 
 class AgentLifecycleOut(BaseModel):
-    id: str
+    id: UUID
     ts: datetime
     agent_id: str
     event_type: str
     meta: Optional[Dict[str, Any]]
+    severity: Optional[str]
+    summary: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+class EventsGroupedOut(BaseModel):
+    lifecycle: List[AgentLifecycleOut]
+    events: List[EventOut]
 
     class Config:
         from_attributes = True

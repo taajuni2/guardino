@@ -26,8 +26,6 @@ export class AuthPageComponent implements OnInit {
 
   register() {
     this.auth.register("admin", "admin", "nicolas.julier@test.ch").subscribe(result => {
-      console.log(result);
-      console.log("Sucessfully created initial user" );
     })
   }
 

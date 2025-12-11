@@ -21,8 +21,7 @@ class Event:
     severity: str # "info" | "warning" | "critical"
     summary: str
     paths: List[str]
-    metadata: Dict[str, Any]
-    raw: Dict[str, Any]
+    meta: Dict[str, Any]
 
     @classmethod
     def build(
@@ -33,8 +32,7 @@ class Event:
             severity: str,
             summary: str,
             paths: list,
-            metadata: dict,
-            raw: dict | None = None,
+            meta: dict,
     ) -> "Event":
         return cls(
             id=str(uuid.uuid4()),
@@ -44,8 +42,7 @@ class Event:
             severity=severity,
             summary=summary,
             paths=paths,
-            metadata=metadata,
-            raw=raw or {},
+            meta=meta,
         )
 
     def to_dict(self):

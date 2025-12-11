@@ -33,6 +33,9 @@ class AgentLifecycle(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     ts = Column(DateTime(timezone=True), default=now_utc, nullable=False)
+    summary = Column(String, nullable=True)
+    severity = Column(String, nullable=True)
+
     agent_id = Column(String, ForeignKey("agents.agent_id"), nullable=False)
     event_type = Column(String, nullable=False)  # register | heartbeat
     meta = Column(JSONB, nullable=True)
@@ -51,6 +54,5 @@ class Event(Base):
     summary = Column(String, nullable=True)
     paths = Column(JSONB, nullable=True)
     meta = Column(JSONB, nullable=True)
-    raw = Column(JSONB, nullable=True)
 
     agent = relationship("Agent", back_populates="events")

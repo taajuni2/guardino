@@ -1,10 +1,32 @@
-interface EventItem {
+
+
+export type ISODateTimeString = string;
+export interface Event {
   id: string;
-  title: string;
-  severity: 'info' | 'critical' | 'warning';
-  agent: string;
-  agentName: string;
-  description?: string;
-  timestamp: string;
-  meta?: string;
+  ts: ISODateTimeString;
+  agent_id: string;
+  event_type: string;
+  severity?: string | null;
+  summary?: string | null;
+  paths?: string[] | null;
+  meta?: Record<string, any> | null;
+  raw?: Record<string, any> | null;
+}
+
+
+export interface AgentLifecycle {
+  id: string
+  ts: ISODateTimeString
+  summary: string | null;
+  severity?: string | null;
+  agent_id: string;
+  event_type:string;
+  meta: Record<string, any> | null;
+}
+
+
+
+export interface EventsGrouped {
+  lifecycle: AgentLifecycle[];
+  events: Event[];
 }

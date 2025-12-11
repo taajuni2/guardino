@@ -24,6 +24,12 @@ export class AgentService {
     this.websocketService.agents$.subscribe(agent => {
       this.upsertAgent(agent);
     });
+
+    this.websocketService.events$.subscribe(ev => {
+      if (ev.event_type === 'heartbeat' || ev.event_type === 'agent_heartbeat') {
+        this.updateLastSeen(ev.agent_id, ev.ts);
+      }
+    });
   }
 
   // Falls du irgendwo explizit reloaden willst
@@ -76,6 +82,24 @@ export class AgentService {
 
     this.agentsSubject.next(updated);
   }
+
+  private updateLastSeen(agentId: string, ts: string): void {
+    const current = this.agentsSubject.value;
+    const idx = current.findIndex(a => a.agent_id === agentId);
+    if (idx === -1) {
+      // Agent noch nicht bekannt -> ignorieren oder später erweitern
+      return;
+    }
+
+    const updated = [...current];
+    updated[idx] = {
+      ...updated[idx],
+      last_seen: ts || new Date().toISOString()
+    };
+
+    this.agentsSubject.next(updated);
+  }
+
 
   public isAgentInactive(lastSeen: string | null | undefined): boolean {
     if (!lastSeen) return true;

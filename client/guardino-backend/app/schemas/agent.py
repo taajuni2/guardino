@@ -49,6 +49,9 @@ class AgentLifecycleOut(BaseModel):
     severity: Optional[str]
     summary: Optional[str]
 
+    class Config:
+        from_attributes = True
+
 class EventsGroupedOut(BaseModel):
     lifecycle: List[AgentLifecycleOut]
     events: List[EventOut]

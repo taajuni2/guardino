@@ -36,14 +36,12 @@ export class WebsocketService {
       this.zone.run(() => {
         switch (message.type) {
           case 'agent_register':
-            console.log("agent_register received in websocket.service")
             this.agentSubject.next(message.data as Agent);
             break;
           case 'event_new':
             this.eventSubject.next(message.data as Event);
             break;
           case 'agent_heartbeat':
-            console.log("agent_heartbeat received in websocket.service")
             this.eventSubject.next(message.data as Event);
         }
       })

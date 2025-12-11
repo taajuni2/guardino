@@ -5,7 +5,7 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './stat-cards.component.html',
   styleUrl: './stat-cards.component.scss'
 })
-export class StatCardsComponent implements  OnInit {
+export class StatCardsComponent {
   @Input() totalAgents: number = 0;
   @Input() activeAgents = 0;
   @Input() threatsDetected = 0;
@@ -16,8 +16,6 @@ export class StatCardsComponent implements  OnInit {
     return totalAgents / activeAgents * 100;
   }
 
-  ngOnInit() {
-    console.log(this.totalAgents)
-  }
+
 }
 

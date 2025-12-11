@@ -20,7 +20,6 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) {}
 
   public login(name: string, password: string): Observable<authResponse> {
-    console.log(name, password);
     return this.http.post<authResponse>(this.API_URL + "/auth/login", {name: name, password: password});
   }
 

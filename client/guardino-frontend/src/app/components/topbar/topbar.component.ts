@@ -16,7 +16,6 @@ export class TopbarComponent implements  OnInit, OnChanges {
   ngOnInit() {
     this.authService.isOnline().subscribe((isUp) => {
       this.backendOnline = isUp;
-      console.log(this.backendOnline);
     })
   }
 

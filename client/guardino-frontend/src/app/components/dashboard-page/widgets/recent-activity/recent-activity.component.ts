@@ -24,8 +24,8 @@ export class RecentActivityComponent implements OnInit {
 
     this.websocketService.connect();
     this.websocketService.events$.subscribe(newEvents => {
-      console.log("[Websocket] event.push", newEvents);
-      if (newEvents.event_type === "agent_register") {
+      console.log("[Websocket] event.push", newEvents.event_type);
+      if (newEvents.event_type != "agent_register") {
         this.allEvents.push(newEvents)
         console.log("pushed to all Events")
       } else {

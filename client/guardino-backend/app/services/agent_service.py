@@ -63,6 +63,7 @@ async def handle_register(db, msg: dict):
         "data": ws_agent.model_dump(mode="json")
     # commit macht der Consume
     })
+    print("[INFO] Regoster event received")
 
 
 
@@ -102,6 +103,7 @@ async def handle_heartbeat(db, msg: dict):
         "type": "agent_heartbeat",
         "data": ws_event.model_dump(mode="json")
 })
+    print("[INFO] Heartbeat received")
 
 
 
@@ -125,4 +127,5 @@ async def handle_generic_event(db, msg: dict):
         "type": "event_new",
         "data": ws_event.model_dump(mode="json")
     })
+    print("[INFO] Generic event received")
     # commit macht der Consumer

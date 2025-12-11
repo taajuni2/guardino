@@ -42,6 +42,7 @@ export class WebsocketService {
             this.eventSubject.next(message as Event);
             break;
           case 'agent_heartbeat':
+            console.log("agent_heartbeat received in websocket.service")
             this.eventSubject.next(message as Event);
         }
       })

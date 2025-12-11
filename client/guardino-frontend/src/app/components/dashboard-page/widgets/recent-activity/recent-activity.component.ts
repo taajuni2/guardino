@@ -27,6 +27,7 @@ export class RecentActivityComponent implements OnInit {
       console.log("[Websocket] event.push", newEvents);
       if (newEvents.event_type === "heartbeat") {
         this.allEvents.push(newEvents)
+        console.log("pushed to all Events")
       } else {
         return;
       }

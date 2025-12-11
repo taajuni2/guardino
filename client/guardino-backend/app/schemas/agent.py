@@ -34,7 +34,6 @@ class EventOut(BaseModel):
     summary: Optional[str]
     paths: Optional[List[str]]
     meta: Optional[Dict[str, Any]]
-    raw: Optional[Dict[str, Any]]
 
     class Config:
         from_attributes = True

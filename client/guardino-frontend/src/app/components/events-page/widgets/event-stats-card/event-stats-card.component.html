@@ -1,7 +1,7 @@
 <div class="stat-row">
   <div
     class="event-stat-card"
-    *ngFor="let stat of stats"
+    *ngFor="let stat of eventStats"
     [ngClass]="{
       'event-stat-card--danger': stat.tone === 'danger',
       'event-stat-card--warn': stat.tone === 'warn'

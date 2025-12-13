@@ -31,20 +31,17 @@ export class EventTimelineComponent implements  OnInit {
   }
 
   private mapEvent(ev: Event): TimelineEvent {
-    console.log('mapEvent got hitted');
     if (!ev.paths || ev.paths.length === 0) {
-      console.log("Message without path")
       return {
         title: ev.summary ?? 'Unknown Event',
         agentName: ev.agent_id ?? 'Unknown Agent',
         agent: ev.agent_id ?? 'N/A',
-        description: null,
+        description: ev.summary ?? 'Unknown Event',
         timestamp: new Date(ev.ts).toLocaleString(),
         severity: (ev.severity as any) ?? 'info'
       };
     }
 
-    console.log("message with paths");
     // Event mit paths
     return {
       title: ev.summary ?? 'Unknown Event',

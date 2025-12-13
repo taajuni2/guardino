@@ -18,7 +18,9 @@ interface TimelineEvent {
 })
 export class EventTimelineComponent implements  OnInit {
   events: TimelineEvent[] = [];
-  constructor(private eventService: EventService) {}
+
+  constructor(private eventService: EventService) {
+  }
 
 
   ngOnInit(): void {
@@ -32,14 +34,26 @@ export class EventTimelineComponent implements  OnInit {
   private mapEvent(ev: Event): TimelineEvent {
 
 
+    if (!ev.paths || ev.paths.length === 0) {
+      return {
+        title: ev.summary ?? 'Unknown Event',
+        agentName: ev.agent_id ?? 'Unknown Agent',
+        agent: ev.agent_id ?? 'N/A',
+        description: null,
+        timestamp: new Date(ev.ts).toLocaleString(),
+        severity: (ev.severity as any) ?? 'info'
+      };
+    }
+
+    // Event mit paths
     return {
       title: ev.summary ?? 'Unknown Event',
       agentName: ev.agent_id ?? 'Unknown Agent',
       agent: ev.agent_id ?? 'N/A',
-      // @ts-ignore
-      description: ev.paths[0] ?? null,
+      description: ev.paths[0],
       timestamp: new Date(ev.ts).toLocaleString(),
       severity: (ev.severity as any) ?? 'info'
     };
   }
+
 }

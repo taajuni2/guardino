@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EventService, UnifiedEvent} from "../../../../services/event-service/event.service";
+import {Event} from "../../../../../entities/Events";
 
 interface TimelineEvent {
   title: string;
@@ -7,6 +8,7 @@ interface TimelineEvent {
   agent: string;
   description: string | null;
   timestamp: string;
+  path: string;
   severity: 'info' | 'warning' | 'critical';
 }
 
@@ -27,13 +29,14 @@ export class EventTimelineComponent implements  OnInit {
     });
   }
 
-  private mapEvent(ev: UnifiedEvent): TimelineEvent {
+  private mapEvent(ev: Event): TimelineEvent {
 
     return {
       title: ev.summary ?? 'Unknown Event',
       agentName: ev.agent_id ?? 'Unknown Agent',
       agent: ev.agent_id ?? 'N/A',
       description: ev.summary ?? null,
+      path: ev.paths[0] ?? "N/A",
       timestamp: new Date(ev.ts).toLocaleString(),
       severity: (ev.severity as any) ?? 'info'
     };

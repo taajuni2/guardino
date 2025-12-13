@@ -35,6 +35,7 @@ export class EventTimelineComponent implements  OnInit {
 
 
     if (!ev.paths || ev.paths.length === 0) {
+      console.log("Message without path")
       return {
         title: ev.summary ?? 'Unknown Event',
         agentName: ev.agent_id ?? 'Unknown Agent',
@@ -45,6 +46,7 @@ export class EventTimelineComponent implements  OnInit {
       };
     }
 
+    console.log("message with paths");
     // Event mit paths
     return {
       title: ev.summary ?? 'Unknown Event',

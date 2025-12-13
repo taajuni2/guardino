@@ -26,14 +26,12 @@ export class EventTimelineComponent implements  OnInit {
   ngOnInit(): void {
     this.eventService.allEvents$.subscribe(rawEvents => {
       this.events = rawEvents.map(ev => this.mapEvent(ev));
-      console.log(rawEvents)
       console.log(this.events);
     });
   }
 
   private mapEvent(ev: Event): TimelineEvent {
-
-
+    console.log('mapEvent got hitted');
     if (!ev.paths || ev.paths.length === 0) {
       console.log("Message without path")
       return {

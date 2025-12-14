@@ -51,7 +51,6 @@ class KafkaEventProducer:
                 request_timeout_ms=60000,
                 enable_idempotence=True,
                 linger_ms=20,
-                retries=50,
                 value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 acks="all",
             )

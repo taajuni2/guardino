@@ -44,7 +44,7 @@ class AgentControl:
         self._producer: None
         self._consumer = None
 
-
+#implementiert für späteres konsumieren von nachrichten auf Agent-Seite
         if not self.stdout_fallback:
             self._producer = KafkaProducer(
                 bootstrap_servers=[broker],

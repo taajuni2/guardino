@@ -1,4 +1,5 @@
 # core/pattern_detector.py
+# Dieses File wurde mittels ChatGPT generiert.
 from __future__ import annotations
 import time
 from collections import deque, defaultdict
@@ -49,7 +50,6 @@ class PatternDetector:
         k = self.key_for(path)
         q = self.events[k]
         self._prune(q, now)
-        # n jüngste Pfade (bis Fensterlänge)
         return list(self.paths[k])[-max_items:]
 
     def details(self, path: str, now: float | None = None) -> dict:

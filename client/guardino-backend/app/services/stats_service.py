@@ -3,7 +3,7 @@ from datetime import timedelta
 from sqlalchemy import select, func, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .. import models  # du hast das ja schon so im Projekt
+from .. import models
 
 
 ONLINE_GRACE_MINUTES = 3  # Agent gilt als "online", wenn last_seen < 2 Min alt ist
@@ -54,7 +54,7 @@ async def get_threat_stats(db: AsyncSession) -> dict:
     )
     total_alerts = (await db.execute(total_alerts_q)).scalar_one()
 
-    # Alerts letzte 24h
+    # Alerts der letzten 24h
     now = models.now_utc()
     last_24h = now - timedelta(hours=24)
 
@@ -70,7 +70,7 @@ async def get_threat_stats(db: AsyncSession) -> dict:
     )
     alerts_24h = (await db.execute(alerts_24h_q)).scalar_one()
 
-    # Optional: nach Severity aufdröseln (critical / warning / info)
+
     by_severity_q = (
         select(models.Event.severity, func.count().label("cnt"))
         .select_from(models.Event)

@@ -1,4 +1,4 @@
-# app/api/events_router.py
+# api/events_router.py
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select

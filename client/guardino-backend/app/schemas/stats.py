@@ -1,4 +1,4 @@
-# app/schemas/stats.py
+#  schemas/stats.py
 from typing import Dict
 from pydantic import BaseModel
 

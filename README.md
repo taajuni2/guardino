@@ -15,12 +15,34 @@ Das Guardino-System besteht aus zwei Hauptkomponenten:
    - Lightweight Detection Engine
    - Läuft auf separaten Hosts
    - Sendet Events über Kafka an das zentrale Backend
-   - Konfigurierbar (Blacklist, Extensions, Thresholds)
+   - Konfigurierbar (Blacklist, Extensions, Thresholds für Entropie)
 
 
 
+
+
+
+## Projektstruktur
+
+```text
+guardino/
+├── client/                 # Client Komponente besteht aus (Backend, Frontend, DB, Kafka)
+│   ├── guardino-backend/   # REST API mit Websocket und Kafka Consumer
+│   ├── guardino-frontend/  # Angular-Web-GUI
+├── agent/                  # Lightweight Detection Engine als Agent
+│   ├── core/               # Detection Engine (Filesystem Events, Heuristiken)
+│   └── config/             # Agent-spezifisches Konfigurationfile
+├── certs/                  # Ordner für die nötigen Zertifikat-Files 
+└── scripts/                # Scripts welche den Client installieren und deinstallieren (Work in Progress nicht benutzbar aktuell)
+```
+
+
+
+
+   
 ## Installation & Setup
 ### Voraussetzungen
+Installiere dies auf der Client Maschine! 
 - Docker installieren -> `sudo apt install docker.io`
 - Docker-compose installieren -> `sudo apt install docker-compose`
 

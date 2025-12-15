@@ -1,3 +1,4 @@
+#Docker-Compose File um das System Client-Seitig zu starten
 version: "3.8"
 
 services:
@@ -34,7 +35,7 @@ services:
       # interner Listener für interne Broker-Kommunikation
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      # TLS-Settings
+      # TLS-Settings für sichere Kommunikation
       KAFKA_SSL_KEYSTORE_LOCATION: /opt/kafka/certs/kafka.keystore.p12
       KAFKA_SSL_KEYSTORE_PASSWORD: changeit
       KAFKA_SSL_KEYSTORE_TYPE: PKCS12
@@ -64,11 +65,11 @@ services:
       dockerfile: Dockerfile
     container_name: guardino-backend
     environment:
-      DB_URL: postgresql+asyncpg://postgres:postgres@db:5432/guardino
+      DB_URL: postgresql+asyncpg://postgres:postgres@db:5432/guardino #Muss zu einer laufenden DB zeigen ob lokal oder ausgelagert
       DB_HOST: db
       DB_PORT: 5432
       KAFKA_BOOTSTRAP: "kafka:29092"
-      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.60:4200"
+      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.60:4200" #IP vom Client muss unter Allowed_origins sein!
 
     ports:
       - "8000:8000"

@@ -1,3 +1,4 @@
+# core/security.py
 import hashlib
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
@@ -6,13 +7,13 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from ..core.config import settings
 
-# Passwort-Hasher (bcrypt)
+# Passwort-Hasher (argon2)
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 # Secret + Token Settings
 JWT_SECRET = getattr(settings, "JWT_SECRET", "CHANGE_ME_SUPER_SECRET")
 JWT_ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60  # kannst du in settings legen, wenn du willst
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
 def hash_password(password: str) -> str:
@@ -40,9 +41,6 @@ def create_access_token(sub: str, expires_delta: Optional[timedelta] = None) -> 
 
 
 def decode_access_token(token: str) -> Optional[dict]:
-    """
-    Rückgabe: Payload dict oder None wenn invalid/expired
-    """
     try:
         data = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         return data

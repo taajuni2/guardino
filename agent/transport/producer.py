@@ -1,4 +1,4 @@
-# agent/kafka/kafka_producer.py
+# transport/producer.py
 from __future__ import annotations
 from pathlib import Path
 import json

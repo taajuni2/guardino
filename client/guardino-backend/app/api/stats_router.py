@@ -1,3 +1,4 @@
+# api/stats_router.py
 from fastapi import APIRouter, Depends
 from ..core.database import get_db
 from sqlalchemy.ext.asyncio import AsyncSession

@@ -17,3 +17,8 @@ Folgende Komponenten sind Bestandteile vom Backend:
 - Interne Event- und Agent-Logik
 
 Der Kafka-Broker wird als Teil des Backend-Stacks betrieben.
+
+
+
+### Installation
+Erfolgt über docker-compose.yml im Guardino Ordner.

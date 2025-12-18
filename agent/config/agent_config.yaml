@@ -1,8 +1,7 @@
 # config/agent_config.yaml
-"""
-Konfigurationsdatei welche vom Benutzer angepasst werden kann. 
-Überwachte Verzeichnisse müssen existieren sonst wird der Agent nicht starten. 
-"""
+#Konfigurationsdatei welche vom Benutzer angepasst werden kann.
+#Überwachte Verzeichnisse müssen existieren sonst wird der Agent nicht starten.
+
 agent_version: "0.1.0"
 agent_id: ""
 watch_directories:

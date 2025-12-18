@@ -16,7 +16,7 @@ blacklist_paths:
   - "/tmp"
 
 kafka:
-  broker: "192.168.110.60:9092" ##Muss die IP von der Client VM/Host sein!
+  broker: "192.168.110.61:9092" ##Muss die IP von der Client VM/Host sein!
   topics:
     events: "agent-events"
     control: "agent-lifecycle"

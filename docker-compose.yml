@@ -69,7 +69,7 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       KAFKA_BOOTSTRAP: "kafka:29092"
-      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.60:4200" #IP vom Client muss unter Allowed_origins sein!
+      ALLOWED_ORIGINS: "http://localhost:4200,http://frontend:4200,http://192.168.110.61:4200" #IP vom Client muss unter Allowed_origins sein!
 
     ports:
       - "8000:8000"

@@ -1,4 +1,4 @@
-
+# api/websocket_router.py
 from ..services.websockets import websocket_manager
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 

@@ -8,19 +8,18 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
-# --- Pfad, damit "import app" funktioniert ---
 project_root = os.path.dirname(os.path.dirname(__file__))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
 from app.core.config import settings
 from app.core.database import Base
-from app import models  # noqa: F401  # registriert Tabellen
+from app import models  # noqa: F401
 
 # --- Alembic Config ---
 config = context.config
 
-# DB-URL aus deinen Settings (Pydantic, liest ENV DB_URL)
+# DB-URL aus Settings (Pydantic, liest ENV DB_URL)
 database_url = settings.DB_URL
 print(f"*** Alembic DB_URL: {database_url}")
 
@@ -70,7 +69,6 @@ async def run_migrations_online():
     await connectable.dispose()
 
 
-# --- WICHTIG: Nur EIN sauberer Einstiegspunkt! ---
 if context.is_offline_mode():
     run_migrations_offline()
 else:

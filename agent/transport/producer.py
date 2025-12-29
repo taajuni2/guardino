@@ -1,4 +1,4 @@
-# agent/kafka/kafka_producer.py
+# transport/producer.py
 from __future__ import annotations
 from pathlib import Path
 import json
@@ -38,7 +38,7 @@ class KafkaEventProducer:
         """
         try:
             if self._producer is not None:
-                return  # schon gestartet
+                return
             base_dir = Path(__file__).resolve().parent.parent.parent  # -> .../guardino
             ca_file = base_dir / "certs" / "ca.crt"
 
@@ -47,6 +47,10 @@ class KafkaEventProducer:
                 bootstrap_servers=self._broker,
                 security_protocol="SSL",
                 ssl_context=self.ctx,
+                retry_backoff_ms=500,
+                request_timeout_ms=60000,
+                enable_idempotence=True,
+                linger_ms=20,
                 value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 acks="all",
             )
@@ -72,7 +76,6 @@ class KafkaEventProducer:
         Gibt True zurück bei Erfolg, False bei Fehler.
         """
         if self._producer is None:
-            # wurde start() vergessen oder Kafka nicht erreichbar?
             self._log.warning("Producer not started, can't send. Event=%s", event)
             return False
 

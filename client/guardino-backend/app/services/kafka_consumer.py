@@ -1,4 +1,4 @@
-# app/services/kafka_consumer.py
+#  services/kafka_consumer.py
 from __future__ import annotations
 
 import asyncio

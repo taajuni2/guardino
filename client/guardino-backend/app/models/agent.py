@@ -1,4 +1,4 @@
-# app/models.py
+# models/agent.py
 from sqlalchemy import Column, String, DateTime, JSON, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship

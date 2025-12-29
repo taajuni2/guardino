@@ -1,7 +1,12 @@
+# config/agent_config.yaml
+#Konfigurationsdatei welche vom Benutzer angepasst werden kann.
+#Überwachte Verzeichnisse müssen existieren sonst wird der Agent nicht starten.
+
 agent_version: "0.1.0"
 agent_id: ""
 watch_directories:
   - "/home/vmadmin/test"
+
 
 blacklist_paths:
   - "/proc"
@@ -10,20 +15,20 @@ blacklist_paths:
   - "/tmp"
 
 kafka:
-  broker: "192.168.110.60:9092"
+  broker: "192.168.110.61:9092" ##Muss die IP von der Client VM/Host sein!
   topics:
     events: "agent-events"
     control: "agent-lifecycle"
 
 
-heartbeat_interval_s: 60
+heartbeat_interval_s: 60 # Um zu ändern wie oft der Agent ein Heartbeat sendet
 
 log_level: "INFO"
 
-# Optional: Parameter für Detektoren / Monitor
+# Optional: Parameter für Detektoren / Monitor muss nicht verändert werden.
 mass_create_window_s: 5
 mass_create_threshold: 50
-cooldown_seconds: 2 # Verhindert das bei jedem Memory modification ein Alert getriggert wird
+cooldown_seconds: 2 # Verhindert das bei jedem Memory modification ein Alert getriggert wird (Verhindert Alert-flooding)
 entropy_abs_threshold: 7.2
 entropy_min_size_bytes: 512
 entropy_sample_each: 4096

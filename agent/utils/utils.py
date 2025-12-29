@@ -1,3 +1,4 @@
+# utils/utils.py
 import yaml
 import logging
 import uuid
@@ -7,7 +8,6 @@ log = logging.getLogger("agent.utils")
 
 
 def load_config(path: str) -> dict:
-    """Lädt eine YAML-Konfigurationsdatei."""
     with open(path, "r") as file:
         config = yaml.safe_load(file)
         log.info("Successfully loaded config file")
@@ -15,7 +15,6 @@ def load_config(path: str) -> dict:
 
 
 def save_config(config: dict, path: str):
-    """Schreibt das YAML-Configfile zurück."""
     with open(path, "w") as file:
         yaml.safe_dump(config, file)
     log.info("Updated config file with new values")

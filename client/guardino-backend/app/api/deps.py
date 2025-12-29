@@ -1,3 +1,4 @@
+# api/deps.py
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -7,7 +8,6 @@ from ..core.database import get_db
 from ..core.security import decode_access_token
 from ..models.user import User
 
-# sagt FastAPI, wo der Client das Token herkriegt (für Swagger UI)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 get_db_session = get_db
@@ -16,7 +16,7 @@ async def get_current_user(
         token: Annotated[str, Depends(oauth2_scheme)],
         db: AsyncSession = Depends(get_db_session),
 ) -> User:
-    # Token prüfen / payload holen
+    # Token prüfen
     payload = decode_access_token(token)
     if not payload or "sub" not in payload:
         raise HTTPException(status_code=401, detail="Invalid or expired token")

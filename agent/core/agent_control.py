@@ -1,3 +1,4 @@
+# core/agent_control.py
 from __future__ import annotations
 import psutil
 import json
@@ -44,7 +45,7 @@ class AgentControl:
         self._producer: None
         self._consumer = None
 
-
+#implementiert für späteres konsumieren von nachrichten auf Agent-Seite
         if not self.stdout_fallback:
             self._producer = KafkaProducer(
                 bootstrap_servers=[broker],
@@ -134,7 +135,6 @@ class AgentControl:
         key = self.agent_id or "__register__"
         self._send(key, message)
         log.info(f"Sent registration event for agent {self.agent_id}")
-       ## ack = self._poll_ack(timeout_s=float(self.config.get("register_ack_timeout_s", 8))) -> nur nötig wenn uuid vom backend kommt
 
 
     def start_heartbeat(self) -> None:

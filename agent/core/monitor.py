@@ -20,7 +20,7 @@ class FileMonitorHandler(FileSystemEventHandler):
     Vereinheitlicht die Erkennung und das Emittieren von Events:
     - Mass Creation: via PatternDetector im gleitenden Zeitfenster
     - Entropy Spike: via detection.entropy_spike()
-    - Einheitliche Event-Struktur, Rate-Limiting, Blacklist-Check
+    - Einheitliche Event-Struktur,  Blacklist-Check
     """
 
 

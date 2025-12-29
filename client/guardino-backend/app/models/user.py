@@ -1,3 +1,4 @@
+# models/user.py
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
